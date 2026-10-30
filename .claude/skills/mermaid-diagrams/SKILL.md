@@ -49,7 +49,7 @@ Needs `cd deck && npm install` once.
 
 | Target | Command (from `deck/`) |
 |---|---|
-| Notebook PNG (module NN) | `npx mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -w 1600 -b white -c tools/mermaid-config.json` |
+| Notebook PNG (module NN) | `./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json` (mermaid-cli 12: no `-w`; local binary, not npx) |
 | Slide SVG (module M) | `DECK_MODULE=M node tools/extract-mmd.mjs --all && DECK_MODULE=M node tools/render-diagrams.mjs` |
 | Check slide sources match | `DECK_MODULE=M node tools/extract-mmd.mjs --check` |
 | Screenshot + min text size | `DECK_MODULE=M node tools/shoot.mjs <slide>` |

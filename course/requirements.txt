@@ -1,6 +1,8 @@
-# Notebook runtime. In Colab the first code cell pins only typesafe, openai and datasets;
+# Notebook runtime. In Colab the first code cell pins only typesafe-sdk, openai and datasets;
 # the rest are Colab preinstalls, pinned here so local headless runs match.
-typesafe==0.9.1
+# typesafe-sdk is the official TypeSafe SDK (import typesafe_sdk). The PyPI package named
+# "typesafe" is an unrelated decorator library: never install it.
+typesafe-sdk==0.7.5
 openai==3.41.0
 datasets==5.1.0
 transformers==5.22.1

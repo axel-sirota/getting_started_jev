@@ -72,7 +72,7 @@ Raw Mermaid only, no fences.
 
 Notebook diagram:
 ```bash
-cd deck && npx mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -w 1600 -b white -c tools/mermaid-config.json
+cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json
 ```
 Read the PNG with the Read tool: legible, labels match the code.
 

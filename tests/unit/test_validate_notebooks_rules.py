@@ -36,7 +36,7 @@ def exercises() -> list[dict]:
     return [
         md("# Module 1\n## Learning Objectives\n- one"),
         {"cell_type": "code", "metadata": {}, "execution_count": None, "outputs": [],
-         "source": "%pip install -q typesafe==0.9.1"},
+         "source": "%pip install -q typesafe-sdk==0.7.5"},
         code("KEYS", 'import os, getpass\nif not os.environ.get("TYPESAFE_API_KEY"):\n'
                      '    os.environ["TYPESAFE_API_KEY"] = getpass.getpass("Jev key: ")'),
         md("## Demo 1: First call"),

@@ -89,7 +89,8 @@ source by cell id, delete every "# FALLBACK" cell. Verify: validate_notebooks.py
 (notebook diagrams only, minus approval pauses), using .claude/skills/mermaid-diagrams/SKILL.md.
 For each slug in the plan's "## Diagram Index": make sure course/diagrams/module_${NN}/<slug>.mmd
 exists and starts with the brand line, render it with
-cd deck && npx mmdc -i ../course/diagrams/module_${NN}/<slug>.mmd -o ../course/diagrams/module_${NN}/<slug>.png -w 1600 -b white -c tools/mermaid-config.json
+cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_${NN}/<slug>.mmd -o ../course/diagrams/module_${NN}/<slug>.png -s 2 -b white -c tools/mermaid-config.json
+(mermaid-cli 12: -s is the scale; there is no -w. Call the local binary, not npx: a hook rewrites npx)
 and look at the PNG with the Read tool (legible, labels match the code). Any fix goes into
 the .mmd and is re-rendered. Both notebooks link the same PNG by raw GitHub URL in a
 "<!-- DIAGRAM: <slug> -->" cell. Finish with validate_notebooks.py ${N} --pair --strict (must PASS).`)
@@ -103,10 +104,12 @@ then Lab n, LAB n.1, n.2, n.3, optional FALLBACK (exercises only), Back to the s
 Summary. Report any order difference you fixed.`)
 
   results.run = await stage('Run in order', `Execute the solutions notebook top to bottom against the
-REAL Jev and OpenAI APIs. TYPESAFE_API_KEY and OPENAI_API_KEY must be in the environment of
-your shell; if either is missing return "failed" with issue "Axel: export TYPESAFE_API_KEY and
-OPENAI_API_KEY and rerun from this stage" (never ask for the key in chat, never write it to a
-file). Work on a scratch copy of ${DIR}/solutions.ipynb in the session scratchpad (never the
+REAL Jev and OpenAI APIs. The keys live in the gitignored ${REPO}/.env. Load them in the
+SAME Bash command that runs the notebook, without printing anything from the file:
+set -a && . ./.env && set +a && export TYPESAFE_API_KEY="\${TYPESAFE_API_KEY:-\$JEV_AI_API_KEY}" && <run command>
+If either key is still missing return "failed" with issue "Axel: add TYPESAFE_API_KEY (or
+JEV_AI_API_KEY) and OPENAI_API_KEY to .env and rerun from this stage" (never print, echo or
+copy a key, never ask for it in chat, never write it to another file). Work on a scratch copy of ${DIR}/solutions.ipynb in the session scratchpad (never the
 committed file), drop the %pip lines (the venv has course/requirements.txt), and execute it
 headless with nbclient (timeout 600 per cell) so getpass is skipped because the env vars are
 set. Every cell must run without error. Check each claim in the plan's "## Measured numbers"

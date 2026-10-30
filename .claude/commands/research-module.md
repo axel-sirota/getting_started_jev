@@ -128,7 +128,7 @@ CYCLE TRACKER
 - **Notebook diagrams, drafted in full now.** Every new concept gets one: write
   `course/diagrams/module_NN/<slug>.mmd` (brand line first, labels use the real identifiers),
   render with
-  `cd deck && npx mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -w 1600 -b white -c tools/mermaid-config.json`
+  `cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json`
   and Read the PNG. The notebook cell is the marker plus a raw GitHub image link (mermaid skill)
 - **Refutation**: could Axel narrate each cell? Are before and after both on screen? Run
   `deck-diagram-refute` on the drafted diagrams and fix every BLOCKER
