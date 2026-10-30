@@ -1,6 +1,0 @@
-flowchart LR
-  M["40 CLINC150 messages<br/>prompt with no format line"] --> L["LLM, plain prompt"]
-  L -- "the rest" --> OK["credit_cards<br/>your code routes it"]
-  L -- "13 to 18 of 40" --> BAD["**credit_cards** or a sentence<br/>parse error"]
-  classDef bad fill:#FEE2E2,stroke:#B91C1C,color:#7F1D1D
-  class BAD bad
