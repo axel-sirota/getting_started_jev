@@ -15,9 +15,8 @@ new conversation continues with zero context loss.
 Then:
 
 ```bash
-ls -la course/module_* course/diagrams imp_files/slides deck/module* plans/modules 2>/dev/null
+ls -la course/module_* course/diagrams plans/modules 2>/dev/null
 .venv/bin/python3 validate_notebooks.py --all
-.venv/bin/python3 validate_slides.py
 git log --oneline | head -5
 ```
 
@@ -39,14 +38,13 @@ print(sys.argv[1], 'cells:', len(nb['cells']))
 | Plan not approved | `planned` |
 | Exercises or solutions missing or partial | `building` |
 | Both validate, pair passes, diagrams rendered | `notebooks_done` |
-| Deck built, slides validate (incl. hops) | `deck_done` |
 | Ran in order, reviewed, committed | `done` |
 | Any validation failure or open TODO | `needs_fix` |
 
 ## Step 3: Next action
 
 The first module not `done`: `/research-module N`, `/build-module N`,
-`/build-notebook N exercises|solutions`, `/build-diagrams N`, `/build-slides N`, or the fix.
+`/build-notebook N exercises|solutions`, `/build-diagrams N`, or the fix.
 
 ## Step 4: Write progress.txt
 
@@ -62,7 +60,7 @@ MODULES (exercises.ipynb + solutions.ipynb + deck per module)
 [done]       Module 1 - Meet Jev: Typed Decisions Instead of Text
              plan: plans/modules/module_01_plan.md
              notebooks: course/module_01/exercises.ipynb (<n> cells), solutions.ipynb (<n> cells)
-             deck: deck/module01/index.html (<n> slides)   diagrams: <slugs>   commit: <hash>
+             diagrams: <slugs>   commit: <hash>
 
 [building]   Module 2 - Designing Good Questions
              next: /build-module 2
@@ -81,8 +79,8 @@ LOCKED DECISIONS (do not re-litigate without Axel)
   getpass, never Colab secrets. Cell 1 pinned %pip, then KEYS, then CONFIG.
 - Labs in three tiers: LAB n.1 (Guided) slots, LAB n.2 (Core) function body,
   LAB n.3 (Challenge, optional), nothing later depends on Level 3. FALLBACK only where needed.
-- Slides like the nwm Foundations decks, diagram first. Hops: badge "Switch to the notebook:
-  Demo n / Lab n", notebook "## Back to the slides: <next slide title>".
+- No slides: the class is the Colab notebook. Module 1 opens with Part 0 "What is Jev"; every
+  Part has the 4 beats in order: problem, solution, demo, lab.
 - Notebook diagrams: .mmd master + committed PNG linked by raw GitHub URL (Colab renders
   neither mermaid nor attachments).
 - Jev for every decision, OpenAI for every text generation. Judgments in Jev, decisions in code.

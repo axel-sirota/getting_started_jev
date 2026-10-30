@@ -22,7 +22,7 @@ Extract: module statuses, open issues, locked decisions, NEXT ACTION.
 ## Step 3: Verify against the filesystem
 
 ```bash
-ls -la course/module_* course/diagrams imp_files/slides deck/module* plans/modules 2>/dev/null
+ls -la course/module_* course/diagrams plans/modules 2>/dev/null
 git log --oneline | head -5
 ```
 
@@ -39,7 +39,7 @@ Do NOT re-run full validation.
 Saved: <date>
 
 MODULES
-  1 Meet Jev   plan <s>  exercises <s>  solutions <s>  diagrams <s>  run <s>  deck <s>
+  1 Meet Jev   plan <s>  exercises <s>  solutions <s>  diagrams <s>  run <s>
   ...
 
 OPEN ISSUES
@@ -50,8 +50,9 @@ NEXT ACTION
   Reason: <one sentence>
 
 KEY DECISIONS (active)
-  - Per module: a deck (foundations style, diagram first) + exercises/solutions in Colab
-  - Labs in three tiers (Guided, Core, Challenge optional); hops slides <-> notebook exact
+  - No slides: the class is the Colab notebook pair (exercises + solutions) per module
+  - Module 1 opens with Part 0 "What is Jev"; every Part: problem, solution, demo, lab
+  - Labs in three tiers (Guided, Core, Challenge optional)
   - Keys via env var or getpass; Jev decides judgments, code decides actions; OpenAI for text
   - Notebook diagrams: committed PNGs linked by raw GitHub URL
   - Notebook edits: id map before and after, order asserted

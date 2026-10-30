@@ -1,5 +1,5 @@
 ---
-description: Research one module and write BOTH plans for ONE approval by Axel - the notebook plan (plans/modules/module_NN_plan.md, every exercise and solution cell drafted in full, three-tier lab, Flow table) and the slide plan (imp_files/slides/moduleNN_slides.md + moduleNN_diagrams.md). /build-module then builds everything from them
+description: Research one module and write its plan (plans/modules/module_NN_plan.md) for ONE approval by Axel - the whole class is the Colab notebook, taught in 4 beats per Part (problem, solution, demo, lab), every cell drafted in full, diagrams rendered. /build-module then builds both notebooks from it
 ---
 
 Research and plan module: $ARGUMENTS
@@ -9,27 +9,38 @@ Research and plan module: $ARGUMENTS
 ## GUARD
 
 ```bash
-ls plans/DECISIONS.md plans/TEACHING_STYLE.md plans/NOTEBOOK_STYLE.md validate_notebooks.py validate_slides.py imp_files/outline_getting_started_jev.md 2>/dev/null
+ls plans/DECISIONS.md plans/TEACHING_STYLE.md plans/NOTEBOOK_STYLE.md validate_notebooks.py imp_files/outline_getting_started_jev.md 2>/dev/null
 ```
 
 - Missing DECISIONS / TEACHING_STYLE / NOTEBOOK_STYLE: stop, "Run `/init-course` first."
 
-**This command creates no `.ipynb` and no deck.** Only the three plan files below. Then it
-STOPS and waits for Axel.
+**This command creates no `.ipynb`.** It writes `plans/modules/module_NN_plan.md` and the
+module's diagrams (`course/diagrams/module_NN/<slug>.mmd` + `.png`). Then it STOPS and waits
+for Axel.
 
-| Part | Writes | How |
+**There are no slides.** The class is the notebook: every explanation and every diagram the
+learner sees is in it. Plan the text as carefully as the code.
+
+**The 4 beats are the structure, per Part, in this order:**
+
+| Beat | Heading | What it holds |
 |---|---|---|
-| 1. Notebooks | `plans/modules/module_NN_plan.md` (every exercise and solution cell, Flow table) | the 5 research cycles below |
-| 2. Slides | `imp_files/slides/moduleNN_slides.md` + `moduleNN_diagrams.md` | after Part 1, follow `.claude/commands/plan-slides.md`, skipping its approval wait |
+| 1 | `### 1. The problem` | a concrete failure in plain words, one diagram, no code |
+| 2 | `### 2. The solution` | the idea that fixes it, one diagram, the one rule to remember, no code |
+| 3 | `### 3. Demo` | `# DEMO:` cells: the problem live, then the solution, measured numbers, Think About It |
+| 4 | `### 4. Lab k: <title>` | three-tier lab: Guided, Core, Challenge (optional) |
+
+Module 1 starts with `## Part 0: What is Jev` (text and diagrams only) before any Part.
+No hook, comparison or benchmark comes before the product is explained.
 
 **Web research is MANDATORY, with the built-in WebSearch / WebFetch tools only (never Kryla
 web tools).** Per cycle: hypothesis, evidence, antithesis, refinement. Evidence ranking,
 strongest first:
-1. **Running the code** in `.venv/bin/python3` against `course/requirements.txt`, live with
-   `TYPESAFE_API_KEY` / `OPENAI_API_KEY` from the shell environment (ask Axel to export them
-   if missing; never write a key to a file)
+1. **Running the code** in `.venv/bin/python3` against `course/requirements.txt`, live. The
+   keys are in the gitignored `.env`; load them in the same Bash command, never print them:
+   `set -a && . ./.env && set +a && export TYPESAFE_API_KEY="${TYPESAFE_API_KEY:-$JEV_AI_API_KEY}"`
 2. The official `typesafe-ai` skill and the live docs it points to (docs.typesafe.ai,
-   `llms.txt`, the OpenAPI spec, the jaggedness page), the `typesafe` SDK source for the pinned
+   `llms.txt`, the OpenAPI spec, the jaggedness page), the `typesafe-sdk` source for the pinned
    version, OpenAI and Hugging Face official docs. Look-alike Jev sites rank high in search:
    cite only docs.typesafe.ai, typesafe.ai, github.com/typesafe-ai for Jev claims
 3. Current third-party writing, a lead to verify
@@ -49,19 +60,18 @@ strongest first:
 **COMPLETE SUCCESS** = all true:
 - 5 cycles visible in chat, each with hypothesis, logged evidence, antithesis, refinement
 - PRE-WRITE SELF-CHECK printed, all YES
-- Notebook plan written with every section, every cell drafted in full (exercise and solution)
-- A `## Flow` table that interleaves SLIDES and NOTEBOOK steps, with matching hop labels
-- Every notebook diagram drafted in full as a `.mmd` (brand line first), rendered to PNG with
-  `mmdc` and looked at
-- Slide plan and slide diagrams written per plan-slides, `validate_slides.py N` passing
-- `learner-engineer-refute` run on the notebook plan, deck reviewers run on the slide plan,
-  BLOCKERs fixed
+- Plan written with every section, every cell drafted in full (exercise and solution)
+- Every Part has the 4 beats in order; Module 1 has Part 0 first
+- Every problem and solution beat (and every Part 0 cell) has a `.mmd` drafted in full (brand
+  line first), rendered to PNG with mmdc and looked at
+- The solution cells were run end to end against the real APIs before approval
+- `learner-engineer-refute` and `deck-diagram-refute` run, BLOCKERs fixed
 
 **COMPLETE FAILURE** = any of: fewer than 5 cycles; a Jev or OpenAI API asserted from memory
-where running it was possible; a number shown (accuracy, latency, cost) not measured; a lab
-tier missing or a Level 3 that a later cell depends on; a Level 1 slot that is boilerplate
-rather than a decision; an outline bullet not covered; stub content; a diagram left as a
-placeholder or description; a slide badge without a matching notebook section.
+where running it was possible; a number shown not measured; a Part missing a beat or with
+beats out of order; Module 1 without Part 0, or with a comparison before Jev is explained; a
+lab tier missing or a Level 3 that a later cell depends on; a Level 1 slot that is
+boilerplate; an outline bullet not covered; stub content; a diagram left as a placeholder.
 
 ---
 
@@ -74,105 +84,89 @@ placeholder or description; a slide badge without a matching notebook section.
 4. The `typesafe-ai` skill (load it) and the docs pages for every primitive and pattern this
    module uses
 5. `.claude/skills/jev-course/SKILL.md` and `.claude/skills/mermaid-diagrams/SKILL.md`
-6. `plans/modules/module_<NN-1>_plan.md` if it exists (continuity: The Story So Far, recap cells)
-7. For exercise style ideas: one notebook pair from `~/repos/finetuning-llms-hf` (numbered
-   exercises, an optional harder last one) and `~/repos/nwm_foundations_agentic_ai_engineering/course/module_02/`
-   (exercises/solutions anatomy)
-8. `.claude/commands/build-notebook.md`, `.claude/commands/plan-slides.md` and
-   `.claude/workflows/build-module.js`: the consumers of these plans
+6. The previous module's plan and its built `solutions.ipynb` (continuity: The Story So Far)
+7. `.claude/commands/build-notebook.md` and `.claude/workflows/build-module.js`: the consumers
+   of this plan
 
 ## MANDATORY CYCLE TRACKER
 
 ```
 CYCLE TRACKER
-[_] Cycle 1 - Outline alignment, kill line, Flow, continuity  evidence logged: NO
+[_] Cycle 1 - Outline -> Parts, beats, kill line, Flow        evidence logged: NO
 [_] Cycle 2 - API surface (pinned), run it                    evidence logged: NO
-[_] Cycle 3 - Demo design (measured), diagrams                evidence logged: NO
-[_] Cycle 4 - Lab in three tiers, FALLBACK                    evidence logged: NO
-[_] Cycle 5 - Think About It, summary, run-in-order plan      evidence logged: NO
+[_] Cycle 3 - Problem, solution, demo per Part (measured), diagrams  evidence logged: NO
+[_] Cycle 4 - Lab per Part in three tiers, FALLBACK           evidence logged: NO
+[_] Cycle 5 - Text pass, summary, run solutions end to end    evidence logged: NO
 ```
 
-### Cycle 1 - Outline alignment, kill line, Flow, continuity
-- Map each outline bullet to a slide group or a demo; map the outline lab to the lab; map
-  each learning objective to the cell that proves it
-- Write the module's `Kills:` / `Establishes:` line and the problem chain (which fix uncovers
-  which next problem, including the one handed to the next module)
-- Draft the `## Flow` table: step, where (SLIDES or NOTEBOOK), slide titles or cell numbers,
-  minutes (module = 1 hour including the lab). Every NOTEBOOK step starts at a hop label
-  (`Demo n`, `Lab n`) and ends with `Back to the slides: <next slide title>`
-- **Research**: how TypeSafe's docs and cookbooks teach this topic; how practitioners
-  evaluate classifiers on CLINC150 in 2026
-- **Refutation**: is any outline bullet missing? Is the opening problem real or staged?
+### Cycle 1 - Outline -> Parts, beats, kill line, Flow
+- Turn the outline's bullets, demo and lab into Parts. Each Part is one concept with one
+  problem and one solution. Map every outline bullet and objective to a Part and a cell
+- Module 1: draft Part 0 "What is Jev" first (what a System One model is, state, questions,
+  Choice / Score / Noul, typed answers with probabilities, how it differs from an LLM)
+- Write the module's `Kills:` / `Establishes:` line and the problem chain (which solution
+  uncovers which next problem, including the one handed to the next module)
+- Draft the `## Flow` table: Part, beat, cells, minutes (module = 1 hour)
+- **Research**: how TypeSafe's docs and cookbooks explain this topic
+- **Refutation**: is any outline bullet missing? Is each problem real, not staged?
 
 ### Cycle 2 - API surface (pinned), run it
-- Run every import and call the module uses: `typesafe` (client, `system_one`, Choice / Score
-  / Noul, probabilities, confidence, model id), `openai` (pinned model id), `datasets`
-  (`clinc_oos` config and label names), `transformers` zero-shot where module 3 needs it
-- Draft the pinned `%pip install` cell, the `# KEYS` cell (env var, else `getpass`, refuse
-  empty, never print) and the `# CONFIG` cell (client, pinned model ids, one probe call that
-  fails loud) in full. Every notebook repeats them
-- Every Jev and OpenAI call is a visible cell. Small helpers go in a `# HELPER` cell where
-  first needed
-- Record per call: latency and cost per request (measured), rate limits from the docs
-- **Research**: breaking changes in the pinned versions; Jev model ids and limits
-- **Refutation**: will 25 learners on the same key hit rate limits? Does Colab already ship a
-  conflicting version of any pinned package?
+- Run every import and call the module uses: `typesafe_sdk` (client, `system_one`, Choice /
+  Score / Noul, criteria, probabilities, confidence, model id), `openai` (pinned model id),
+  `datasets` (`clinc/clinc_oos`, `plus`), `transformers` zero-shot where module 3 needs it
+- Draft the pinned `%pip install` cell, `# KEYS` (env var, else `getpass`, refuse empty, never
+  print) and `# CONFIG` (client, pinned model ids, one probe call that fails loud) in full
+- Record per call: latency and cost (measured), rate limits from the docs
+- **Refutation**: will 25 learners on one key hit rate limits? Does Colab ship a conflicting version?
 
-### Cycle 3 - Demo design (measured), diagrams
-- Per concept: `## Demo n` markdown (two-line recap + diagram), `# DEMO:` problem cells,
-  `# DEMO:` fix cells, `> **Think About It**:`, `## Back to the slides: <title>`
-- The problem DEMO is a contrast engineers recognize (LLM prose vs typed answer, vague vs
-  atomic question, confident but wrong). Measure it on a fixed CLINC150 sample (N queries,
-  rate) and record the numbers; if it does not reproduce, redesign it and say how it is seeded
-- Jev answers feed a decision written in code (truth table), never a "should we..." question
-- **Notebook diagrams, drafted in full now.** Every new concept gets one: write
-  `course/diagrams/module_NN/<slug>.mmd` (brand line first, labels use the real identifiers),
-  render with
+### Cycle 3 - Problem, solution, demo per Part (measured), diagrams
+- Beat 1: write the problem so a learner feels it: a concrete message, what goes wrong, why
+- Beat 2: write the solution as an idea before any code: what changes, the one rule
+- Beat 3: `# DEMO:` cells: the problem live (measured on a fixed CLINC150 sample, N and rate
+  recorded), then the solution working, then `> **Think About It**:`
+- Jev answers feed decisions written in code, never a "should we..." question
+- **Diagrams, drafted in full now**: one for each problem beat, one for each solution beat
+  (shaped so before and after line up), one per Part 0 cell. Write
+  `course/diagrams/module_NN/<slug>.mmd` (brand line first, labels = code identifiers), render
   `cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json`
-  and Read the PNG. The notebook cell is the marker plus a raw GitHub image link (mermaid skill)
-- **Refutation**: could Axel narrate each cell? Are before and after both on screen? Run
-  `deck-diagram-refute` on the drafted diagrams and fix every BLOCKER
+  and Read the PNG. The notebook cell holds the marker and the raw GitHub image link
+- **Refutation**: run `deck-diagram-refute` on the diagrams and fix every BLOCKER
 
-### Cycle 4 - Lab in three tiers
-- `## Lab n: <Title>` markdown with ### Your Task, ### Level 1: Guided, ### Level 2: Core,
-  ### Level 3: Challenge (optional), ### Expected Output, ### Hints
-- `# LAB n.1 (Guided)`: everything given but 1 to 3 decisions, `name = None  # YOUR CODE` slots
-- `# LAB n.2 (Core)`: signature, type hints, docstring, test call given; body is `# YOUR CODE`
-  then `pass`
-- `# LAB n.3 (Challenge, optional)`: spec comment, expected output and a test call; nothing
-  later may use a name it defines
-- Each cell prints what Expected Output describes. Solutions drafted in full for all three
-- `# FALLBACK` only when a later section needs a Level 1 or 2 result
-- **Refutation**: run `learner-engineer-refute` on the lab drafts. Fix every BLOCKER. Can a
-  learner finish Level 1 in 5 minutes, Level 2 in 10, and is Level 3 really harder?
+### Cycle 4 - Lab per Part in three tiers
+- `### 4. Lab k: <Title>` markdown with #### Your Task, #### Level 1: Guided, #### Level 2:
+  Core, #### Level 3: Challenge (optional), #### Expected Output, #### Hints
+- `# LAB k.1 (Guided)`: everything given but 1 to 3 decisions, `name = None  # YOUR CODE`
+- `# LAB k.2 (Core)`: signature, type hints, docstring, test call given; body `# YOUR CODE`, `pass`
+- `# LAB k.3 (Challenge, optional)`: spec, expected output, test call; nothing later uses it
+- `# FALLBACK` after Level 1 when Level 2 or a later Part needs its result
+- Solutions drafted in full for all three levels
+- **Refutation**: run `learner-engineer-refute` on the plan. Fix every BLOCKER
 
-### Cycle 5 - Think About It, summary, run-in-order plan
-- Think About It questions, Summary (Key Takeaways, Looking Ahead, Homework)
-- Run-in-order plan: the solutions notebook must run top to bottom headless with the two keys
-  in the environment (getpass skipped). List any cell that cannot (none expected)
-- **Refutation**: what if Jev or OpenAI throttles mid-class? What if a learner's slot is
-  still `None` when they reach the next section?
+### Cycle 5 - Text pass, summary, run solutions end to end
+- Read every markdown cell in order as a learner: does each beat teach on its own, is every
+  term explained before use, is Part 0 enough to say what Jev is?
+- Summary (Key Takeaways, Looking Ahead, Homework)
+- Extract the plan's solution cells into a scratch script and run them top to bottom against
+  the real APIs. Every cell must run; record the numbers it prints in `## Measured numbers`
+- **Refutation**: what if Jev or OpenAI throttles mid-class? What if a slot is still `None`?
 
-## Output Contract, Part 1 (NON-NEGOTIABLE)
+## Output Contract (NON-NEGOTIABLE)
 
 One file: `plans/modules/module_NN_plan.md`. Sections, all required:
 
 - `# Module <N>: <Title>, Plan`
-- `## What it teaches` (outline text + objectives)
+- `## What it teaches` (outline text + objectives, each mapped to a Part and cell)
 - `## Kill line and problem chain`
 - `## Story So Far`
-- `## Flow` (table: step, SLIDES/NOTEBOOK, slide titles or cell numbers, hop label, minutes)
-- `## Sections` (one row per concept: diagram slug, problem DEMO, fix DEMO, Think About It)
+- `## Flow` (table: Part, beat, cells, minutes)
+- `## Parts` (one row per Part: problem in one line, solution in one line, demo cells, lab, diagram slugs)
 - `## Measured numbers` (each number shown in class: how measured, N, value, date)
 - `# EXERCISES: course/module_NN/exercises.ipynb (Target: <K> cells)`
-  - Each cell: `## Cell K - Markdown/Code [KIND]: Description` with full source in a fenced
-    block. Diagram cells are `[DIAGRAM]` markdown cells (marker + raw GitHub image link)
+  - Each cell: `## Cell K - Markdown/Code [KIND]: Description` with full source in a fenced block
 - `# SOLUTIONS: course/module_NN/solutions.ipynb`
-  - Only the cells that differ: `## Cell K - SOLUTION: LAB n.k` full source; list of
-    FALLBACK cells removed
-- `## Diagram Index` (slug, exercises cell K, what it shows, shape, renders with mmdc YES/NO)
-- `## Slide hooks` (what each slide group must carry so slides and notebook tell one story)
-- `## Run in order` (expected result of a headless run of solutions.ipynb)
+  - Only the cells that differ: `## Cell K - SOLUTION: LAB k.n` full source; FALLBACK cells removed
+- `## Diagram Index` (slug, cell K, beat, what it shows, renders with mmdc YES/NO)
+- `## Run in order` (what the end-to-end run printed)
 - `# VERIFICATION CHECKLIST`
 - `# RESEARCH VALIDATED (Month Year)` (URL + fact per line)
 
@@ -184,58 +178,42 @@ Write the header first, then append in ~50-line chunks with Edit.
 PRE-WRITE SELF-CHECK
 --------------------
 Cycle tracker all 5 [x] with evidence:                   YES / NO
+Module 1 only: Part 0 explains Jev before anything else: YES / NO / N/A
+Every Part has the 4 beats in order:                     YES / NO
+Problem and solution beats: text + one diagram, no code: YES / NO
+Every demo shows the problem live before the solution:   YES / NO
 Every outline bullet covered:                            YES / NO
-Flow table interleaves slides and notebook, labels exact: YES / NO
-Every Demo/Lab section ends with "Back to the slides":   YES / NO
 Every shown number measured and recorded:                YES / NO
-Every new concept has a .mmd + rendered PNG (looked at): YES / NO
+Every diagram rendered and looked at:                    YES / NO
 Diagram labels match identifiers in the code cells:      YES / NO
-Lab markdown has the 6 headings:                          YES / NO
-LAB n.1 / n.2 / n.3 present, titled, markers right:      YES / NO
+Lab markdown has the 6 headings, one lab per Part:       YES / NO
+LAB k.1 / k.2 / k.3 present, titled, markers right:      YES / NO
 Nothing later depends on Level 3:                        YES / NO
-FALLBACK only where a later section needs the result:    YES / NO
 %pip pinned, KEYS via env or getpass, CONFIG pinned ids:  YES / NO
 No Colab secrets, no key literal, no key printed:        YES / NO
-Every helper defined in a visible cell before use:       YES / NO
 Jev decides judgments, code decides actions:             YES / NO
+Solution cells ran end to end against the real APIs:     YES / NO
 learner-engineer-refute run, BLOCKERs fixed:             YES / NO
 deck-diagram-refute run, BLOCKERs fixed:                 YES / NO
 RESEARCH VALIDATED block has URLs (official sources):    YES / NO
 AI-tells scan passed:                                    YES / NO
 ```
 
-## Part 2: Slides (after the notebook plan is written)
-
-Follow `.claude/commands/plan-slides.md` for this module end to end: its research (every
-factual claim sourced, every number from `## Measured numbers`), its format, its slide order,
-and its review loop (deck-sales, deck-marketing, deck-diagram, deck-designer and
-learner-engineer refute agents, one at a time, then the `-build` counterparts). Skip only its
-"wait for approval" step: approval happens once, below, for both parts.
-
-Slides explain well and diagram first: every concept slide carries one Mermaid diagram that
-carries the idea, at most 2 short sentences. The slide order follows the `## Flow` table. A
-slide that sends the room to the notebook ends with `Badge: "Switch to the notebook: Demo n"`
-(or `Lab n`), and the slide right after it has exactly the title the notebook's
-`## Back to the slides:` cell names. The slides must match the notebook plan (same queries,
-same numbers, same lab levels).
-
-Finish with `.venv/bin/python3 validate_slides.py <N>` passing.
-
-## Approval (one checkpoint for the whole module, STOP here)
+## Approval (STOP here)
 
 Show Axel, in chat:
-1. The Flow table
-2. The notebook summary: sections, demos, lab tiers with their slots, measured numbers
-3. The slide table: slide, title, layout, diagram type, badge
-4. Review findings fixed and any rejected, with the reason
+1. Part 0 (Module 1) in a few lines, then per Part: the problem, the solution, the demo, the lab
+2. The Flow table
+3. Lab tiers per Part with their slots, and the measured numbers
+4. Diagram list (slug, beat)
+5. Review findings fixed and any rejected, with the reason
 
-**Wait for approval.** Silence is not approval. If Axel asks for changes, edit the plan files
-and show the diff.
+**Wait for approval.** Silence is not approval. If Axel asks for changes, edit the plan and
+show the diff.
 
 ## Handoff
 
-> Module <N> planned: `plans/modules/module_NN_plan.md`,
-> `imp_files/slides/moduleNN_slides.md` and `moduleNN_diagrams.md`.
+> Module <N> planned: `plans/modules/module_NN_plan.md` and its diagrams.
 >
-> Next: `/build-module <N>` runs the workflow that builds exercises, solutions, diagrams and
-> the deck from these approved files, validates them in order, reviews and commits.
+> Next: `/build-module <N>` builds exercises and solutions from the approved plan, validates
+> them, runs them against the real APIs, reviews and commits.

@@ -24,12 +24,12 @@ If it does NOT exist, create it:
 # Course Status
 
 ## Modules
-| # | Module | Plan | Exercises | Solutions | Diagrams | Run in order | Slides plan | Deck | Committed |
-|---|---|---|---|---|---|---|---|---|---|
-| 1 | Meet Jev | not_started | | | | | | | |
-| 2 | Designing Good Questions | not_started | | | | | | | |
-| 3 | Measuring and Trusting Jev | not_started | | | | | | | |
-| 4 | Jev and LLMs Together | not_started | | | | | | | |
+| # | Module | Plan | Exercises | Solutions | Diagrams | Run in order | Committed |
+|---|---|---|---|---|---|---|---|
+| 1 | Meet Jev | not_started | | | | | |
+| 2 | Designing Good Questions | not_started | | | | | |
+| 3 | Measuring and Trusting Jev | not_started | | | | | |
+| 4 | Jev and LLMs Together | not_started | | | | | |
 
 ## Open issues
 - none
@@ -38,7 +38,7 @@ If it does NOT exist, create it:
 ## Step 3: Cross-check the filesystem
 
 ```bash
-ls -la course/module_* course/diagrams imp_files/slides deck/module* plans/modules 2>/dev/null
+ls -la course/module_* course/diagrams plans/modules 2>/dev/null
 git log --oneline | head -10
 ```
 
@@ -54,7 +54,7 @@ The LABS.md table plus mismatches and open issues.
 |---|---|
 | No module plan | `/research-module N` (1 to 4) |
 | Plan approved, notebooks or deck missing | `/build-module N` (runs the workflow) |
-| One stage failed | fix with `/build-notebook`, `/build-diagrams` or `/build-slides`, then resume the workflow |
+| One stage failed | fix with `/build-notebook` or `/build-diagrams`, then resume the workflow |
 | Diagram missing in Colab | push the repo (PNGs are linked by raw GitHub URL) |
 
 ## Step 6: Ask

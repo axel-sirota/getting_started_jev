@@ -11,20 +11,24 @@ Notebooks:
     course/module_NN/exercises.ipynb     demo cells, three-tier LAB cells with `# YOUR CODE`
     course/module_NN/solutions.ipynb     same cells, labs solved, FALLBACK cells removed
 
-Every notebook:
-    title cell with "## Learning Objectives"; first code cell is a pinned `%pip install`;
-    a key cell reading TYPESAFE_API_KEY from the environment or getpass; no Colab secrets;
-    a 77-char banner with a known kind on every code cell (except %pip and %%writefile cells);
-    at most 3 markdown cells in a row; syntax and cross-cell pyflakes; diagrams as committed
-    PNGs linked by raw GitHub URL (.mmd master with the brand line); no keys or real names; no AI tells; slide hops ("## Demo n", "## Lab n" and
-    "## Back to the slides: <slide title>"); Summary cell last; outputs cleared.
-Anatomy: Section markdown, "## Demo n" markdown, DEMO cells, Think About It, "## Back to the
-slides: <title>", ... "## Lab n" markdown (Your Task, Expected Output, Hints, and one "###
-Level k" section per tier), then three LAB cells in order:
-    # LAB n.1 (Guided)              `= None  # YOUR CODE` slots
-    # LAB n.2 (Core)                `# YOUR CODE` in a function body
-    # LAB n.3 (Challenge, optional) `# YOUR CODE`; no later cell may use a name it defines
-optional FALLBACK cell after the lab where a later section needs a Level 1 or 2 result.
+Every notebook (the whole class runs in it, there are no slides):
+    title cell with "## What you will be able to do"; first code cell is a pinned `%pip
+    install`; a key cell reading TYPESAFE_API_KEY from the environment or getpass; no Colab
+    secrets; a 77-char banner with a known kind on every code cell (except %pip and
+    %%writefile cells); at most 6 markdown cells in a row; syntax and cross-cell pyflakes;
+    diagrams as committed PNGs linked by raw GitHub URL (.mmd master with the brand line); no
+    keys or real names; no AI tells; the 4 beats per Part; Summary cell last; outputs cleared.
+Anatomy (the 4 beats): Module 1 opens with "## Part 0: What is Jev" (markdown and diagrams
+only). Every "## Part k: <concept>" then has, in order:
+    ### 1. The problem      markdown, exactly one diagram, no code
+    ### 2. The solution     markdown, exactly one diagram, no code
+    ### 3. Demo             at least one DEMO code cell
+    ### 4. Lab k: <title>   markdown (#### Your Task, Expected Output, Hints, one #### Level
+                            section per tier), then three LAB cells in order:
+        # LAB k.1 (Guided)              `= None  # YOUR CODE` slots
+        # LAB k.2 (Core)                `# YOUR CODE` in a function body
+        # LAB k.3 (Challenge, optional) `# YOUR CODE`; no later cell may use a name it defines
+optional FALLBACK cell after Level 1 where Level 2 or a later Part needs its result.
 exercises.ipynb: slots in LAB cells only.
 solutions.ipynb: no slots left, SOLUTION cells explain themselves, no FALLBACK cells.
 --pair: solutions == exercises minus FALLBACK cells (count, order, kinds, source).
@@ -68,7 +72,7 @@ BANNER = "# " + "=" * 75
 KIND_RE = re.compile(r"^# (BONUS DEMO|DEMO|LAB \d+\.[123]|FALLBACK|SOLUTION: LAB \d+\.[123])\b")
 TITLE_RE = re.compile(r"^# [A-Z0-9]")
 
-TITLE_OBJECTIVES_RE = re.compile(r"^##\s+Learning Objectives", re.MULTILINE)
+TITLE_OBJECTIVES_RE = re.compile(r"^##\s+What you will be able to do", re.MULTILINE)
 SUMMARY_RE = re.compile(r"^#\s+Summary", re.MULTILINE)
 KEY_CELL_RES = [
     re.compile(r"\bTYPESAFE_API_KEY\b"),
@@ -77,18 +81,23 @@ KEY_CELL_RES = [
 ]
 COLAB_SECRETS_RE = re.compile(r"\buserdata\.get\b|google\.colab\s+import\s+userdata")
 
-# Labs: three tiers per lab, in this order, with these banner titles.
-LAB_HEADING_RE = re.compile(r"^##\s+Lab\s+(\d+)\b", re.MULTILINE)
+# Labs: one per Part (beat 4), three tiers, in this order, with these banner titles.
+LAB_HEADING_RE = re.compile(r"^###\s+4\.\s+Lab\s+(\d+)\b", re.MULTILINE)
 LAB_SECTIONS = ["Your Task", "Expected Output", "Hints"]
 TIERS = {1: "(Guided)", 2: "(Core)", 3: "(Challenge, optional)"}
 TIER_SECTIONS = {1: r"Level 1: Guided", 2: r"Level 2: Core", 3: r"Level 3: Challenge \(optional\)"}
 SLOT_RE = re.compile(r"=\s*None\s*#\s*YOUR CODE")
 YOUR_CODE_RE = re.compile(r"#\s*YOUR CODE")
 
-# Slide hops. The labels must match the "Switch to the notebook: <label>" badges in the slide
-# plan exactly; validate_slides.py cross-checks them through notebook_hops().
-HOP_RE = re.compile(r"^##\s+((?:Demo|Lab)\s+\d+)\b", re.MULTILINE)
-BACK_RE = re.compile(r"^##\s+Back to the slides:\s*(.+?)\s*$", re.MULTILINE)
+# The 4 beats (plans/NOTEBOOK_STYLE.md): every "## Part k: <concept>" has, in order,
+# "### 1. The problem", "### 2. The solution", "### 3. Demo", "### 4. Lab k: <title>".
+# Module 1 opens with "## Part 0: What is Jev" (markdown and diagrams only).
+PART_RE = re.compile(r"^##\s+Part\s+(\d+):\s*(.+?)\s*$", re.MULTILINE)
+BEAT_RE = re.compile(r"^###\s+([1-4])\.\s+(The problem|The solution|Demo|Lab\s+\d+)\b", re.MULTILINE)
+BEAT_NAMES = {1: "The problem", 2: "The solution", 3: "Demo", 4: "Lab"}
+PART0_TITLE = "What is Jev"
+PART0_MODULES = {"module_01"}
+SUMMARY_LAST_RE = re.compile(r"^#\s+Summary\b", re.MULTILINE)
 
 # Diagrams. Colab renders neither ```mermaid blocks nor cell attachments (it strips them,
 # googlecolab/colabtools#3836). A DIAGRAM cell links the PNG rendered from
@@ -344,8 +353,8 @@ def check_markdown_runs(cells: list[dict]) -> tuple[list[str], list[str]]:
     errs, run = [], 0
     for i, c in enumerate(cells):
         run = run + 1 if c["cell_type"] == "markdown" else 0
-        if run == 4:
-            errs.append(f"cell {i}: more than 3 markdown cells in a row")
+        if run == 7:
+            errs.append(f"cell {i}: more than 6 markdown cells in a row")
     return errs, []
 
 
@@ -484,43 +493,87 @@ def check_ai_tells(cells: list[dict]) -> tuple[list[str], list[str]]:
     return errs, []
 
 
-def notebook_hops(cells: list[dict]) -> list[tuple[str, str]]:
-    """The slide hops in notebook order: ("to", "Demo 1"), ("back", "<slide title>"), ..."""
-    hops = []
-    for c in cells:
+def notebook_beats(cells: list[dict]) -> list[tuple[int, int, int]]:
+    """(cell index, part, beat) for every Part heading (beat 0) and beat heading, in order."""
+    found, part = [], None
+    for i, c in enumerate(cells):
         if c["cell_type"] != "markdown":
             continue
         src = cell_src(c)
-        found = [(m.start(), "to", m.group(1)) for m in HOP_RE.finditer(src)]
-        found += [(m.start(), "back", m.group(1)) for m in BACK_RE.finditer(src)]
-        hops += [(kind, label) for _, kind, label in sorted(found)]
-    return hops
+        marks = [(m.start(), "part", int(m.group(1))) for m in PART_RE.finditer(src)]
+        marks += [(m.start(), "beat", int(m.group(1))) for m in BEAT_RE.finditer(src)]
+        for _, kind, n in sorted(marks):
+            if kind == "part":
+                part = n
+                found.append((i, n, 0))
+            elif part is not None:
+                found.append((i, part, n))
+    return found
 
 
-def check_hops(cells: list[dict]) -> tuple[list[str], list[str]]:
-    """Demos and labs numbered 1, 2, ... in order; every "to" hop is closed by exactly one
-    "Back to the slides" before the next hop or the Summary; at least one of each."""
+def check_beats(cells: list[dict], module: str = "") -> tuple[list[str], list[str]]:
+    """Parts numbered in order (Part 0 "What is Jev" first in Module 1); every Part k >= 1 has
+    the 4 beats in order; beats 1 and 2 have no code and exactly one diagram; beat 3 has a
+    DEMO cell; beat 4 is "### 4. Lab k" with k equal to the Part number."""
     errs = []
-    hops = notebook_hops(cells)
-    if not any(k == "to" for k, _ in hops):
-        return ["no '## Demo n' or '## Lab n' section; the notebook has no slide hops"], []
-    seen = {"Demo": 0, "Lab": 0}
-    expect_back = None
-    for kind, label in hops:
-        if kind == "to":
-            if expect_back:
-                errs.append(f"'{expect_back}' has no '## Back to the slides: <title>' before '{label}'")
-            word, n = label.split()
-            if int(n) != seen[word] + 1:
-                errs.append(f"'{label}' out of order (expected {word} {seen[word] + 1})")
-            seen[word] = int(n)
-            expect_back = label
-        else:
-            if expect_back is None:
-                errs.append(f"'Back to the slides: {label}' does not close a Demo or Lab section")
-            expect_back = None
-    if expect_back:
-        errs.append(f"'{expect_back}' has no '## Back to the slides: <title>' before the Summary")
+    beats = notebook_beats(cells)
+    parts = [p for _, p, b in beats if b == 0]
+    if not [p for p in parts if p >= 1]:
+        return ["no '## Part k: <concept>' section; the notebook has no 4-beat Parts"], []
+    want_part0 = module in PART0_MODULES
+    first = 0 if want_part0 else 1
+    if parts != list(range(first, first + len(parts))):
+        errs.append(f"Parts {parts}; expected {list(range(first, first + len(parts)))}"
+                    + (" (Module 1 starts with Part 0)" if want_part0 else ""))
+    if want_part0:
+        part0 = [i for i, p, b in beats if p == 0 and b == 0]
+        if part0 and PART0_TITLE not in PART_RE.search(cell_src(cells[part0[0]])).group(2):
+            errs.append(f"cell {part0[0]}: Part 0 must be '## Part 0: {PART0_TITLE}'")
+    elif 0 in parts:
+        errs.append("Part 0 is only for Module 1 ('What is Jev')")
+
+    # Cell ranges: each heading owns the cells up to the next heading or the Summary.
+    ends = [i for i, c in enumerate(cells) if c["cell_type"] == "markdown"
+            and SUMMARY_LAST_RE.search(cell_src(c))]
+    stop = ends[-1] if ends else len(cells)
+    bounds = [i for i, _, _ in beats] + [stop]
+    spans = {}
+    for (start, p, b), end in zip(beats, bounds[1:]):
+        spans.setdefault((p, b), []).append(range(start, max(end, start + 1)))
+
+    for p in sorted(set(parts)):
+        span0 = spans.get((p, 0), [range(0)])[0]
+        if p == 0:
+            code = [i for i in span0 if cells[i]["cell_type"] == "code"]
+            if code:
+                errs.append(f"Part 0: code cells {code}; Part 0 is text and diagrams only")
+            if not any(MARKER_RE.search(cell_src(cells[i])) for i in span0):
+                errs.append("Part 0: no diagram")
+            continue
+        order = [b for _, pp, b in beats if pp == p and b > 0]
+        if order != [1, 2, 3, 4]:
+            names = [BEAT_NAMES.get(b, b) for b in order]
+            errs.append(f"Part {p}: beats {names}; expected The problem, The solution, Demo, Lab {p}")
+            continue
+        for b in (1, 2):
+            span = spans[(p, b)][0]
+            code = [i for i in span if cells[i]["cell_type"] == "code"]
+            if code:
+                errs.append(f"Part {p}, '{BEAT_NAMES[b]}': code cells {code}; beats 1 and 2 are text and a figure")
+            n = sum(len(MARKER_RE.findall(cell_src(cells[i]))) for i in span
+                    if cells[i]["cell_type"] == "markdown")
+            if n != 1:
+                errs.append(f"Part {p}, '{BEAT_NAMES[b]}': {n} diagrams; expected exactly one figure")
+        if not any(cell_kind(cells[i]) in ("DEMO", "BONUS DEMO") for i in spans[(p, 3)][0]):
+            errs.append(f"Part {p}, 'Demo': no '# DEMO:' code cell")
+        lab_head = cell_src(cells[spans[(p, 4)][0].start])
+        m = LAB_HEADING_RE.search(lab_head)
+        if not m or int(m.group(1)) != p:
+            errs.append(f"Part {p}: beat 4 must be '### 4. Lab {p}: <title>'")
+        tiers = [lab_tier(cell_kind(cells[i])) for i in spans[(p, 4)][0]]
+        tiers = [t for t in tiers if t]
+        if [t[1] for t in tiers] != [1, 2, 3] or any(t[0] != p for t in tiers):
+            errs.append(f"Part {p}: lab cells {tiers}; expected LAB {p}.1, {p}.2, {p}.3 inside '### 4. Lab {p}'")
     return errs, []
 
 
@@ -548,15 +601,15 @@ def check_lab_markdown(cells: list[dict]) -> tuple[list[str], list[str]]:
         for m in LAB_HEADING_RE.finditer(src):
             headed.add(int(m.group(1)))
             for section in LAB_SECTIONS:
-                if not re.search(r"^###\s+" + section, src, re.MULTILINE):
-                    errs.append(f"cell {i}: Lab {m.group(1)} markdown has no '### {section}'")
+                if not re.search(r"^####\s+" + section, src, re.MULTILINE):
+                    errs.append(f"cell {i}: Lab {m.group(1)} markdown has no '#### {section}'")
             for tier, section in TIER_SECTIONS.items():
-                if not re.search(r"^###\s+" + section, src, re.MULTILINE):
-                    errs.append(f"cell {i}: Lab {m.group(1)} markdown has no '### {section.replace(chr(92), '')}'")
+                if not re.search(r"^####\s+" + section, src, re.MULTILINE):
+                    errs.append(f"cell {i}: Lab {m.group(1)} markdown has no '#### {section.replace(chr(92), '')}'")
     for i, c in code_cells(cells):
         lt = lab_tier(cell_kind(c))
         if lt and lt[0] not in headed:
-            errs.append(f"cell {i}: LAB {lt[0]}.{lt[1]} has no '## Lab {lt[0]}' markdown cell")
+            errs.append(f"cell {i}: LAB {lt[0]}.{lt[1]} has no '### 4. Lab {lt[0]}' markdown cell")
     return errs, []
 
 
@@ -663,9 +716,10 @@ def check_diagram_pair(exercises: list[dict], solutions: list[dict]) -> tuple[li
     return errs, []
 
 
-def check_hops_pair(exercises: list[dict], solutions: list[dict]) -> tuple[list[str], list[str]]:
-    ex, sol = notebook_hops(exercises), notebook_hops(solutions)
-    return ([] if ex == sol else [f"slide hops differ: exercises {ex} vs solutions {sol}"]), []
+def check_beats_pair(exercises: list[dict], solutions: list[dict]) -> tuple[list[str], list[str]]:
+    ex = [(p, b) for _, p, b in notebook_beats(exercises)]
+    sol = [(p, b) for _, p, b in notebook_beats(solutions)]
+    return ([] if ex == sol else [f"Parts and beats differ: exercises {ex} vs solutions {sol}"]), []
 
 
 # --------------------------------------------------------------------------
@@ -685,7 +739,7 @@ def notebook_checks(path: Path, strict: bool = False, names: list[str] | None = 
         ("diagrams", check_diagrams(cells, strict, path.parent.name)),
         ("no keys, Colab secrets, real names", check_content(cells, names)),
         ("AI tells", check_ai_tells(cells)),
-        ("slide hops", check_hops(cells)),
+        ("4 beats per Part", check_beats(cells, path.parent.name)),
         ("summary cell last", check_summary_last(cells)),
         ("outputs cleared", check_outputs_cleared(cells)),
         ("lab markdown", check_lab_markdown(cells)),
@@ -701,7 +755,7 @@ def notebook_checks(path: Path, strict: bool = False, names: list[str] | None = 
 def module_checks(exercises: Path, solutions: Path, pair: bool) -> list[Check]:
     ex, sol = load_cells(exercises), load_cells(solutions)
     checks = [("diagrams identical", check_diagram_pair(ex, sol)),
-              ("slide hops identical", check_hops_pair(ex, sol))]
+              ("Parts and beats identical", check_beats_pair(ex, sol))]
     if pair:
         checks.append(("pair", check_pair(ex, sol)))
     return [(name, errs, warns) for name, (errs, warns) in checks]

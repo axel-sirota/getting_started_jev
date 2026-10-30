@@ -1,12 +1,10 @@
 ---
-description: Build Mermaid diagrams one by one, for module notebooks (committed PNG linked by raw GitHub URL) or slides (SVG)
+description: Build a module's notebook diagrams one by one (Part 0, problem and solution figures) as committed PNGs linked by raw GitHub URL
 ---
 
 Build diagrams: $ARGUMENTS
 
-(Argument: a module number to build its notebook diagrams, or `slides <N>` to build module
-N's slide diagrams from `imp_files/slides/moduleNN_diagrams.md`.
-With no argument, list every unbuilt diagram and ask which set.)
+(Argument: a module number. With no argument, list every unbuilt diagram and ask which module.)
 
 ## GUARD
 
@@ -16,31 +14,23 @@ ls plans/DECISIONS.md 2>/dev/null
 
 If missing: "Run `/init-course` first."
 
-Follow `.claude/skills/mermaid-diagrams/SKILL.md` for design rules, palette and rendering.
-
----
-
-## Two kinds of diagram
-
-| Kind | Source | Output | Rendered with |
-|---|---|---|---|
-| Notebook | module plan's `## Diagram Index` | `course/diagrams/module_NN/<slug>.mmd` (brand line first) + `.png`, both committed | mermaid-cli + `deck/tools/mermaid-config.json` |
-| Slide | `imp_files/slides/moduleNN_diagrams.md` (from `/plan-slides N`) | `deck/moduleNN/diagrams/slide-NN.mmd` + `.svg` | `DECK_MODULE=N` + `extract-mmd.mjs` + `render-diagrams.mjs` |
+Follow `.claude/skills/mermaid-diagrams/SKILL.md` for design rules, palette, rendering and
+which beat needs which diagram.
 
 ---
 
 ## Step 1: Read context
 
-1. The source above for the requested set
-2. The notebook cell or slide that embeds each diagram, to see what it must serve
-3. `reference/diagram_examples/` and `reference/diagrams.reference.md` for shape and style
-   that already worked
+1. The module plan's `## Diagram Index` (slug, cell, beat, what it shows)
+2. The notebook cell (beat) that embeds each diagram, to see what it must serve
+3. For a solution figure, its problem figure: shape them so before and after line up
+4. `reference/diagram_examples/` and `reference/diagrams.reference.md` for shapes that worked
 
 ## Step 2: List and ask
 
 ```
 Diagrams to build:
-1. <slug>.mmd - <what it shows> - used in <cell / slide>
+1. <slug>.mmd - <what it shows> - <Part k, beat>
 ...
 I'll build them one at a time and ask for approval before each file.
 ```
@@ -54,42 +44,37 @@ Ask: "Ready to start with diagram 1?"
 ```
 Diagram <K>: <slug>
 Shows: <one line>
-Used in: <cell / slide>
+Used in: <Part k, beat>
 
 <mermaid source>
 
 Does this look right? I'll write the file once you approve.
 ```
 
-**Wait for approval.** For a diagram that carries a slide, optionally run the
+**Wait for approval** (skipped inside the build-module workflow). Optionally run the
 `deck-diagram-build` and `deck-diagram-refute` agents on it first and show their verdict.
 
 ### 3b. Write the `.mmd`
 
-Raw Mermaid only, no fences.
+`course/diagrams/module_NN/<slug>.mmd`: raw Mermaid, no fences, the brand line first.
 
-### 3c. Render
+### 3c. Render and look
 
-Notebook diagram:
 ```bash
 cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json
 ```
-Read the PNG with the Read tool: legible, labels match the code.
 
-Slide diagram (needs `cd deck && npm install` once):
-```bash
-cd deck && DECK_MODULE=<module> node tools/extract-mmd.mjs <slide> && DECK_MODULE=<module> node tools/render-diagrams.mjs <slide>
-```
+Read the PNG with the Read tool: legible, labels match the code. If `node_modules` is missing,
+run `cd deck && PUPPETEER_SKIP_DOWNLOAD=1 npm ci` (ask first).
 
-If `npx` or `node` is unavailable, say so and stop; do not install global packages
-without asking.
-
-### 3d. Link (notebook diagrams)
+### 3d. Link it in a figure cell (both notebooks)
 
 Colab renders neither ```mermaid blocks nor cell attachments (it strips attachments), so the
-notebook links the committed PNG by raw GitHub URL. The diagram cell in BOTH notebooks is:
+notebook links the committed PNG by raw GitHub URL in its own figure cell:
 
 ```markdown
+**Figure: <title> - <what to look at, one line>.**
+
 <!-- DIAGRAM: <slug> -->
 ![<alt text that states the idea>](https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
 ```
@@ -105,13 +90,13 @@ pushes. Follow the Notebook Edit Protocol (targeted edit, read back and assert).
 
 ## Step 4: Summary
 
-| Slug | Kind | .mmd | Rendered | Embedded / used in |
+| Slug | Part, beat | .mmd | Rendered | Linked in both notebooks |
 |---|---|---|---|---|
 
-Next step: `/validate-notebooks` for labs, `/build-slides` for slides.
+Next step: `/validate-notebooks <N> --pair --strict`.
 
 ---
 
-## Notebook Edit Protocol (MANDATORY when embedding)
+## Notebook Edit Protocol (MANDATORY when linking)
 
 Follow `.claude/NOTEBOOK_EDIT_PROTOCOL.md`. Blind bulk index-based rewrites are forbidden.

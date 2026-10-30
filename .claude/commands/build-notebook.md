@@ -19,7 +19,7 @@ ls plans/DECISIONS.md plans/modules/module_0<N>_plan.md 2>/dev/null
 ## Pre-Work: MANDATORY Reading
 
 1. `CLAUDE.md`, `plans/DECISIONS.md`
-2. `plans/NOTEBOOK_STYLE.md` (cell anatomy, three-tier labs, slide hops) and
+2. `plans/NOTEBOOK_STYLE.md` (cell anatomy, Part 0, 4 beats per Part, three-tier labs) and
    `plans/TEACHING_STYLE.md` (voice)
 3. `plans/modules/module_NN_plan.md`: the `# EXERCISES` and `# SOLUTIONS` sections are the
    cell source. Build from them; never re-plan
@@ -29,8 +29,9 @@ ls plans/DECISIONS.md plans/modules/module_0<N>_plan.md 2>/dev/null
 
 ### Show Plan Summary Before Building
 
-In chat: cell list (number, kind, one line), hops (Demo n / Lab n / Back to the slides), lab
-tiers and their markers, FALLBACK cells, HELPER cells, anything that differs from the plan.
+In chat: cell list (number, kind, one line), Parts with their 4 beats (problem, solution,
+demo, lab), lab tiers and their markers, FALLBACK cells, HELPER cells, anything that differs
+from the plan.
 **Wait for approval** (skipped only under a blanket "go until the end", e.g. inside the
 build-module workflow).
 
@@ -61,16 +62,20 @@ Rules:
    `# CONFIG`: client, pinned model ids, a one-call probe
 2. Every code cell (except `%pip` and `%%writefile`) starts with the 77-char banner, kind and
    delivery tag (NOTEBOOK_STYLE)
-3. Per concept: `## Demo n: <Title>` markdown with the diagram, `# DEMO:` problem cells,
-   `# DEMO:` fix cells, `> **Think About It**:`, `## Back to the slides: <exact next slide
-   title>`. Hop labels exactly as the plan's Flow table
-4. Lab: `## Lab n: <Title>` markdown (Your Task, Level 1: Guided, Level 2: Core, Level 3:
-   Challenge (optional), Expected Output, Hints), then three cells in order:
-   - `# LAB n.1 (Guided)` with `name = None  # YOUR CODE` slots, answer never leaked
-   - `# LAB n.2 (Core)` with signature, docstring, test call and a `# YOUR CODE` body
-   - `# LAB n.3 (Challenge, optional)` with spec, test call and `# YOUR CODE`; nothing later
-     uses a name it defines
-   then `## Back to the slides: <title>`
+3. Module 1 only: `## Part 0: What is Jev` markdown cells, each with its diagram, no code
+4. Per Part k, the 4 beats in order, exactly as the plan:
+   - `## Part k: <concept>` markdown (one sentence)
+   - `### 1. The problem` markdown with its diagram, no code
+   - `### 2. The solution` markdown with its diagram, no code
+   - `### 3. Demo` markdown, then `# DEMO:` cells (the problem live, then the solution), then
+     `> **Think About It**:`
+   - `### 4. Lab k: <Title>` markdown (#### Your Task, Level 1: Guided, Level 2: Core,
+     Level 3: Challenge (optional), Expected Output, Hints), then in order:
+     - `# LAB k.1 (Guided)` with `name = None  # YOUR CODE` slots, answer never leaked
+     - optional `# FALLBACK` when Level 2 or a later Part needs Level 1's result
+     - `# LAB k.2 (Core)` with signature, docstring, test call and a `# YOUR CODE` body
+     - `# LAB k.3 (Challenge, optional)` with spec, test call and `# YOUR CODE`; nothing later
+       uses a name it defines
 5. `# FALLBACK: ...` only where the plan has one. No CHECK cells, no mini exercises
 6. Diagrams: copy each `[DIAGRAM]` cell from the plan verbatim: `<!-- DIAGRAM: <slug> -->` and
    the raw GitHub image link to `course/diagrams/module_NN/<slug>.png`. Never a ```mermaid
