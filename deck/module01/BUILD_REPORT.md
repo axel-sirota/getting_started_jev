@@ -10,7 +10,7 @@ Rebuilt 2026-10-30 after the review round (learner, designer, marketing, diagram
 | 2 | The reply that breaks your parser | full + strip | yes | 0 | yes | 33.6 px |
 | 3 | A schema fixes the format, not the doubt | split | yes | 3 | yes | 45.1 px |
 | 4 | Jev answers questions. It never writes text. | split, badge Demo 1 | yes | 3 | yes (+ playbook) | 37.5 px |
-| 5 | Accuracy within noise, 4x faster, 12x cheaper | full + strip | yes | 0 | yes | 52.4 px |
+| 5 | Accuracy within noise, 3 to 4x faster, 12x cheaper | full + strip | yes | 0 | yes | 52.4 px |
 | 6 | One request, three kinds of question | full, badge Demo 2 | yes | 0 | yes (+ playbook) | 38.4 px |
 | 7 | Read the distribution, not only the top answer | full + strip | yes (xychart) | 0 | yes | 24.6 px |
 | 8 | Rules in Python, not in the prompt | full + strip | yes | 0 | yes | 27.3 px |

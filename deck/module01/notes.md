@@ -20,7 +20,7 @@ Jev is TypeSafe's first System One model: it answers judgment questions and neve
 
 Playbook, Demo 1: Everyone runs "Section 0: Setup" (install, keys, config, data), then "Demo 1". The "40 messages, three ways, one table" cell makes 120 calls per person; if the shared keys slow down, run it once on the instructor screen and let the room watch the table.
 
-## Slide 5 · Accuracy within noise, 4x faster, 12x cheaper
+## Slide 5 · Accuracy within noise, 3 to 4x faster, 12x cheaper
 
 In our runs the schema LLM and Jev were within noise on accuracy, and in our first run 10 of Jev's 11 misses were labels a person could argue about. Jev was 3x to 4x faster across three runs, about 12x cheaper, and the only one with a probability per team.
 

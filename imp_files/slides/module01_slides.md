@@ -80,7 +80,7 @@ Say: Jev is TypeSafe's first System One model: it answers judgment questions and
 
 Source: [TypeSafe docs: Introduction](https://docs.typesafe.ai), [TypeSafe docs: System One](https://docs.typesafe.ai/concepts/system-one.md)
 
-### Slide 5 · Accuracy within noise, 4x faster, 12x cheaper
+### Slide 5 · Accuracy within noise, 3 to 4x faster, 12x cheaper
 
 Layout: full diagram. Strip under the diagram: "Both 72.5% to 77.5% accurate on 40 messages. Only Jev returns a probability per team."
 

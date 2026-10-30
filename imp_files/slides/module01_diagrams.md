@@ -6,7 +6,7 @@
 | 2 | The reply that breaks your parser | full diagram | flowchart |
 | 3 | A schema fixes the format, not the doubt | points left, diagram right | flowchart |
 | 4 | Jev answers questions. It never writes text. | points left, diagram right | flowchart |
-| 5 | Accuracy within noise, 4x faster, 12x cheaper | full diagram | flowchart |
+| 5 | Accuracy within noise, 3 to 4x faster, 12x cheaper | full diagram | flowchart |
 | 6 | One request, three kinds of question | full diagram | flowchart |
 | 7 | Read the distribution, not only the top answer | full diagram | xychart-beta |
 | 8 | Rules in Python, not in the prompt | full diagram | flowchart |
@@ -45,7 +45,7 @@ flowchart TD
   A --> C["your code decides"]
 ```
 
-### Slide 5 · Accuracy within noise, 4x faster, 12x cheaper
+### Slide 5 · Accuracy within noise, 3 to 4x faster, 12x cheaper
 
 ```mermaid
 flowchart LR
