@@ -200,11 +200,11 @@ html, body { background: var(--white); }
   align-self: center;
   margin: 0;
   padding-right: 120px; /* keep clear of the slide number */
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.35;
-  color: var(--text);
+  color: #6B7280;
 }
-.reveal .source a { color: var(--teal-dark); text-decoration: underline; }
+.reveal .source a { color: #6B7280; text-decoration: none; }
 .reveal .source .sep { color: var(--text); padding: 0 6px; }
 
 /* demo: bottom strip in the site's pill style (teal text on 10% teal) */

@@ -84,6 +84,42 @@ async function orderClustersAsSource(browser, svgText, order) {
   }
 }
 
+// "_alignClusterTops": true (Module 1 slide 5). Dagre can stagger disconnected side-by-side
+// clusters vertically; this moves each top-level cluster, with its nodes and labels, up so
+// every cluster shares the top edge of the highest one.
+async function alignClusterTops(browser, svgText) {
+  const p = await browser.newPage();
+  try {
+    await p.setContent(`<!doctype html><body style="margin:0">${svgText}</body>`);
+    return await p.evaluate(() => {
+      const svg = document.querySelector("svg");
+      const vb = svg.viewBox.baseVal;
+      const box = (el) => {
+        const r = el.getBoundingClientRect(), s = svg.getBoundingClientRect();
+        const k = vb.width / s.width;
+        return { l: (r.left - s.left) * k + vb.x, r: (r.right - s.left) * k + vb.x, t: (r.top - s.top) * k + vb.y };
+      };
+      const clusters = [...svg.querySelectorAll("g.cluster")].map((g) => ({ g, ...box(g) }));
+      if (clusters.length < 2) return new XMLSerializer().serializeToString(svg);
+      const top = Math.min(...clusters.map((c) => c.t));
+      for (const c of clusters) c.dy = top - c.t;
+      const owner = (el) => {
+        const b = box(el), mid = (b.l + b.r) / 2;
+        return clusters.find((c) => mid >= c.l - 1 && mid <= c.r + 1);
+      };
+      for (const el of svg.querySelectorAll("g.cluster, g.node, g.edgePaths > path, g.edgeLabel")) {
+        const c = el.classList.contains("cluster") ? clusters.find((k) => k.g === el) : owner(el);
+        if (!c || !c.dy) continue;
+        const t = el.getAttribute("transform") || "";
+        el.setAttribute("transform", `translate(0,${c.dy}) ${t}`.trim());
+      }
+      return new XMLSerializer().serializeToString(svg);
+    });
+  } finally {
+    await p.close();
+  }
+}
+
 // "_tightFit": true (slide 27 timeline). Shortens the dashed timeline tails to end
 // just below the lowest event box, then sets the viewBox to the drawn content plus a
 // small margin, so empty space does not shrink the diagram on the slide.
@@ -168,9 +204,12 @@ const browser = await puppeteer.launch({ headless: true });
 let failed = 0;
 try {
   for (const f of files) {
-    const def = fs.readFileSync(path.join(dir, f), "utf8");
+    let def = fs.readFileSync(path.join(dir, f), "utf8");
     const id = "d" + f.match(/\d+/)[0];
-    const { _clusterOrder, _linePlotStroke, _clusterTitleAlign, _tightFit, _labelShift, _equalLanes, ...slideOverride } = overrides[String(Number(f.match(/\d+/)[0]))] || {};
+    const { _direction, _clusterOrder, _alignClusterTops, _linePlotStroke, _clusterTitleAlign, _tightFit, _labelShift, _equalLanes, ...slideOverride } = overrides[String(Number(f.match(/\d+/)[0]))] || {};
+    // "_direction": "LR" (Module 1 slide 8) renders a flowchart in another direction so a
+    // tall chain fits the wide canvas at 22 px or more. The .mmd stays byte-for-byte the plan's.
+    if (_direction) def = def.replace(/^(\s*(?:flowchart|graph))\s+(TD|TB|BT|LR|RL)\b/m, `$1 ${_direction}`);
     const mermaidConfig = merge(config, slideOverride);
     try {
       const { data } = await renderMermaid(browser, def, "svg", {
@@ -248,6 +287,7 @@ try {
       if (_tightFit) svgText = await tightFit(browser, svgText);
       if (_equalLanes) svgText = await equalLanes(browser, svgText);
       if (_clusterOrder === "source") svgText = await orderClustersAsSource(browser, svgText, [...def.matchAll(/^\s*subgraph\s+([\w-]+)/gm)].map((m) => m[1]));
+      if (_alignClusterTops) svgText = await alignClusterTops(browser, svgText);
       fs.writeFileSync(out, fixRootSize(svgText));
       console.log(`ok   ${f} -> ${path.basename(out)} (${Math.round(data.length / 1024)} KB)`);
     } catch (e) {
