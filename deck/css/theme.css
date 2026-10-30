@@ -1,0 +1,339 @@
+/* Platform Engineering Foundations deck theme.
+   Brand: www.datatrainersllc.com (plans/DECISIONS.md, "Slide deck theme").
+   Inter for all text, navy #1A3D4D, teal #40B8A6, orange only for call to action.
+   Canvas is 1920x1080; Reveal scales it. No vh units anywhere. */
+
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: block;
+  src: url("../vendor/fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: block;
+  src: url("../vendor/fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; font-display: block;
+  src: url("../vendor/fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: block;
+  src: url("../vendor/fonts/inter-latin-700-normal.woff2") format("woff2"); }
+
+:root {
+  --navy: #1A3D4D;
+  --navy-dark: #0F2938;
+  --navy-light: #2A5568;
+  --teal: #40B8A6;
+  --teal-dark: #2F9987;
+  --teal-light: #5EC9B9;
+  --teal-10: rgba(64, 184, 166, 0.10);
+  --orange: #F97316;
+  --text: #4B5563;
+  --strong: #111827;
+  --white: #FFFFFF;
+  --surface: #F9FAFB;
+  --border: #E5E7EB;
+  --font: "Inter", sans-serif;
+}
+
+html, body { background: var(--white); }
+
+.reveal {
+  font-family: var(--font);
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--text);
+}
+.reveal-viewport { background: var(--white); }
+
+/* Reveal 5 layout rule: every section absolutely positioned, full canvas. */
+.reveal .slides > section,
+.reveal .slides > section > section {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+/* Inner wrapper fills the section. */
+.reveal .slide {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: 64px 96px 0 96px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 88px;
+  row-gap: 32px;
+}
+
+/* Title */
+.reveal .slide > h2.title {
+  margin: 0;
+  padding: 0 0 20px 0;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--navy);
+  text-transform: none;
+  position: relative;
+}
+.reveal .slide > h2.title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 120px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--teal);
+}
+
+/* Body area between title and footer */
+.reveal .slide > .body {
+  position: relative;
+  min-height: 0;
+}
+
+/* split: points left 40%, diagram right 60%, both vertically centred */
+.reveal section[data-template="split"] .body {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.reveal section[data-template="split"] .points { padding-right: 56px; align-self: center; }
+/* The image is taken out of flow so a tall SVG can never grow the row past the body. */
+.reveal section[data-template="split"] .diagram { position: relative; height: 100%; min-height: 0; }
+.reveal section[data-template="split"] .diagram img { position: absolute; inset: 0; }
+
+/* points: a split slide whose diagram moved to slide Nb (Axel's rule, plans/DECISIONS.md).
+   Points take the width, vertically centred, a little larger. */
+.reveal section[data-template="points"] .body {
+  display: flex;
+  align-items: center;
+}
+.reveal section[data-template="points"] .points { max-width: 1480px; }
+.reveal section[data-template="points"] .points li { font-size: 40px; margin-bottom: 36px; padding-left: 52px; }
+.reveal section[data-template="points"] .points li::before { top: 15px; width: 20px; height: 20px; }
+
+/* full and demo: diagram fills the body */
+.reveal section[data-template="full"] .diagram,
+.reveal section[data-template="demo"] .diagram,
+.reveal section[data-template="lab"] .diagram {
+  position: absolute;
+  inset: 0;
+}
+
+/* Diagram box: the SVG scales to fit, centred */
+.reveal .diagram {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reveal .diagram img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Fallback when a diagram fails to render: the Mermaid source in a monospace box */
+.reveal .diagram pre.mermaid-fallback {
+  margin: 0;
+  width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--strong);
+  white-space: pre;
+  box-shadow: none;
+}
+
+/* Points */
+.reveal .points .lead {
+  margin: 0 0 28px 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--strong);
+}
+.reveal .points ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reveal .points li {
+  position: relative;
+  margin: 0 0 30px 0;
+  padding-left: 44px;
+  font-size: 34px;
+  line-height: 1.3;
+  color: var(--text);
+}
+.reveal .points li:last-child { margin-bottom: 0; }
+.reveal .points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--teal);
+}
+.reveal .points a { color: var(--teal-dark); text-decoration: underline; }
+
+/* Source footer: small, link titles only */
+.reveal .source {
+  align-self: center;
+  margin: 0;
+  padding-right: 120px; /* keep clear of the slide number */
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--text);
+}
+.reveal .source a { color: var(--teal-dark); text-decoration: underline; }
+.reveal .source .sep { color: var(--text); padding: 0 6px; }
+
+/* demo: bottom strip in the site's pill style (teal text on 10% teal) */
+.reveal section[data-template="demo"] .slide { grid-template-rows: auto minmax(0, 1fr) 56px 120px; row-gap: 16px; }
+/* lab: demo or lab holding slide. Diagram as the holding visual, instruction strip below it. */
+.reveal section[data-template="lab"] .slide { grid-template-rows: auto minmax(0, 1fr) 72px 40px; row-gap: 20px; }
+.reveal section[data-template="lab"] .source { order: 4; }
+/* The strip holds two pills side by side: the Teams prompt and the live app link. */
+.reveal .demo-strip {
+  align-self: start;
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.reveal .demo-strip .strip-label {
+  padding: 14px 28px;
+  border-radius: 999px;
+  background: var(--teal-10);
+  border: 2px solid var(--teal);
+  color: var(--teal-dark);
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Live app link: solid brand teal pill, dark text (about 7:1), full URL shown */
+.reveal a.app-link {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 999px;
+  background: var(--teal);
+  border: 2px solid var(--teal);
+  color: var(--strong);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.reveal .points .app-row { margin: 44px 0 0 0; }
+
+/* Switch badge: top right corner of the slide where Axel moves to the notebook or the
+   live demo. Markup: <div class="switch-badge">Switch to the notebook: Part A</div>
+   placed as the last child of the slide's <section>. Sits high (top 6px) so it clears
+   long slide titles in every deck; decks must not override its position. */
+.reveal .switch-badge {
+  position: absolute;
+  top: 6px;
+  right: 40px;
+  z-index: 5;
+  max-width: 520px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  background: var(--teal);
+  border: 2px solid var(--teal-dark);
+  color: var(--navy-dark);
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
+}
+.reveal .demo-strip a.app-link { padding: 14px 28px; font-size: 26px; }
+
+/* title template: navy gradient, white text */
+.reveal section[data-template="title"] .slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 160px;
+  row-gap: 0;
+}
+.reveal .deck-title {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 104px;
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+  color: var(--white);
+  text-transform: none;
+}
+.reveal .deck-rule {
+  width: 180px;
+  height: 10px;
+  margin: 48px 0 44px 0;
+  background: var(--teal);
+  border-radius: 5px;
+}
+.reveal .deck-subtitle {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 1.3;
+  color: var(--white);
+}
+.reveal .deck-date {
+  margin: 28px 0 0 0;
+  font-family: var(--font);
+  font-weight: 500;
+  font-size: 34px;
+  color: var(--teal-light);
+}
+
+/* Slide number, bottom right: navy pill on white slides, white pill on dark ones */
+.reveal .slide-number {
+  right: 24px;
+  bottom: 20px;
+  left: auto;
+  top: auto;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: var(--navy);
+  color: var(--white);
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+}
+.reveal .slide-number a { color: inherit; text-decoration: none; }
+.reveal.has-dark-background .slide-number { background: var(--white); color: var(--navy); }
+.reveal .progress { color: var(--teal); height: 6px; }
+
+/* No animations or transitions */
+.reveal .slides section,
+.reveal .slides section * { transition: none !important; animation: none !important; }

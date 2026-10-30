@@ -1,0 +1,8 @@
+# Local tooling: validators and headless runs of the course notebooks.
+# Notebooks pin their own runtime packages in course/requirements.txt.
+-r course/requirements.txt
+nbformat==5.11.1
+nbclient==0.11.0
+ipykernel==7.4.0
+pyflakes==4.0.2
+pytest==9.1.1

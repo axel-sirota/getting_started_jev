@@ -1,0 +1,15 @@
+/* Inter for Mermaid text measurement and SVG font embedding (vendored files). */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("../../vendor/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url("../../vendor/fonts/inter-latin-600-normal.woff2") format("woff2");
+}

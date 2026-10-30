@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Platform Engineering Foundations</title>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================ Opening ============================ -->
+
+<section data-slide="1" data-template="title" data-background-color="#1A3D4D" data-background-gradient="linear-gradient(135deg, #1A3D4D 0%, #2A5568 100%)">
+  <div class="slide">
+    <h1 class="deck-title">Platform Engineering Foundations</h1>
+    <div class="deck-rule"></div>
+    <p class="deck-subtitle">Barclays · 2 hours</p>
+    <p class="deck-date">30 September 2026</p>
+  </div>
+  <aside class="notes">quick intro, then ask everyone to keep the Teams chat open. They'll use three small apps from their browser today.</aside>
+</section>
+
+<section data-slide="2" data-template="full">
+  <div class="slide">
+    <h2 class="title">Today's route</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-02.svg" alt="Diagram for slide 2: Today's route"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">every module ends in something you'll see working, not just slides.</aside>
+</section>
+
+<section data-slide="3" data-template="split">
+  <div class="slide">
+    <h2 class="title">The ticket test</h2>
+    <div class="body">
+      <div class="points">
+        <p class="lead">Question for the Teams chat: how long from "I need a new service" to running in production?</p>
+        <ul>
+          <li>Under a day</li>
+          <li>About a week</li>
+          <li>About a month</li>
+          <li>Longer, and it involves tickets</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-03.svg" alt="Diagram for slide 3: The ticket test"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://platformengineering.com/features/we-renamed-the-devops-team-platform-engineering-nothing-changed-heres-why/">platformengineering.com: We renamed the DevOps team</a></footer>
+  </div>
+  <aside class="notes">keep your answer in mind, in about 30 minutes we do it live without a ticket.</aside>
+</section>
+
+<!-- ============ Module 1: Platform Engineering Fundamentals ============ -->
+
+<section data-slide="4" data-template="points">
+  <div class="slide">
+    <h2 class="title">Why platforms, why now</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>90% of orgs run an internal platform, 76% have a dedicated team (DORA 2025)</li>
+          <li>DevOps gave teams autonomy, and with it cost, risk and duplication</li>
+          <li>Why now: AI amplifies platform quality, good or bad (DORA 2025)</li>
+          <li>In banks the real driver is governance, not speed</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report">Google Cloud: 2025 DORA Report</a><span class="sep">·</span><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://getdx.com/blog/2024-dora-report/">DX: 2024 DORA highlights</a></footer>
+  </div>
+  <aside class="notes">nearly everyone already has some kind of platform. Today's question is whether yours removes work or just moves it. And DORA 2025 found AI only pays off when the platform underneath is good.</aside>
+</section>
+
+<section data-slide="4b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Why platforms, why now</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-04.svg" alt="Diagram for slide 4: Why platforms, why now"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 4</aside>
+</section>
+
+<section data-slide="5" data-template="full">
+  <div class="slide">
+    <h2 class="title">Ops vs DevOps vs platform engineering</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-05.svg" alt="Diagram for slide 5: Ops vs DevOps vs platform engineering"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a></footer>
+  </div>
+  <aside class="notes">DevOps is the culture, platform engineering is the structure that scales it past a handful of teams.</aside>
+</section>
+
+<section data-slide="6" data-template="split">
+  <div class="slide">
+    <h2 class="title">It's not a rebrand if it passes the ticket test</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Test: provision, deploy and monitor without raising a ticket</li>
+          <li>A renamed ops team running a queue is a bottleneck with a new name</li>
+          <li>DORA 2024: productivity up, but about 8% less throughput and 14% less stability early on</li>
+          <li>Tell sponsors about the J-curve before they see the dip</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-06.svg" alt="Diagram for slide 6: It's not a rebrand if it passes the ticket test"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://platformengineering.com/features/we-renamed-the-devops-team-platform-engineering-nothing-changed-heres-why/">platformengineering.com: We renamed the DevOps team</a><span class="sep">·</span><a href="https://dora.dev/research/2024/dora-report/">DORA 2024 report</a></footer>
+  </div>
+  <aside class="notes">if your platform team runs a ticket queue, you have ops with a new name. And warn your sponsors now: it dips before it gets better.</aside>
+</section>
+
+<section data-slide="7" data-template="points">
+  <div class="slide">
+    <h2 class="title">What an IDP actually is</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Capabilities, plus the interfaces to use them</li>
+          <li>The portal is one interface, not the platform</li>
+          <li>Build the thinnest layer over managed services</li>
+          <li>Optional and composable, secure by default</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://kubewright.co.uk/blog/backstage-is-not-your-platform/">KubeWright: Backstage is not your platform</a></footer>
+  </div>
+  <aside class="notes">these are CNCF's 13 capability domains (the grouping is ours). Nobody builds all 13 first.</aside>
+</section>
+
+<section data-slide="7b" data-template="full">
+  <div class="slide">
+    <h2 class="title">What an IDP actually is</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-07.svg" alt="Diagram for slide 7: What an IDP actually is"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 7</aside>
+</section>
+
+<section data-slide="8" data-template="full">
+  <div class="slide">
+    <h2 class="title">Reference architecture: five planes</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-08.svg" alt="Diagram for slide 8: Reference architecture: five planes"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://medium.com/digital-mckinsey/platform-as-code-reference-architectures-to-simplify-developer-platforms-f2fb48e0c874">McKinsey Digital: Platform as code</a><span class="sep">·</span><a href="https://devops.com/internal-developer-platform-idp-reference-architectures/">DevOps.com: IDP reference architectures</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://developer.humanitec.com/app-humanitec-io/guides/getting-started/master-your-internal-developer-platform/structure-and-integration-points/">Humanitec developer docs</a></footer>
+  </div>
+  <aside class="notes">devs live in the top plane. For a bank, the security plane is the one that sells it.</aside>
+</section>
+
+<section data-slide="9" data-template="points">
+  <div class="slide">
+    <h2 class="title">Anatomy of a golden path</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Opinionated and supported (Spotify's definition)</li>
+          <li>Covers the common 80%, not everything</li>
+          <li>Defaults you can override</li>
+          <li>Fails with a clear error and the fix</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">Spotify Engineering: Golden Paths</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://platformengineering.org/blog/golden-cage-syndrome-why-internal-developer-platforms-fail">platformengineering.org: Golden cage syndrome</a></footer>
+  </div>
+  <aside class="notes">Spotify built golden paths to kill "rumour-driven development". Opinionated, supported, and you can still step off it as long as you own what you change.</aside>
+</section>
+
+<section data-slide="9b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Anatomy of a golden path</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-09.svg" alt="Diagram for slide 9: Anatomy of a golden path"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 9</aside>
+</section>
+
+<section data-slide="10" data-template="points">
+  <div class="slide">
+    <h2 class="title">Demo 1: new service in minutes</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Open the Colab 1 link in the Teams chat</li>
+          <li>Create a service: three fields, the rest is defaults</li>
+          <li>Then break it: Confidential data, Public internet</li>
+          <li>Watch the room catalog fill up</li>
+        </ul>
+        <p class="app-row"><a class="app-link" href="https://axelsirota-platform-eng-demo1-portal.hf.space">Live app: https://axelsirota-platform-eng-demo1-portal.hf.space</a></p>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://engineering.atspotify.com/2020/08/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">Spotify Engineering: Golden Paths</a></footer>
+  </div>
+  <aside class="notes">
+    <p>paste the Colab 1 link in the chat now, then run the Demo 1 playbook: create, break, fix, room catalog, then the Actions page on your screen.</p>
+    <p><strong>Demo 1 playbook. Script, 10 minutes:</strong></p>
+    <ol>
+      <li>On slide 10, paste the Colab 1 link in the Teams chat. Remind them of their slide 3 answers: this is the path we're replacing (2 min).</li>
+      <li>Everyone creates a valid service. Walk the generated files on your screen: all of this lives in Git, and that's the audit trail (2 min).</li>
+      <li>Everyone breaks it: Confidential data with Public internet exposure. Read the error together, fix one field, pass. Then try an override in Advanced and see the "you own this now" note (3 min).</li>
+      <li>Room catalog tab: how many services the room created, how many got blocked, the most common failed rule (1 min).</li>
+      <li>Switch to the pre-run GitHub Actions page: the same rule in a real pipeline, red, then green after the fix (2 min).</li>
+    </ol>
+    <p>Slides 11 and 12 then debrief it. Backup: the Spaces link, the saved notebook outputs, and the Actions page is already pre-run.</p>
+    <p>Live app: https://axelsirota-platform-eng-demo1-portal.hf.space</p>
+  </aside>
+</section>
+
+<section data-slide="10b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Demo 1: new service in minutes</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-10.svg" alt="Diagram for slide 10: Demo 1: new service in minutes"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 10</aside>
+</section>
+
+<section data-slide="11" data-template="points">
+  <div class="slide">
+    <h2 class="title">When a rule breaks</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Same request, marked confidential with public ingress</li>
+          <li>The policy check fails in the pipeline, not in a review meeting</li>
+          <li>The error says what's wrong and how to fix it</li>
+          <li>One line changes, and it passes</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://platformengineering.org/blog/golden-cage-syndrome-why-internal-developer-platforms-fail">platformengineering.org: Golden cage syndrome</a></footer>
+  </div>
+  <aside class="notes">DORA 2025 found clear feedback on task outcome is the platform capability most tied to a good developer experience. In a bank, this is also the moment security stops being a meeting.</aside>
+</section>
+
+<section data-slide="11b" data-template="full">
+  <div class="slide">
+    <h2 class="title">When a rule breaks</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-11.svg" alt="Diagram for slide 11: When a rule breaks"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 11</aside>
+</section>
+
+<section data-slide="12" data-template="split">
+  <div class="slide">
+    <h2 class="title">Debrief: what just happened</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>No ticket, no queue</li>
+          <li>Controls ran inside the path, not after it</li>
+          <li>The failure told us exactly what to fix</li>
+          <li>Every step is a Git commit: that's the audit trail</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-12.svg" alt="Diagram for slide 12: Debrief: what just happened"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://platformengineering.com/features/we-renamed-the-devops-team-platform-engineering-nothing-changed-heres-why/">platformengineering.com: We renamed the DevOps team</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a></footer>
+  </div>
+  <aside class="notes">go back to what people answered on slide 3. That gap is the business case.</aside>
+</section>
+
+<!-- ============ Module 2: Product Operating Models for Platform Teams ============ -->
+
+<section data-slide="13" data-template="split">
+  <div class="slide">
+    <h2 class="title">From project to product</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>A platform is an internal product, developers are its customers</li>
+          <li>One named product owner, not a committee</li>
+          <li>Research real developer journeys before building</li>
+          <li>Ship thin, measure, reprioritise</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-13.svg" alt="Diagram for slide 13: From project to product"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://martinfowler.com/articles/talk-about-platforms.html">Martin Fowler / Evan Bottcher</a></footer>
+  </div>
+  <aside class="notes">a project ends at launch, a product starts there. Researching real journeys is the step most platform teams skip.</aside>
+</section>
+
+<section data-slide="14" data-template="split">
+  <div class="slide">
+    <h2 class="title">How the platform team works with everyone else</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Collaborate while a capability is still being discovered</li>
+          <li>Move to X-as-a-Service once it's stable</li>
+          <li>Facilitate when a team needs uplift</li>
+          <li>Start with a Thinnest Viable Platform, even a wiki page</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-14.svg" alt="Diagram for slide 14: How the platform team works with everyone else"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://teamtopologies.com/key-concepts-content/what-is-a-thinnest-viable-platform-tvp">Team Topologies: TVP</a><span class="sep">·</span><a href="https://github.com/TeamTopologies/Thin-platform-template">Team Topologies: TVP wiki template</a><span class="sep">·</span><a href="https://umbrex.com/resources/frameworks/organization-frameworks/team-topologies/">Umbrex: Team Topologies summary</a></footer>
+  </div>
+  <aside class="notes">the Thinnest Viable Platform can literally be a wiki page listing what you offer and how to get help. Start there, not with a portal.</aside>
+</section>
+
+<section data-slide="15" data-template="points">
+  <div class="slide">
+    <h2 class="title">Buyer vs user</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Buyers (CIO, risk, compliance) fund it and set the controls</li>
+          <li>Users (engineers) live with it every day</li>
+          <li>The owner balances both and needs authority to say no</li>
+          <li>Users are captive, so build proxies for choice</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://tianpan.co/forum/t/platform-as-product-are-we-actually-treating-developers-like-customers-or-just-rebranding-platform-teams/2574">Practitioner thread: rebranding platform teams?</a><span class="sep">·</span><a href="https://tianpan.co/forum/t/platform-as-product-sounds-great-until-you-realize-your-customers-cant-leave/1879">Practitioner thread: customers can't leave</a></footer>
+  </div>
+  <aside class="notes">engineers feel this tension every time a new control lands on them. The platform owner's job is to absorb it, not pass it on.</aside>
+</section>
+
+<section data-slide="15b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Buyer vs user</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-15.svg" alt="Diagram for slide 15: Buyer vs user"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 15</aside>
+</section>
+
+<section data-slide="16" data-template="points">
+  <div class="slide">
+    <h2 class="title">Who owns the platform product today</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Only 36.6% have a dedicated Platform PM</li>
+          <li>38% rely on engineers "thinking like PMs"</li>
+          <li>25.4% have no product mindset at all</li>
+          <li>The report's top recommendation: a dedicated Platform PM</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a></footer>
+  </div>
+  <aside class="notes">most orgs rely on engineers to "think like PMs". That's usually where the roadmap turns back into a ticket queue.</aside>
+</section>
+
+<section data-slide="16b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Who owns the platform product today</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-16.svg" alt="Diagram for slide 16: Who owns the platform product today"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 16</aside>
+</section>
+
+<section data-slide="17" data-template="split">
+  <div class="slide">
+    <h2 class="title">Build the roadmap from developer journeys</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Rank journeys by how often they happen and how much they hurt</li>
+          <li>Start with the most frequent painful one</li>
+          <li>Product work and ticket interrupts in separate lanes</li>
+          <li>Ask the chat: which journey hurts most at your team?</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-17.svg" alt="Diagram for slide 17: Build the roadmap from developer journeys"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://bryanfinster.substack.com/p/platform-as-a-product-minimum-viable">Bryan Finster: Platform as a Product principles</a></footer>
+  </div>
+  <aside class="notes">the dots are placeholders. Move them live based on what the chat says.</aside>
+</section>
+
+<section data-slide="18" data-template="split">
+  <div class="slide">
+    <h2 class="title">The platform API is the product</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Declarative, versioned, stored in Git</li>
+          <li>Portal, CLI, IDE and AI assistants are skins on top</li>
+          <li>Swap the implementation without breaking the contract</li>
+          <li>Banks already do this (Millennium bcp on Crossplane)</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-18.svg" alt="Diagram for slide 18: The platform API is the product"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://github.com/crossplane/crossplane/blob/v1.16.0/ADOPTERS.md">Crossplane adopters</a><span class="sep">·</span><a href="https://www.syntasso.io/post/turn-helm-charts-into-scalable-platform-apis-with-kratix">Syntasso: platform APIs</a></footer>
+  </div>
+  <aside class="notes">the API is the contract you version and keep stable. The portal is just one way in. Millennium bcp, a bank, runs self-service on Crossplane this way.</aside>
+</section>
+
+<section data-slide="19" data-template="split">
+  <div class="slide">
+    <h2 class="title">Golden path vs golden cage</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Earned vs mandatory</li>
+          <li>Override when needed vs no escape hatch</li>
+          <li>Clear error with the fix vs cryptic wrapper error</li>
+          <li>Teams contribute vs the central team approves everything</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-19.svg" alt="Diagram for slide 19: Golden path vs golden cage"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://platformengineering.org/blog/golden-cage-syndrome-why-internal-developer-platforms-fail">platformengineering.org: Golden cage syndrome</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a></footer>
+  </div>
+  <aside class="notes">the golden cage test is one question. If this were optional tomorrow, would people still use it?</aside>
+</section>
+
+<section data-slide="20" data-template="split">
+  <div class="slide">
+    <h2 class="title">Why one metric lies</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>DORA alone would have called 2024 platforms a failure</li>
+          <li>36.6% of adoption is driven by mandates</li>
+          <li>29.6% of platform teams measure nothing</li>
+          <li>Measure teams, never individuals</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-20.svg" alt="Diagram for slide 20: Why one metric lies"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/research/2024/dora-report/">DORA 2024 report</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://newsletter.pragmaticengineer.com/p/measuring-developer-productivity">Pragmatic Engineer</a></footer>
+  </div>
+  <aside class="notes">DORA alone would have called 2024's platforms a failure. You need all five layers, and never use them to rank individuals.</aside>
+</section>
+
+<section data-slide="21" data-template="split">
+  <div class="slide">
+    <h2 class="title">Demo 2: the platform team's dashboard</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Open the Colab 2 link in the Teams chat</li>
+          <li>Fictional division, synthetic data</li>
+          <li>Peel the layers, then flip the mandate switch</li>
+          <li>Fund one bet per quarter, four quarters</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-21.svg" alt="Diagram for slide 21: Demo 2: the platform team's dashboard"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://cloud.google.com/transform/unlocking-product-success-by-combining-dora-and-heart/">Google Cloud: Combining DORA and HEART</a><span class="sep">·</span><a href="https://queue.acm.org/detail.cfm?id=3595878">ACM Queue: DevEx</a></footer>
+  </div>
+  <aside class="notes">paste the Colab 2 link. We peel it together first, then you each fund one bet per quarter.</aside>
+</section>
+
+<section data-slide="22" data-template="demo">
+  <div class="slide">
+    <h2 class="title">Live in Colab</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-22.svg" alt="Diagram for slide 22: Live in Colab"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a></footer>
+    <div class="demo-strip"><span class="strip-label">Open the link in the Teams chat</span><a class="app-link" href="https://axelsirota-platform-eng-demo2-funding-game.hf.space">Live app: https://axelsirota-platform-eng-demo2-funding-game.hf.space</a></div>
+  </div>
+  <aside class="notes">
+    <p>headline first, ask the chat if it's healthy, then peel. Script in the Demo 2 playbook.</p>
+    <p><strong>Demo 2 playbook. Script, about 8 minutes:</strong></p>
+    <ol>
+      <li>On slide 21, paste the Colab 2 link. Show the headline only and ask the chat: is this platform healthy? (1 min)</li>
+      <li>Peel together on your screen: voluntary vs mandated, satisfaction, workarounds. CI is the golden cage (2 min).</li>
+      <li>Flip "CI mandated" off: adoption drops, satisfaction doesn't move. The number was measuring obedience (1 min).</li>
+      <li>Play Q2 together: ask the chat which bet to fund, play it, read the deltas out loud (2 min).</li>
+      <li>Let them play Q3 and Q4 on their own, then read the room tally: what did most people fund first? (2 min)</li>
+    </ol>
+    <p>The aha moments: the same capability sits top on adoption and bottom on satisfaction, and "onboard the next wave" spreads the pain instead of the platform. Slide 23 debriefs it. Backup: the Spaces link and the saved notebook outputs.</p>
+    <p>Live app: https://axelsirota-platform-eng-demo2-funding-game.hf.space</p>
+  </aside>
+</section>
+
+<section data-slide="23" data-template="split">
+  <div class="slide">
+    <h2 class="title">Debrief: read adoption and satisfaction together</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>High adoption, low satisfaction: probably a golden cage</li>
+          <li>Low adoption, high satisfaction: a hidden gem, market it</li>
+          <li>Pair every system metric with a survey question</li>
+          <li>Compare teams on vs off the platform</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-23.svg" alt="Diagram for slide 23: Debrief: read adoption and satisfaction together"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://queue.acm.org/detail.cfm?id=3595878">ACM Queue: DevEx</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://tianpan.co/forum/t/platform-as-product-sounds-great-until-you-realize-your-customers-cant-leave/1879">Practitioner thread: customers can't leave</a></footer>
+  </div>
+  <aside class="notes">CI sits in the golden cage corner, top on adoption and bottom on satisfaction. Ask the chat which bet they funded first and what it did.</aside>
+</section>
+
+<!-- ============ Module 3: Change Adoption Basics ============ -->
+
+<section data-slide="24" data-template="points">
+  <div class="slide">
+    <h2 class="title">How adoption actually happens</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>36.6% of platforms are adopted by mandate</li>
+          <li>Only 28.2% get genuine pull</li>
+          <li>18.3% get users contributing back</li>
+          <li>Adoption is the top challenge platform teams report</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a></footer>
+  </div>
+  <aside class="notes">more than a third of platforms are adopted because someone said so. That's exactly what the next demo is about.</aside>
+</section>
+
+<section data-slide="24b" data-template="full">
+  <div class="slide">
+    <h2 class="title">How adoption actually happens</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-24.svg" alt="Diagram for slide 24: How adoption actually happens"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 24</aside>
+</section>
+
+<section data-slide="25" data-template="full">
+  <div class="slide">
+    <h2 class="title">Four barriers that stall adoption</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-25.svg" alt="Diagram for slide 25: Four barriers that stall adoption"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a><span class="sep">·</span><a href="https://platformengineering.org/blog/golden-cage-syndrome-why-internal-developer-platforms-fail">platformengineering.org: Golden cage syndrome</a></footer>
+  </div>
+  <aside class="notes">none of these are technical. Vol 4 says cultural barriers outweigh technical ones.</aside>
+</section>
+
+<section data-slide="26" data-template="split">
+  <div class="slide">
+    <h2 class="title">Demo 3: three ways to roll out the same tool</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>A mandates the tool with a deadline</li>
+          <li>B pilots, paves the path, grows champions</li>
+          <li>C mandates the outcome and paves the path</li>
+          <li>Ask the chat: who's better off at month 6?</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-26.svg" alt="Diagram for slide 26: Demo 3: three ways to roll out the same tool"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://www.slideshare.net/diannemarsh/the-paved-road-at-netflix">Dianne Marsh: The Paved Road at Netflix</a><span class="sep">·</span><a href="https://tianpan.co/forum/t/platform-as-product-sounds-great-until-you-realize-your-customers-cant-leave/1879">Practitioner thread: customers can't leave</a><span class="sep">·</span><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a></footer>
+  </div>
+  <aside class="notes">paste the Colab 3 link, then ask the chat both questions before anyone touches a slider.</aside>
+</section>
+
+<section data-slide="27" data-template="demo">
+  <div class="slide">
+    <h2 class="title">Live: the rollout simulator</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-27.svg" alt="Diagram for slide 27: Live: the rollout simulator"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://netflixtechblog.medium.com/scaling-appsec-at-netflix-6a13d7ab6043">Netflix Tech Blog: Scaling AppSec</a></footer>
+    <div class="demo-strip"><span class="strip-label">Open the link in the Teams chat</span><a class="app-link" href="https://axelsirota-platform-eng-demo3-rollout.hf.space">Live app: https://axelsirota-platform-eng-demo3-rollout.hf.space</a></div>
+  </div>
+  <aside class="notes">
+    <p>run the Demo 3 playbook. If the Colab misbehaves, walk this timeline instead.</p>
+    <p><strong>Demo 3 playbook. Script, about 8 minutes:</strong></p>
+    <ol>
+      <li>On slide 26, paste the Colab 3 link and ask the chat two questions: which division has the most services on the new pipeline at month 6, and which has the fewest hidden compliance gaps? (1 min)</li>
+      <li>Run the defaults: A hits its number at the deadline, B climbs slower, C tracks B and pulls ahead once controls apply (2 min).</li>
+      <li>Ask the chat for a quality value and set it: A's line doesn't move but its workarounds jump, B slows, C still has everyone covered (2 min).</li>
+      <li>Add pilots, raise the champion effect, set a sunset month: B and C catch up (2 min).</li>
+      <li>Back to their chat answers, then slide 28: C is the answer for a bank (1 min).</li>
+    </ol>
+    <p>The aha moment is step 3: the quality slider moves A's workarounds, not its adoption line. The Vol 4 adoption split (36.6% mandate vs 28.2% genuine pull) backs it with real data on slide 24.</p>
+    <p>Live app: https://axelsirota-platform-eng-demo3-rollout.hf.space</p>
+  </aside>
+</section>
+
+<section data-slide="28" data-template="points">
+  <div class="slide">
+    <h2 class="title">Debrief: mandate the outcome, pave the path</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Mandates buy numbers, paving buys signal</li>
+          <li>In a bank, mandate the control set, not the tool</li>
+          <li>Off-path teams prove the controls themselves</li>
+          <li>Paved road adoption is itself a risk control</li>
+        </ul>
+      </div>
+    </div>
+    <footer class="source">Source: <a href="https://netflixtechblog.medium.com/scaling-appsec-at-netflix-6a13d7ab6043">Netflix Tech Blog: Scaling AppSec</a><span class="sep">·</span><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a></footer>
+  </div>
+  <aside class="notes">C is the answer for a bank. Mandate the controls, then make the golden path the cheapest way to meet them.</aside>
+</section>
+
+<section data-slide="28b" data-template="full">
+  <div class="slide">
+    <h2 class="title">Debrief: mandate the outcome, pave the path</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-28.svg" alt="Diagram for slide 28: Debrief: mandate the outcome, pave the path"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">Diagram for slide 28</aside>
+</section>
+
+<section data-slide="29" data-template="full">
+  <div class="slide">
+    <h2 class="title">Early adoption playbook</h2>
+    <div class="body">
+      <figure class="diagram"><img src="diagrams/slide-29.svg" alt="Diagram for slide 29: Early adoption playbook"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://umbrex.com/resources/frameworks/organization-frameworks/team-topologies/">Umbrex: Team Topologies summary</a><span class="sep">·</span><a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a></footer>
+  </div>
+  <aside class="notes">this is the one slide to screenshot if they remember nothing else from Module 3.</aside>
+</section>
+
+<!-- ============ Wrap-up ============ -->
+
+<section data-slide="30" data-template="split">
+  <div class="slide">
+    <h2 class="title">What to take back</h2>
+    <div class="body">
+      <div class="points">
+        <ul>
+          <li>Pass the ticket test before building anything fancy</li>
+          <li>Run it as a product, with a real owner</li>
+          <li>Measure in layers, never one number</li>
+          <li>Mandate the outcome, pave the path</li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-30.svg" alt="Diagram for slide 30: What to take back"></figure>
+    </div>
+    <footer class="source">Source: <a href="https://dora.dev/capabilities/platform-engineering/">DORA capability page</a><span class="sep">·</span><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a><span class="sep">·</span><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4 (PDF)</a></footer>
+  </div>
+  <aside class="notes">this is the same chain the research went through, so every step has evidence behind it.</aside>
+</section>
+
+<section data-slide="31" data-template="split">
+  <div class="slide">
+    <h2 class="title">Q&amp;A, and one thing to do this week</h2>
+    <div class="body">
+      <div class="points">
+        <p class="lead">Further reading</p>
+        <ul>
+          <li><a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/">CNCF Platforms White Paper</a></li>
+          <li><a href="https://dora.dev/capabilities/platform-engineering/">DORA: platform engineering capability</a></li>
+          <li><a href="https://teamtopologies.com/key-concepts-content/what-is-a-thinnest-viable-platform-tvp">Team Topologies: Thinnest Viable Platform</a></li>
+          <li><a href="https://5890440.fs1.hubspotusercontent-eu1.net/hubfs/5890440/State%20of%20Platform%20Engineering%20Vol%204%202025.pdf">State of Platform Engineering Vol 4</a></li>
+        </ul>
+      </div>
+      <figure class="diagram"><img src="diagrams/slide-31.svg" alt="Diagram for slide 31: Q&amp;A, and one thing to do this week"></figure>
+    </div>
+    <footer class="source"></footer>
+  </div>
+  <aside class="notes">pick one painful journey this week and name who owns it. That's how every platform on these slides started.</aside>
+</section>
+
+</div>
+</div>
+
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1920,
+    height: 1080,
+    margin: 0,
+    minScale: 0.1,
+    maxScale: 4,
+    center: false,
+    hash: true,
+    controls: false,
+    progress: true,
+    // Show the plan number (N or Nb) from data-slide, not the running index.
+    slideNumber: (slide) => [(slide || Reveal.getCurrentSlide())?.getAttribute("data-slide") || ""],
+    showSlideNumber: "all",
+    transition: "none",
+    backgroundTransition: "none",
+    transitionSpeed: "fast",
+    autoAnimate: false,
+    fragments: true,
+    plugins: [RevealNotes]
+  });
+</script>
+</body>
+</html>

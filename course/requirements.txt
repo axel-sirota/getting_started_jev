@@ -1,0 +1,10 @@
+# Notebook runtime. In Colab the first code cell pins only typesafe, openai and datasets;
+# the rest are Colab preinstalls, pinned here so local headless runs match.
+typesafe==0.9.1
+openai==3.41.0
+datasets==5.1.0
+transformers==5.22.1
+torch==2.15.0
+scikit-learn==1.9.1
+pandas==3.1.0
+matplotlib==3.11.2

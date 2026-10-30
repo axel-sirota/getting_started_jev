@@ -1,0 +1,5 @@
+# Regenerable distribution bundles (DECK_MODULE=N node tools/package-deck.mjs)
+dist/
+
+# Build-review screenshots (DECK_MODULE=N node tools/shoot.mjs); regenerable
+module*/checks/

@@ -1,0 +1,6 @@
+# Real names that must not appear in lab notebooks, lab diagrams or slide bodies.
+# One name per line, case-insensitive.
+Northwestern Mutual
+NWM
+Barclays
+Harborview
