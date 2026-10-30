@@ -1,8 +1,8 @@
 // Package one module's deck for presenting and distributing:
-//   1. PDF:    deck/moduleNN/Agentic-AI-Foundations-Module-NN.pdf (decktape, 1920x1080)
+//   1. PDF:    deck/moduleNN/Getting-Started-with-Jev-Module-NN.pdf (decktape, 1920x1080)
 //   2. Folder: deck/dist/moduleNN/ with index.html + diagrams + css + vendor (self-contained:
 //              open index.html anywhere, no repo needed)
-//   3. Zip:    deck/dist/Agentic-AI-Foundations-Module-NN.zip (the folder plus the PDF)
+//   3. Zip:    deck/dist/Getting-Started-with-Jev-Module-NN.zip (the folder plus the PDF)
 // Usage: DECK_MODULE=1 node tools/package-deck.mjs
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
@@ -10,7 +10,7 @@ import os from "node:os";
 import path from "node:path";
 import { deck, deckRoot, moduleNo } from "./paths.mjs";
 
-const name = `Agentic-AI-Foundations-Module-${moduleNo}`;
+const name = `Getting-Started-with-Jev-Module-${moduleNo}`;
 const index = path.join(deck, "index.html");
 if (!fs.existsSync(index)) {
   console.error(`No deck at ${index}. Run /build-slides ${Number(moduleNo)} first.`);

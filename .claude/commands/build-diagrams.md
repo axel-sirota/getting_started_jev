@@ -1,12 +1,11 @@
 ---
-description: Build Mermaid diagrams one by one, for module notebooks (PNG cell attachments), slides (SVG) or learner starter files
+description: Build Mermaid diagrams one by one, for module notebooks (committed PNG linked by raw GitHub URL) or slides (SVG)
 ---
 
 Build diagrams: $ARGUMENTS
 
-(Argument: a module number to build its notebook diagrams, `slides <N>` to build module N's
-slide diagrams from `imp_files/slides/moduleNN_diagrams.md`, or `starter` for
-learner-editable starter files.
+(Argument: a module number to build its notebook diagrams, or `slides <N>` to build module
+N's slide diagrams from `imp_files/slides/moduleNN_diagrams.md`.
 With no argument, list every unbuilt diagram and ask which set.)
 
 ## GUARD
@@ -21,13 +20,12 @@ Follow `.claude/skills/mermaid-diagrams/SKILL.md` for design rules, palette and 
 
 ---
 
-## Three kinds of diagram
+## Two kinds of diagram
 
 | Kind | Source | Output | Rendered with |
 |---|---|---|---|
-| Notebook | module plan's `## Diagram Index` | `course/diagrams/<slug>.mmd` + `.png` | mermaid-cli + `deck/tools/mermaid-config.json` |
+| Notebook | module plan's `## Diagram Index` | `course/diagrams/module_NN/<slug>.mmd` (brand line first) + `.png`, both committed | mermaid-cli + `deck/tools/mermaid-config.json` |
 | Slide | `imp_files/slides/moduleNN_diagrams.md` (from `/plan-slides N`) | `deck/moduleNN/diagrams/slide-NN.mmd` + `.svg` | `DECK_MODULE=N` + `extract-mmd.mjs` + `render-diagrams.mjs` |
-| Starter | Module 4 plan (BPMN) | `course/labs/starter/<slug>.mmd` | not rendered: learners finish it in their SageMaker JupyterLab |
 
 ---
 
@@ -74,28 +72,30 @@ Raw Mermaid only, no fences.
 
 Notebook diagram:
 ```bash
-cd deck && npx mmdc -i ../course/diagrams/<slug>.mmd -o ../course/diagrams/<slug>.png -w 1600 -b white -c tools/mermaid-config.json
+cd deck && npx mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -w 1600 -b white -c tools/mermaid-config.json
 ```
+Read the PNG with the Read tool: legible, labels match the code.
 
 Slide diagram (needs `cd deck && npm install` once):
 ```bash
 cd deck && DECK_MODULE=<module> node tools/extract-mmd.mjs <slide> && DECK_MODULE=<module> node tools/render-diagrams.mjs <slide>
 ```
 
-Starter diagram: no render. Check it parses with mermaid-cli to a throwaway file in the
-scratchpad, and that its gaps are marked with obvious `TODO` nodes the learner replaces.
-
 If `npx` or `node` is unavailable, say so and stop; do not install global packages
 without asking.
 
-### 3d. Embed (notebook diagrams)
+### 3d. Link (notebook diagrams)
 
-Learners upload ONLY the `.ipynb`, so the PNG must live inside the notebook as a cell
-attachment: set the markdown cell's `attachments` to
-`{"<slug>.png": {"image/png": "<base64 of course/diagrams/<slug>.png>"}}` and put
-`![<title>](attachment:<slug>.png)` in its source, replacing the placeholder line below the
-`<!-- DIAGRAM: -->` comment (keep the comment). Never link `../diagrams/`. Follow the
-Notebook Edit Protocol (a targeted JSON edit with nbformat, read back and assert).
+Colab renders neither ```mermaid blocks nor cell attachments (it strips attachments), so the
+notebook links the committed PNG by raw GitHub URL. The diagram cell in BOTH notebooks is:
+
+```markdown
+<!-- DIAGRAM: <slug> -->
+![<alt text that states the idea>](https://raw.githubusercontent.com/axelsirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
+```
+
+The prefix is `RAW_BASE` in `validate_notebooks.py`. The PNG shows in Colab only after Axel
+pushes. Follow the Notebook Edit Protocol (targeted edit, read back and assert).
 
 ### 3e. Ask before the next
 

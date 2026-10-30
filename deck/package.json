@@ -1,8 +1,8 @@
 {
-  "name": "agentic-ai-foundations-deck",
+  "name": "getting-started-with-jev-deck",
   "version": "1.0.0",
   "private": true,
-  "description": "Reveal.js deck for Developing in Agentic AI Systems: Foundations Track",
+  "description": "Reveal.js decks for Getting Started with Jev, one per module",
   "type": "commonjs",
   "scripts": {
     "extract": "node tools/extract-mmd.mjs --all",
@@ -10,7 +10,7 @@
     "shoot": "node tools/shoot.mjs",
     "check-pdf": "node tools/check-pdf.mjs"
   },
-  "comment": "Every script needs DECK_MODULE, e.g. DECK_MODULE=1 npm run diagrams. PDF: npx decktape reveal --size 1920x1080 module01/index.html module01/Agentic-AI-Foundations-Module-01.pdf",
+  "comment": "Every script needs DECK_MODULE, e.g. DECK_MODULE=1 npm run diagrams. PDF: npx decktape reveal --size 1920x1080 module01/index.html module01/Getting-Started-with-Jev-Module-01.pdf",
   "dependencies": {
     "@fontsource/inter": "^5.3.0",
     "reveal.js": "^5.2.1"

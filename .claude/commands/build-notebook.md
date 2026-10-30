@@ -4,36 +4,35 @@ description: Cell-by-cell builder run by the build-module workflow (also usable 
 
 Build notebook: $ARGUMENTS
 
-(Arguments: module number 0 to 8, then `exercises` or `solutions`. Example: `2 exercises`.
+(Arguments: module number 1 to 4, then `exercises` or `solutions`. Example: `2 exercises`.
 `exercises` runs Step 1 only; `solutions` runs Step 2 only and needs exercises.ipynb.
-Module 0 is one notebook, `course/module_00/start_here.ipynb`: build it with Step 1 only.
 Normally you run `/build-module N`, which triggers the workflow that calls this for both.)
 
 ## GUARD
 
 ```bash
-ls plans/DECISIONS.md plans/modules/module_$(printf %02d $ARGUMENTS)_plan.md data/00_lab_setup.ipynb 2>/dev/null
+ls plans/DECISIONS.md plans/modules/module_0<N>_plan.md 2>/dev/null
 ```
 
 - No plan: "Run `/research-module <N>` first."
-- No `data/00_lab_setup.ipynb`: "Run `/build-core` first."
 
 ## Pre-Work: MANDATORY Reading
 
 1. `CLAUDE.md`, `plans/DECISIONS.md`
-2. `plans/NOTEBOOK_STYLE.md` (the bread-financial anatomy, copied exactly) and
+2. `plans/NOTEBOOK_STYLE.md` (cell anatomy, three-tier labs, slide hops) and
    `plans/TEACHING_STYLE.md` (voice)
 3. `plans/modules/module_NN_plan.md`: the `# EXERCISES` and `# SOLUTIONS` sections are the
    cell source. Build from them; never re-plan
-4. Every helper the plan uses is defined in a visible `# HELPER` cell before its first use.
-   Never `import harborview`
-5. `.claude/NOTEBOOK_EDIT_PROTOCOL.md`
+4. The `typesafe-ai` skill when a cell calls Jev
+5. Every helper the plan uses is defined in a visible `# HELPER` cell before its first use
+6. `.claude/NOTEBOOK_EDIT_PROTOCOL.md`
 
 ### Show Plan Summary Before Building
 
-In chat: cell list (number, kind, one line), labs and slots, FALLBACK cells, HELPER cells,
-anything that differs from the plan. **Wait for approval** (skipped only under a blanket
-"go until the end", e.g. inside the finalize-module workflow).
+In chat: cell list (number, kind, one line), hops (Demo n / Lab n / Back to the slides), lab
+tiers and their markers, FALLBACK cells, HELPER cells, anything that differs from the plan.
+**Wait for approval** (skipped only under a blanket "go until the end", e.g. inside the
+build-module workflow).
 
 ---
 
@@ -47,7 +46,8 @@ existing notebook), then insert cells from the plan in order.
  "nbformat": 4,
  "nbformat_minor": 5,
  "metadata": {
-  "kernelspec": {"display_name": "Python 3 (ipykernel)", "language": "python", "name": "python3"},
+  "colab": {"provenance": []},
+  "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
   "language_info": {"name": "python", "version": "3.12"}
  },
  "cells": []
@@ -55,32 +55,33 @@ existing notebook), then insert cells from the plan in order.
 ```
 
 Rules:
-1. First code cell: the pinned `%pip install` (same pins as `course/requirements.txt`). Then
-   the `# CONFIG` cell: `MODEL_REGION = "us-east-1"`, `AGENTCORE_REGION = "us-west-2"`,
-   `MODEL_ID`, `STUDENT_NAME = "default"` with the visible refusal check, the `shared.json`
-   read. Frameworks only; no `harborview` import
+1. First code cell: the pinned `%pip install -q` (only what Colab lacks; same pins as
+   `course/requirements.txt`). Then `# KEYS`: each key from `os.environ`, else
+   `getpass.getpass(...)`, refused if empty, never printed. Never Colab secrets. Then
+   `# CONFIG`: client, pinned model ids, a one-call probe
 2. Every code cell (except `%pip` and `%%writefile`) starts with the 77-char banner, kind and
    delivery tag (NOTEBOOK_STYLE)
-3. Per concept: `# Section N` markdown with the diagram, `# DEMO:` problem cells, `# DEMO:`
-   solution cells, `> **Think About It**:`, `## Lab N: <Title> (15 minutes)` markdown, ONE
-   `# LAB N: <TITLE IN CAPS>` cell. Slots exactly as the plan: `name = None  # YOUR CODE`,
-   answer never leaked
-4. `# FALLBACK: Ensures Section N+1 works even if you didn't complete Lab N` only where the
-   plan has one. No CHECK cells, no SAFETY-NET cells, no mini exercises
-5. Diagrams: copy each `[DIAGRAM]` cell from the plan verbatim: the `<!-- DIAGRAM: <slug> -->`
-   marker, the "Where to look" line and the full ```mermaid block with the brand line.
-   JupyterLab renders it inline. Never a PNG, image link or attachment. `/build-diagrams <N>`
-   then checks each block renders and syncs it with `course/diagrams/module_NN/<slug>.mmd`
-6. Every AWS call, SQL query, deploy, Gateway, Cognito token, Cedar, Memory, Guardrail, trace
-   lookup and Gradio launch is a visible cell; deployed files use `%%writefile`
-7. No infra details (ids come from `shared.json`); every client passes `region_name=MODEL_REGION`
-   or `AGENTCORE_REGION`
+3. Per concept: `## Demo n: <Title>` markdown with the diagram, `# DEMO:` problem cells,
+   `# DEMO:` fix cells, `> **Think About It**:`, `## Back to the slides: <exact next slide
+   title>`. Hop labels exactly as the plan's Flow table
+4. Lab: `## Lab n: <Title>` markdown (Your Task, Level 1: Guided, Level 2: Core, Level 3:
+   Challenge (optional), Expected Output, Hints), then three cells in order:
+   - `# LAB n.1 (Guided)` with `name = None  # YOUR CODE` slots, answer never leaked
+   - `# LAB n.2 (Core)` with signature, docstring, test call and a `# YOUR CODE` body
+   - `# LAB n.3 (Challenge, optional)` with spec, test call and `# YOUR CODE`; nothing later
+     uses a name it defines
+   then `## Back to the slides: <title>`
+5. `# FALLBACK: ...` only where the plan has one. No CHECK cells, no mini exercises
+6. Diagrams: copy each `[DIAGRAM]` cell from the plan verbatim: `<!-- DIAGRAM: <slug> -->` and
+   the raw GitHub image link to `course/diagrams/module_NN/<slug>.png`. Never a ```mermaid
+   block or an attachment (Colab renders neither). `/build-diagrams <N>` renders the PNGs
+7. Every Jev and OpenAI call is a visible cell
 
 ## Step 2: solutions.ipynb
 
 1. `cp course/module_NN/exercises.ipynb course/module_NN/solutions.ipynb`
-2. Replace each `# LAB N` cell with the plan's `# SOLUTION: LAB N` source, slots filled
-   (Edit by cell_id)
+2. Replace each `# LAB n.k` cell with the plan's `# SOLUTION: LAB n.k` source (Edit by
+   cell_id); each has `# Approach:` and `# Explanation:`
 3. Delete every `# FALLBACK` cell
 4. Pair check: `.venv/bin/python3 validate_notebooks.py <N> --pair`
 
@@ -115,11 +116,9 @@ order by id, re-verify.
 
 ## Final checks
 
-- `.venv/bin/python3 validate_notebooks.py <N> --pair --strict` (static checks; there is no
-  mock and no `--selfcheck`)
+- `.venv/bin/python3 validate_notebooks.py <N> --pair --strict`
 - AI-tells clean, outputs cleared
-- Live check is the workflow's job: solutions run live (modules 1, 2, 5 from the laptop;
-  modules 3+ by Axel in his instructor Studio space)
+- Running solutions top to bottom is the workflow's "Run in order" stage
 
 Update `plans/LABS.md` (Edit): this notebook `done`. Hand off: after `exercises`, "Next:
 `/build-notebook <N> solutions`"; after `solutions`, "Next: `/build-diagrams <N>`" (the

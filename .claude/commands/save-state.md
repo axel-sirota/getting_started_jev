@@ -11,13 +11,13 @@ new conversation continues with zero context loss.
 
 - `plans/LABS.md`
 - `plans/DECISIONS.md`
-- `plans/lab_environment.md` (open items)
 
 Then:
 
 ```bash
-ls -la course/module_* course/diagrams data plans/modules 2>/dev/null
+ls -la course/module_* course/diagrams imp_files/slides deck/module* plans/modules 2>/dev/null
 .venv/bin/python3 validate_notebooks.py --all
+.venv/bin/python3 validate_slides.py
 git log --oneline | head -5
 ```
 
@@ -38,64 +38,55 @@ print(sys.argv[1], 'cells:', len(nb['cells']))
 | No plan | `not_started` |
 | Plan not approved | `planned` |
 | Exercises or solutions missing or partial | `building` |
-| Both validate, pair passes, diagrams embedded | `notebooks_done` |
-| Live check passed, reviewed, committed | `done` |
+| Both validate, pair passes, diagrams rendered | `notebooks_done` |
+| Deck built, slides validate (incl. hops) | `deck_done` |
+| Ran in order, reviewed, committed | `done` |
 | Any validation failure or open TODO | `needs_fix` |
 
 ## Step 3: Next action
 
-Core first if not verified, then the first module not `done`: `/research-module N`,
-`/build-module N`, `/build-notebook N exercises|solutions`, `/build-diagrams N`, or the fix.
+The first module not `done`: `/research-module N`, `/build-module N`,
+`/build-notebook N exercises|solutions`, `/build-diagrams N`, `/build-slides N`, or the fix.
 
 ## Step 4: Write progress.txt
 
 ```
-COURSE: Developing in Agentic AI Systems, Engineering Track
+COURSE: Getting Started with Jev
 SAVED: <YYYY-MM-DD HH:MM>
-REPO: /Users/axelsirota/repos/nwm_foundations_agentic_ai_engineering
+REPO: /Users/axelsirota/repos/getting_started_jev
 
 ==============================================================================
-CORE
+MODULES (exercises.ipynb + solutions.ipynb + deck per module)
 ==============================================================================
 
-schema: <status>   00_lab_setup (shared.json): <status>   validator: <status>
-
-==============================================================================
-MODULES (exercises.ipynb + solutions.ipynb per module)
-==============================================================================
-
-[done]       Module 1 - Agentic foundations and coding agents
+[done]       Module 1 - Meet Jev: Typed Decisions Instead of Text
              plan: plans/modules/module_01_plan.md
              notebooks: course/module_01/exercises.ipynb (<n> cells), solutions.ipynb (<n> cells)
-             diagrams: <slugs>   commit: <hash>
+             deck: deck/module01/index.html (<n> slides)   diagrams: <slugs>   commit: <hash>
 
-[building]   Module 2 - Single agent in LangGraph
+[building]   Module 2 - Designing Good Questions
              next: /build-module 2
 
 ==============================================================================
 OPEN ISSUES AND UNVERIFIED ITEMS
 ==============================================================================
 
-<entries from LABS.md and lab_environment.md, or "none">
+<entries from LABS.md, or "none">
 
 ==============================================================================
 LOCKED DECISIONS (do not re-litigate without Axel)
 ==============================================================================
 
-- Engineers code: exercises.ipynb with one # LAB N cell per lab (# YOUR CODE slots),
-  FALLBACK cells only where needed, solutions.ipynb solved. No CHECK cells, no mini exercises.
-- No slides. Theory in notebook markdown, Mermaid as inline ```mermaid blocks (JupyterLab renders).
-- Demo and lab structure = bread weeks 16 to 19 (plans/NOTEBOOK_STYLE.md); the concierge
-  workshop is ideas and voice only (plans/TEACHING_STYLE.md).
-- Learners upload ONLY .ipynb files. Frameworks only, no harborview package, no toolkit zip.
-  Cell 1 pinned %pip install; then a visible CONFIG cell (regions, MODEL_ID, STUDENT_NAME,
-  shared.json). Every AWS call, query, deploy and launch is a visible cell.
-- Bedrock Claude Haiku 4.5. MODEL_REGION us-east-1 (model, KB); AGENTCORE_REGION us-west-2
-  (AgentCore, Gateway, Memory, Guardrails, Cognito, logs, X-Ray).
-- LangGraph; AgentCore Runtime per learner with the lab role; Gateway + Identity; Memory;
-  Postgres camula; Bedrock KB on S3 Vectors; Bedrock Guardrails; AgentCore Observability.
-- Gradio over the learner's own agent; no mock mode; nothing blocks. Live check: modules 1,
-  2, 5 from the laptop, modules 3+ by Axel in the instructor space.
+- Colab notebooks: exercises.ipynb and solutions.ipynb per module. Keys via env var or
+  getpass, never Colab secrets. Cell 1 pinned %pip, then KEYS, then CONFIG.
+- Labs in three tiers: LAB n.1 (Guided) slots, LAB n.2 (Core) function body,
+  LAB n.3 (Challenge, optional), nothing later depends on Level 3. FALLBACK only where needed.
+- Slides like the nwm Foundations decks, diagram first. Hops: badge "Switch to the notebook:
+  Demo n / Lab n", notebook "## Back to the slides: <next slide title>".
+- Notebook diagrams: .mmd master + committed PNG linked by raw GitHub URL (Colab renders
+  neither mermaid nor attachments).
+- Jev for every decision, OpenAI for every text generation. Judgments in Jev, decisions in code.
+- Web research with built-in WebSearch/WebFetch only; Jev facts from official TypeSafe sources.
 - Notebook edits: id map BEFORE and AFTER every edit, order asserted.
 
 ==============================================================================
@@ -109,7 +100,7 @@ Reason: <one sentence>
 HOW TO RESUME
 ==============================================================================
 
-1. Open /Users/axelsirota/repos/nwm_foundations_agentic_ai_engineering
+1. Open /Users/axelsirota/repos/getting_started_jev
 2. Run /resume
 3. If /resume is unavailable, read this file and run the NEXT ACTION.
 ```
@@ -118,7 +109,7 @@ HOW TO RESUME
 
 ```
 progress.txt written.
-  core: <status>   modules: <n> done, <n> building, <n> not started
+  modules: <n> done, <n> building, <n> not started
 Next action: <command>
 ```
 

@@ -17,12 +17,12 @@ If missing: "`progress.txt` not found. Run `/save-state` first, or `/start-sessi
 
 ## Step 2: Read progress.txt
 
-Extract: core status, module statuses, open issues, locked decisions, NEXT ACTION.
+Extract: module statuses, open issues, locked decisions, NEXT ACTION.
 
 ## Step 3: Verify against the filesystem
 
 ```bash
-ls -la course/module_* course/diagrams data plans/modules 2>/dev/null
+ls -la course/module_* course/diagrams imp_files/slides deck/module* plans/modules 2>/dev/null
 git log --oneline | head -5
 ```
 
@@ -38,11 +38,8 @@ Do NOT re-run full validation.
 
 Saved: <date>
 
-CORE
-  schema <s>  00_lab_setup (shared.json) <s>  validator <s>
-
 MODULES
-  1 Agentic foundations   plan <s>  exercises <s>  solutions <s>  diagrams <s>  live <s>
+  1 Meet Jev   plan <s>  exercises <s>  solutions <s>  diagrams <s>  run <s>  deck <s>
   ...
 
 OPEN ISSUES
@@ -53,10 +50,10 @@ NEXT ACTION
   Reason: <one sentence>
 
 KEY DECISIONS (active)
-  - Engineers code: exercises + solutions per module; no slides
-  - Bread demo and lab structure (no CHECK cells, no mini exercises); concierge ideas only
-  - Frameworks only in notebooks; no harborview package, no mock mode
-  - Model and KB us-east-1; AgentCore, Gateway, Memory, Guardrails, Cognito us-west-2
+  - Per module: a deck (foundations style, diagram first) + exercises/solutions in Colab
+  - Labs in three tiers (Guided, Core, Challenge optional); hops slides <-> notebook exact
+  - Keys via env var or getpass; Jev decides judgments, code decides actions; OpenAI for text
+  - Notebook diagrams: committed PNGs linked by raw GitHub URL
   - Notebook edits: id map before and after, order asserted
 
 === READY ===

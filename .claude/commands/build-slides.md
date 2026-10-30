@@ -61,16 +61,13 @@ slide plan (syntax in `/plan-slides`) and emit them every build. `validate_slide
 | Plan line | Emit in `index.html` |
 |---|---|
 | `Badge: "TEXT"` (own line under the Layout line) | `<div class="switch-badge">TEXT</div>` as the LAST child of that slide's `<section>`, after `<aside class="notes">`. Exact text, no inline style. Position and look come from `deck/css/theme.css` only (top 6px, right 40px); never override `.switch-badge` in a deck |
-| `Layout: points only (big-diagram rule), then slide Nb with the diagram as full.` | `<section data-slide="N" data-template="points">` then `<section data-slide="Nb" data-template="full">` with the diagram (Module 1 slides 11/11b, 15/15b, 16/16b) |
-| `Layout: points left, diagram right. Columns: A/B` | split section plus, in the deck `<style>` block, `.reveal section[data-slide="N"] .body { grid-template-columns: A% B%; }` (Module 6 slide 5, 32/68) |
-| `Layout: full diagram. Strip under the diagram: "TEXT"` | `class="has-caption"` on the section and `<div class="caption-strip">TEXT</div>` after the body, plus the `has-caption` / `.caption-strip` rules in the deck `<style>` block (copy from `deck/module04/index.html`). Module 4 slides 4, 5, 6, 8, 12, 14, 15, 17; Module 8 slide 15 |
+| `Layout: points only (big-diagram rule), then slide Nb with the diagram as full.` | `<section data-slide="N" data-template="points">` then `<section data-slide="Nb" data-template="full">` with the diagram |
+| `Layout: points left, diagram right. Columns: A/B` | split section plus, in the deck `<style>` block, `.reveal section[data-slide="N"] .body { grid-template-columns: A% B%; }` |
+| `Layout: full diagram. Strip under the diagram: "TEXT"` | `class="has-caption"` on the section and `<div class="caption-strip">TEXT</div>` after the body, plus the `has-caption` / `.caption-strip` rules in the deck `<style>` block (pattern in `reference/deck_index.reference.html`) |
 | `Layout: lab holding slide. Strip: "TEXT"` | `<div class="demo-strip"><span class="strip-label">TEXT</span></div>` |
 
-Recorded tweaks, checked against the plans on 2026-10-27: Module 4 slide 4 (full diagram
-instead of a split, points moved to the notes, strip under the diagram) is in its Layout
-line already; Module 6 slide 5 (32/68) and Module 1 slides 11b, 15b, 16b were added to the
-Layout lines then. Keep each deck's existing `<style>` block (lab row heights, split
-alignment, caption strip, footer links) when rebuilding.
+Keep each deck's existing `<style>` block (lab row heights, split alignment, caption strip,
+footer links) when rebuilding.
 
 ## Rules
 
@@ -86,8 +83,8 @@ alignment, caption strip, footer links) when rebuilding.
   it in the report.
 - Readability: diagram text at least 22 px at 1920x1080. If a split diagram is under that,
   use the big-diagram rule (points slide N, then Nb full) and log it.
-- Speaker notes from each `Say:` line; demo and lab holding slides append the matching
-  beat from the `## Module N playbook`.
+- Speaker notes from each `Say:` line; badge slides and lab holding slides append the
+  matching step from the `## Module N playbook` (which notebook section, what to run).
 - `Source:` lines become a small footer with link titles.
 - 16:9 at 1920x1080, titles at least 44 px, points at least 28 px. Check at 1280x720 too.
 - Slide number bottom right, showing the plan number (4, 4b, 5). No animations.
@@ -100,10 +97,10 @@ alignment, caption strip, footer links) when rebuilding.
 3. Optionally `deck-designer-refute` and `deck-diagram-refute` on the screenshots.
 4. ALWAYS package at the end (Axel distributes the PDF and presents from anywhere):
    `cd deck && DECK_MODULE=<N> node tools/package-deck.mjs`. It writes
-   `deck/module<NN>/Agentic-AI-Foundations-Module-<NN>.pdf` (committed),
+   `deck/module<NN>/Getting-Started-with-Jev-Module-<NN>.pdf` (committed),
    `deck/dist/module<NN>/` (self-contained: index.html + css + vendor + diagrams + PDF +
    speaker-notes.md; open index.html anywhere, S for speaker view) and
-   `deck/dist/Agentic-AI-Foundations-Module-<NN>.zip` (dist/ is gitignored, regenerable).
+   `deck/dist/Getting-Started-with-Jev-Module-<NN>.zip` (dist/ is gitignored, regenerable).
    It uses a complete Chrome from the puppeteer cache because decktape's bundled one can be a
    half-finished download. Read 2 or 3 PDF pages to confirm they render.
 5. `cd deck && DECK_MODULE=<N> node tools/check-pdf.mjs`: page count, links per page against

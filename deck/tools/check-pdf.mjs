@@ -7,7 +7,7 @@ import path from "node:path";
 import { PDFDocument, PDFName, PDFDict, PDFArray, PDFRawStream } from "pdf-lib";
 import { deck, moduleNo } from "./paths.mjs";
 
-const pdfPath = path.join(deck, `Agentic-AI-Foundations-Module-${moduleNo}.pdf`);
+const pdfPath = path.join(deck, `Getting-Started-with-Jev-Module-${moduleNo}.pdf`);
 const html = fs.readFileSync(path.join(deck, "index.html"), "utf8");
 
 // Expected links per section, in deck order (speaker notes excluded).
