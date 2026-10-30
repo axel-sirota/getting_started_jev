@@ -96,7 +96,7 @@ BACK_RE = re.compile(r"^##\s+Back to the slides:\s*(.+?)\s*$", re.MULTILINE)
 #     <!-- DIAGRAM: <slug> -->
 #     ![<alt text>](RAW_BASE + course/diagrams/module_NN/<slug>.png)
 # RAW_BASE is the one place that names the GitHub repo and branch (the repo must be public).
-RAW_BASE = "https://raw.githubusercontent.com/axelsirota/getting_started_jev/main/"
+RAW_BASE = "https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/"
 MARKER_RE = re.compile(r"<!--\s*DIAGRAM:\s*([\w-]+)\s*-->")
 MERMAID_RE = re.compile(r"```mermaid[ \t]*\n(.*?)\n?```", re.DOTALL)
 IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(([^)\s]+)\)|<img\b[^>]*>", re.IGNORECASE)

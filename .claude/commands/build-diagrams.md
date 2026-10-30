@@ -91,7 +91,7 @@ notebook links the committed PNG by raw GitHub URL. The diagram cell in BOTH not
 
 ```markdown
 <!-- DIAGRAM: <slug> -->
-![<alt text that states the idea>](https://raw.githubusercontent.com/axelsirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
+![<alt text that states the idea>](https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
 ```
 
 The prefix is `RAW_BASE` in `validate_notebooks.py`. The PNG shows in Colab only after Axel

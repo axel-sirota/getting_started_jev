@@ -71,7 +71,7 @@ the `.mmd`.
 
   ```markdown
   <!-- DIAGRAM: <slug> -->
-  ![<alt text that states the idea>](https://raw.githubusercontent.com/axelsirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
+  ![<alt text that states the idea>](https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
   ```
 
   The URL prefix is `RAW_BASE` in `validate_notebooks.py`; it is the only place that names
