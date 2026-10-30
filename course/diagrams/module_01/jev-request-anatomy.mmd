@@ -5,14 +5,14 @@ flowchart LR
     direction TB
     Q1["team: Choice<br/>pick one of 10 teams"]
     Q2["frustration: Score<br/>levels 0, 1, 2, each described"]
-    Q3["travel_plans: Noul<br/>how likely is this true?"]
+    Q3["travel_plans: Noul<br/>how likely is it true?"]
   end
-  J["system_one"]
+  J["Jev, one request<br/>system_one"]
   subgraph AN["answers, typed"]
     direction TB
     A1["team: choice<br/>+ probabilities + confidence"]
     A2["frustration: score 0 to 2<br/>+ probabilities + confidence"]
-    A3["travel_plans: noul<br/>one number, 0 to 1"]
+    A3["travel_plans: noul<br/>one probability, 0 to 1"]
   end
   Q1 ~~~ Q2 ~~~ Q3
   A1 ~~~ A2 ~~~ A3

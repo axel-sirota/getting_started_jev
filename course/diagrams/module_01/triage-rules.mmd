@@ -1,0 +1,19 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  J["Jev judges<br/>urgency 0 to 2, risk 0 to 1"] --> R1{"risk >= 0.7"}
+  R1 -- yes --> E["ESCALATE<br/>to a human"]
+  R1 -- no --> R2{"risk > 0.3"}
+  R2 -- yes --> V["REVIEW<br/>by a human"]
+  R2 -- no --> R3{"urgency >= 1.5"}
+  R3 -- yes --> P["PRIORITY<br/>to the team"]
+  R3 -- no --> RT["ROUTE<br/>to the team"]
+  classDef jev fill:#1A3D4D,stroke:#0F2938,color:#FFFFFF
+  classDef esc fill:#B91C1C,stroke:#7F1D1D,color:#FFFFFF
+  classDef rev fill:#FDE68A,stroke:#B45309,color:#111827
+  classDef pri fill:#40B8A6,stroke:#2F9987,color:#111827
+  classDef rt fill:#F9FAFB,stroke:#9CA3AF,color:#111827
+  class J jev
+  class E esc
+  class V rev
+  class P pri
+  class RT rt

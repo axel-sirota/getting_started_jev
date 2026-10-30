@@ -1,0 +1,6 @@
+flowchart LR
+  LT["<b>946 ms</b><br/>LLM + JSON schema"]:::llm ~~~ JT["<b>252 ms</b><br/>Jev"]:::jev ~~~ RT["3.8x faster"]:::ratio
+  LC["<b>$0.256</b><br/>per 1,000, LLM + schema"]:::llm ~~~ JC["<b>$0.022</b><br/>per 1,000, Jev"]:::jev ~~~ RC["11.6x cheaper"]:::ratio
+  classDef llm fill:#F3F4F6,stroke:#9CA3AF,color:#4B5563
+  classDef jev fill:#40B8A6,stroke:#2F9987,color:#0F2938
+  classDef ratio fill:#FFFFFF,stroke:#1A3D4D,stroke-width:4px,color:#1A3D4D

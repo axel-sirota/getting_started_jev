@@ -1,0 +1,8 @@
+flowchart LR
+  L1["Level 1: Guided<br/>urgency levels, risk question"] --> L2["Level 2: Core<br/>triage(): one call + rules"]
+  L2 --> D["Done<br/>every message has an action"]
+  L2 -.-> L3["Level 3: Challenge, optional<br/>what does bundling buy?"]
+  classDef done fill:#1A3D4D,stroke:#0F2938,color:#FFFFFF
+  classDef opt fill:#F9FAFB,stroke:#9CA3AF,color:#4B5563,stroke-dasharray:6 4
+  class D done
+  class L3 opt

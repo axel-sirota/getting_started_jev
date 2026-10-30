@@ -1,0 +1,8 @@
+flowchart LR
+  ST["state: the message"] --> J["Jev, one request"]
+  QC["team: Choice<br/>pick one"] --> J
+  QS["frustration: Score<br/>rate on levels"] --> J
+  QN["travel_plans: Noul<br/>how likely is it true?"] --> J
+  J --> AC["choice + probabilities"]
+  J --> AS["score + probabilities"]
+  J --> AN["noul: one probability, 0 to 1"]

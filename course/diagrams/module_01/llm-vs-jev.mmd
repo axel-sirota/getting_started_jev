@@ -1,19 +1,21 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart LR
-  Q["40 CLINC150 messages<br/>same 10 teams"]
-  subgraph LLM["ask_llm: gpt-5.4-mini"]
-    N["naive prompt<br/>18/40 not a bare label"]
-    S["JSON schema<br/>always a label, 77.5%"]
-    SL["946 ms, $0.256 per 1k<br/>no probabilities"]
+flowchart TB
+  Q["40 CLINC150 messages, same 10 teams<br/>accuracy for all: 72.5% to 77.5%, noise at N=40"]
+  subgraph LLM["LLM: gpt-5.4-mini"]
+    direction TB
+    N["no format line<br/>18 of 40 not a bare team name"]
+    S["JSON schema<br/>always a valid team, no probabilities"]
+    SL["946 ms p50<br/>$0.256 per 1,000 messages"]
     N -- "the usual fix" --> S --> SL
   end
-  subgraph JEV["ask_jev: Jev Choice"]
-    A["choice, 72.5%<br/>+ probabilities + confidence"]
-    AL["252 ms, $0.022 per 1k"]
+  subgraph JEV["Jev"]
+    direction TB
+    A["Choice<br/>a team + a probability per team"]
+    AL["252 ms p50<br/>$0.022 per 1,000 messages"]
     A --> AL
   end
   Q --> N
   Q --> A
-  SL --> C["your code<br/>accuracy within noise at N=40"]
+  SL --> C["compare"]
   AL --> C
   style AL stroke:#1A3D4D,stroke-width:3px

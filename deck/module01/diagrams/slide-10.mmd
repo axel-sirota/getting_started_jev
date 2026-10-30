@@ -1,0 +1,7 @@
+flowchart LR
+  D["declined card<br/>urgent, low risk"] --> DR["risk 0.04<br/>below 0.3"] --> DU["urgency 1.8<br/>at least 1.5"] --> DA["PRIORITY<br/>not ESCALATE"]
+  L["lost card<br/>high risk"] --> LK["risk 0.97<br/>at least 0.7"] --> LA["ESCALATE<br/>urgency not read"]
+  classDef hero fill:#40B8A6,stroke:#2F9987,color:#0F2938,stroke-width:3px
+  classDef esc fill:#B91C1C,stroke:#7F1D1D,color:#FFFFFF
+  class D,DA hero
+  class LA esc
