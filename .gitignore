@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.kryla/
+plans/
+node_modules/
+deck/node_modules/
+*.zip
+.ipynb_checkpoints/
+.pytest_cache/
+progress.txt
+.claude-precompact.md
