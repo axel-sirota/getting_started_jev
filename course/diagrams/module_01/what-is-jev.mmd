@@ -1,9 +1,9 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart LR
-  ST["state<br/>what Jev reads<br/>message: i lost my card"]
-  Q["questions<br/>what you want to know<br/>which team? how urgent?"]
-  J["Jev<br/>reads the state, answers the questions<br/>never writes text"]
-  A["typed answers + probabilities<br/>team: credit_cards, 0.99<br/>urgency: 1.8 on a 0 to 2 scale"]
+flowchart TD
+  ST["state: what Jev reads<br/>message: i lost my card"]
+  Q["questions: what you ask<br/>which team? how urgent?"]
+  J["Jev<br/>answers, never writes text"]
+  A["typed answers<br/>team: a choice + a probability per team<br/>urgency: a score from 0 to 2"]
   C["your code<br/>decides what happens"]
   ST --> J
   Q --> J

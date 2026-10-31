@@ -1,7 +1,9 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: i lost my card"] --> Q["ask: Jev, team_question<br/>a Choice of the 10 teams"]
-  Q --> A["answer: credit_cards<br/>always one of the 10, nothing to parse"]
-  A --> U["what you can see: a probability per team<br/>credit_cards 0.99"]
-  U --> C["your code can act on it"]
-  style U stroke:#1A3D4D,stroke-width:3px
+  M["message: i lost my credit card<br/>and i fly to rome tomorrow"] --> Q["ask: Jev, team_question<br/>a Choice of the 10 teams"]
+  Q --> A["answer: TYPED, nothing to parse<br/>choice = credit_cards"]
+  Q --> P["how sure? A PROBABILITY PER TEAM<br/>credit_cards 0.99, travel 0.01"]
+  A --> C["your code: ROUTE when sure<br/>REVIEW when torn"]
+  P --> C
+  style P stroke:#1A3D4D,stroke-width:3px
+  style C stroke:#1A3D4D,stroke-width:3px

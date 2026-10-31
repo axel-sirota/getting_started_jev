@@ -1,5 +1,5 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart LR
-  C["Choice<br/>pick one option<br/>which team?"] --> CA["choice + a probability per option<br/>+ confidence"]
-  S["Score<br/>rate on levels you describe<br/>how urgent, 0 to 2?"] --> SA["score + a probability per level<br/>+ confidence"]
-  N["Noul<br/>is this statement true?<br/>is a card lost?"] --> NA["noul: one probability, 0 to 1<br/>no confidence"]
+  C["Choice: pick one option<br/>which team?"] --> CA["ChoiceAnswer: choice, probability per option<br/>confidence: how decided Jev is"]
+  S["Score: rate on your levels<br/>how urgent, 0 to 2?"] --> SA["ScoreAnswer: score, probability per level<br/>confidence: how decided Jev is"]
+  N["Noul: is this statement true?<br/>is a card lost?"] --> NA["NoulAnswer: noul, one probability 0 to 1<br/>the probability is the whole answer"]

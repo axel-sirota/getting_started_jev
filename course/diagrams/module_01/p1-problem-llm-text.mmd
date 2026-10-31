@@ -1,9 +1,9 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: i lost my card"] --> Q["ask: an LLM prompt<br/>listing the 10 teams"]
-  Q --> A1["answer, plain prompt:<br/>**credit_cards** or a sentence"]
-  Q --> A2["answer, JSON schema:<br/>credit_cards"]
-  A1 --> X["NOT a bare team name<br/>11 to 18 of 40 replies"]
-  A2 --> U["what you can see: a label only<br/>how sure? NO probability"]
-  style X stroke:#B42318,stroke-width:3px
-  style U stroke:#B42318,stroke-width:3px
+  M["message: i lost my credit card<br/>and i fly to rome tomorrow"] --> Q["ask: an LLM, prompt or JSON schema<br/>listing the 10 teams"]
+  Q --> A["answer: text to parse<br/>credit_cards"]
+  Q --> P["how sure? NO PROBABILITY<br/>logprobs refused, or tokens only"]
+  A --> C["your code: SAME ROUTE<br/>for a sure and a torn message"]
+  P --> C
+  style P stroke:#B42318,stroke-width:3px
+  style C stroke:#B42318,stroke-width:3px
