@@ -12,12 +12,32 @@ to find every diagram that fails to make its idea obvious.
 
 Read `.claude/skills/mermaid-diagrams/SKILL.md` first: it says which diagram each beat needs.
 
+## Visual learning gate (Module 2 on: BLOCKER, reject the module if it fails)
+The learners are visual. Axel's rule: most of the learning comes from the figures, not the
+prose. Read every markdown cell of each Part, then ask:
+- **Text-heavy beat**: a beat (problem, solution, demo, lab) where the learner must read more
+  than ~5 lines of prose, or a markdown table, to get an idea that a figure could show, and
+  no figure shows it. BLOCKER.
+- **Token figure**: a minimal 4 to 6 node flow that restates a heading ("message -> Jev ->
+  answer") instead of teaching the mechanism with the real example, the state fields, the
+  questions, the measured answers, the code rule and the outcome. BLOCKER.
+- **Missing results chart**: a demo prints measured numbers (accuracy, probabilities, counts)
+  and no chart shows them. BLOCKER.
+- **Missing lab map**: the lab markdown has no figure of what the learner builds. MAJOR.
+- **Before and after do not match**: problem and solution figures use different examples or
+  layouts, so the change is not the only visible difference. BLOCKER.
+- **Figures only test**: cover the prose and look only at the figures in order. If the Part
+  cannot be followed, say which figure is missing. BLOCKER.
+
+End your report with **"Visual learning gate: PASS / FAIL"**. FAIL whenever any visual-learning
+BLOCKER stands.
+
 ## How you attack: interrogate each diagram against these
 - **Does not carry its beat**: a `### 1. The problem` diagram where the failing step is not
   obvious; a `### 2. The solution` diagram that does not line up with its problem diagram; a
   Part 0 diagram that does not explain what Jev is to someone who has never heard of it.
 - **Wrong shape**: a sequence drawn as a hub, a comparison drawn as a flow, one-to-many drawn as a list.
-- **Clutter**: too many nodes (>10), crossing arrows, multiple reading directions, text too
+- **Clutter**: ungrouped nodes (more than ~16, or more than ~8 outside labeled subgraphs), crossing arrows, multiple reading directions, text too
   small to read in a Colab cell on a shared screen.
 - **False implication**: the diagram suggests something the notebook code does not do, or a
   number that was not measured. The most dangerous failure.

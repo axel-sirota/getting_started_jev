@@ -133,10 +133,10 @@ imp_files/outline_getting_started_jev.md`
   const personas = [
     ['learner-engineer-refute', 'both notebooks as a Python engineer new to Jev works through them in Colab: does each beat teach on its own (problem felt, solution understood before code, demo shows both, lab doable), lab tiers (Level 1 guided, Level 2 core, Level 3 a real optional stretch), slots and markers, FALLBACK cells, helpers used before defined, key handling, outline coverage' + (N === 1 ? ', and above all: after Part 0 can you say what Jev is, what state and questions are, what Choice / Score / Noul return and how it differs from an LLM?' : '')],
     ['deck-diagram-refute', 'every figure in both notebooks (.mmd sources and PNGs) against the beat it sits in and the code it describes'],
-    ['general-purpose', `BEAT WALK. Read ${DIR}/exercises.ipynb top to bottom as a learner who has never heard of Jev, markdown first. For every Part report: is the problem concrete and felt, does the solution follow from it, does the demo show the problem live and then the solution, does the lab exercise exactly what the Part taught, is every term explained before it is used${N === 1 ? ', and does Part 0 explain Jev fully before any comparison' : ''}. Report every beat that is missing, out of order, thin, or that teaches something different from its neighbors. Do not edit files`],
+    ['general-purpose', `BEAT WALK. Read ${DIR}/exercises.ipynb top to bottom as a learner who has never heard of Jev, markdown first. For every Part report: is the problem concrete and felt, does the solution follow from it, does the demo show the problem live and then the solution, does the lab exercise exactly what the Part taught, is every term explained before it is used${N === 1 ? ', and does Part 0 explain Jev fully before any comparison' : ''}${N >= 2 ? '. Then a FIGURES-ONLY walk: skip all prose and look only at the figures in order; report every Part you cannot follow that way and which figure is missing (BLOCKER: the learners are visual)' : ''}. Report every beat that is missing, out of order, thin, or that teaches something different from its neighbors. Do not edit files`],
   ]
   const reviews = await parallel(personas.map(([type, scope]) => () =>
-    agent(`Review Module ${N} as built. Files: ${BUILT}. Focus: ${scope}. Output your ranked table of findings (BLOCKER, MAJOR, MINOR) with where, what and a one-line fix.`,
+    agent(`Review Module ${N} as built. Files: ${BUILT}. Focus: ${scope}.${N >= 2 ? ' Apply the VISUAL LEARNING gate from .claude/skills/mermaid-diagrams/SKILL.md ("Visual first"): the learners are visual, so every text-heavy beat, token figure, uncharted demo result, mismatched before/after figure or Part that cannot be followed from its figures alone is a BLOCKER; end with "Visual learning: PASS / FAIL".' : ''} Output your ranked table of findings (BLOCKER, MAJOR, MINOR) with where, what and a one-line fix.`,
       { label: `review:${type}`, phase: 'Review', agentType: type })))
   const findings = personas.map(([type], i) => `### ${type}\n${reviews[i] || '(no output)'}`).join('\n\n')
 
@@ -147,7 +147,11 @@ changes only to fix a real defect; reviewers never reorder the 4 beats or move P
 reverse a decision the plan records (its rejected review findings, Axel's answers, what a lab
 gives versus what the learner chooses, which module teaches what): report such a finding in
 issues for Axel instead of applying it. Re-render
-changed diagrams. Re-run both notebooks against the real APIs if any code changed. Then:
+changed diagrams. ${N >= 2 ? `VISUAL LEARNING (Axel's rule, not optional): every visual-learning
+BLOCKER (text-heavy beat, token figure, uncharted demo numbers, mismatched before/after, a Part
+that cannot be followed from its figures alone) MUST be fixed by adding or redrawing figures per
+.claude/skills/mermaid-diagrams/SKILL.md, and the prose cut to what the figure cannot say. If one
+still stands, set status "failed" so nothing is committed. ` : ''}Re-run both notebooks against the real APIs if any code changed. Then:
 - .venv/bin/python3 validate_notebooks.py ${N} --pair --strict   (must PASS)
 
 REVIEWER FINDINGS:

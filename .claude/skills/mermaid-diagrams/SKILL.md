@@ -8,18 +8,49 @@ description: Design rules, brand palette, render command and placement for every
 There are no slides: the diagrams in the notebook carry the teaching. Audience: Python
 developers and data professionals new to Jev.
 
+## Visual first (Axel, 2026-10-31, applies from Module 2 on)
+
+The learners are visual. Most of the learning must come from the diagrams, not the prose.
+A diagram is not a box to tick: each one teaches the mechanism on its own, so a learner who
+only looks at the figures can follow the Part.
+
+- **The figure carries the idea, the text annotates it.** Draft the diagram first, then write
+  only the sentences the figure cannot say. A beat with three paragraphs and one small figure
+  is wrong; one rich figure and three short lines is right
+- **Comprehensive, not minimal:** show the real example end to end: the actual message (or
+  thread), the state fields by name, each question with its type, Jev's answers with the
+  measured numbers, the rule in code, and the outcome. Group stages with subgraphs and
+  label them (STATE, QUESTIONS, JEV ANSWERS, YOUR CODE, OUTCOME)
+- **Before and after are the same picture:** problem and solution diagrams share layout,
+  example and node names, so the one thing that changed is the only thing that looks
+  different (highlight it)
+- **More figures, not fewer:** beyond the problem and solution figures, add a figure wherever
+  a learner would otherwise read a paragraph or a table to get a picture:
+  - Demo: a results chart of the measured numbers (`xychart-beta` bars: vague vs literal,
+    last line vs thread, stage 1 vs stage 2), placed after the demo cells that print them
+  - Lab: a map of what the learner builds (the function, its inputs, the questions it asks,
+    the rules it applies, what it returns) in the lab markdown
+  - Any concept explained in more than ~5 lines of text (dates in code, criteria as data,
+    the product of two probabilities) gets its own figure
+- **Numbers on the figure** wherever measured: probabilities on arrows, scores in nodes,
+  counts in bars. The learner should read the result off the picture
+- Readability still rules: a big figure is fine if it reads top to bottom in clear stages;
+  split it into two figures rather than shrink the text
+
 ## Where diagrams go (the 4 beats)
 
 | Place | Diagram | What it must show |
 |---|---|---|
 | Part 0: What is Jev (Module 1) | one per markdown cell | the product: state + questions -> Jev -> typed answers; LLM text vs Jev answer; Choice / Score / Noul and what each returns |
-| `### 1. The problem` | exactly one | the failure, drawn so the broken step is obvious (a word like FAILS or PARSE ERROR on it) |
-| `### 2. The solution` | exactly one | the fix, same shapes as the problem diagram where possible, so before and after line up |
-| `### 3. Demo`, `### 4. Lab` | optional | only if the code needs a map (for example the rules `triage()` applies) |
+| `### 1. The problem` | at least one (the main figure first) | the failure on a real example end to end, the broken step obvious (a word like FAILS or MISSED on it), measured numbers on it |
+| `### 2. The solution` | at least one | the same picture with the fix, so before and after line up; the changed part highlighted |
+| `### 3. Demo` | expected from Module 2 on | a chart of the measured results, and a map of any multi-step flow the demo runs |
+| `### 4. Lab k` | expected from Module 2 on | a map of what the learner builds and how the levels connect |
 
 ## Design rules
 
-- One idea per diagram, max ~10 nodes; split if more
+- One idea per diagram; up to ~16 nodes when grouped in labeled subgraphs; split if it stops
+  reading top to bottom
 - Shape follows the idea:
   - request flow: `flowchart LR` (state + questions -> Jev -> typed answers -> code decides)
   - who calls whom over time: `sequenceDiagram` (notebook, Jev, LLM, human reviewer)

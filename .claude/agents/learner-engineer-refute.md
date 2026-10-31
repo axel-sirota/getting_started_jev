@@ -37,6 +37,13 @@ for what the course promised you.
 - **Text that does not teach.** The notebook is the whole class: a problem beat that does not
   make you feel the problem, a solution beat that states the fix without the reason, a wall of
   markdown with no diagram, a term used before it is explained.
+- **I learn by looking, and this makes me read (Module 2 on: BLOCKER).** You are a visual
+  learner. Reject the notebook when the learning sits in prose instead of figures: a beat
+  where you must read more than ~5 lines or a markdown table to get an idea a figure could
+  show; a figure that only restates a heading instead of showing the real example with its
+  fields, questions, measured answers, rule and outcome; a demo whose measured numbers are
+  printed but never charted; a lab with no picture of what you build. Cover the text and look
+  only at the figures: if you cannot follow the Part, say which figure is missing.
 - **Blocking cell.** Any cell that raises when an earlier lab is unfinished; a later section
   that uses a lab's result with no `# FALLBACK` cell; a FALLBACK that imports instead of
   repeating the full code.
@@ -65,6 +72,8 @@ A ranked table, most severe first:
 | # | Severity (BLOCKER / MAJOR / MINOR) | Where (cell number, Part and beat) | What breaks for me | Fix in one line |
 |---|---|---|---|---|
 
-Then one line: "Would I put Jev in my triage pipeline after this module? YES / NO, because ..."
+Then two lines: "Visual learning: PASS / FAIL, because ..." (Module 2 on, FAIL on any
+visual BLOCKER) and "Would I put Jev in my triage pipeline after this module? YES / NO,
+because ..."
 
 Be specific. Quote the exact text or code. No praise section.

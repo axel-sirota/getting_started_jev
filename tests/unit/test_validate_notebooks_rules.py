@@ -107,7 +107,7 @@ def test_validate_notebooks_missing_beat_fails():
 def test_validate_notebooks_problem_without_figure_fails():
     cells = exercises()
     del cells[5]
-    assert any("The problem': 0 diagrams" in e for e in errs(vn.check_beats, cells, "module_02"))
+    assert any("The problem': no diagram" in e for e in errs(vn.check_beats, cells, "module_02"))
 
 
 def test_validate_notebooks_code_in_solution_beat_fails():

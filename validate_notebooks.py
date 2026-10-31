@@ -20,8 +20,8 @@ Every notebook (the whole class runs in it, there are no slides):
     keys or real names; no AI tells; the 4 beats per Part; Summary cell last; outputs cleared.
 Anatomy (the 4 beats): Module 1 opens with "## Part 0: What is Jev" (markdown and diagrams
 only). Every "## Part k: <concept>" then has, in order:
-    ### 1. The problem      markdown, exactly one diagram, no code
-    ### 2. The solution     markdown, exactly one diagram, no code
+    ### 1. The problem      markdown, at least one diagram, no code
+    ### 2. The solution     markdown, at least one diagram, no code
     ### 3. Demo             at least one DEMO code cell
     ### 4. Lab k: <title>   markdown (#### Your Task, Expected Output, Hints, one #### Level
                             section per tier), then three LAB cells in order:
@@ -520,7 +520,7 @@ def notebook_beats(cells: list[dict]) -> list[tuple[int, int, int]]:
 
 def check_beats(cells: list[dict], module: str = "") -> tuple[list[str], list[str]]:
     """Parts numbered in order (Part 0 "What is Jev" first in Module 1); every Part k >= 1 has
-    the 4 beats in order; beats 1 and 2 have no code and exactly one diagram; beat 3 has a
+    the 4 beats in order; beats 1 and 2 have no code and at least one diagram; beat 3 has a
     DEMO cell; beat 4 is "### 4. Lab k" with k equal to the Part number."""
     errs = []
     beats = notebook_beats(cells)
@@ -569,8 +569,8 @@ def check_beats(cells: list[dict], module: str = "") -> tuple[list[str], list[st
                 errs.append(f"Part {p}, '{BEAT_NAMES[b]}': code cells {code}; beats 1 and 2 are text and a figure")
             n = sum(len(MARKER_RE.findall(cell_src(cells[i]))) for i in span
                     if cells[i]["cell_type"] == "markdown")
-            if n != 1:
-                errs.append(f"Part {p}, '{BEAT_NAMES[b]}': {n} diagrams; expected exactly one figure")
+            if n < 1:
+                errs.append(f"Part {p}, '{BEAT_NAMES[b]}': no diagram; expected at least one figure")
         if not any(cell_kind(cells[i]) in ("DEMO", "BONUS DEMO") for i in spans[(p, 3)][0]):
             errs.append(f"Part {p}, 'Demo': no '# DEMO:' code cell")
         lab_head = cell_src(cells[spans[(p, 4)][0].start])
