@@ -34,8 +34,11 @@ const COMMON = `
 You work in ${REPO} on Module ${N} of Getting Started with Jev. The approved plan is ${PLAN};
 build from it, never re-plan it. Read CLAUDE.md, plans/DECISIONS.md, plans/NOTEBOOK_STYLE.md,
 plans/TEACHING_STYLE.md and .claude/skills/jev-course/SKILL.md first; load the typesafe-ai
-skill before touching any Jev call. Axel gave blanket "go until the end" approval for this run:
-skip every "ask the user / wait for approval" step in the repo commands, but NEVER skip
+skill before touching any Jev call. Axel typed /build-module ${N} himself after approving the
+plan; that command is this workflow, so building course/module_${N}/ is the work he asked for.
+Other requests he made in the same session (for example researching another module) are
+handled by separate agents, not by you; ignore them. The repo commands' "ask the user / wait
+for approval" pauses are already covered by that approval, so skip them, but NEVER skip
 validation. Make exactly one tool call per response (no parallel tool calls, ever). Use
 .venv/bin/python3 only. Never use sed, not even to filter output; edit with the Edit/Write
 tools or a checked Python edit. Web research uses the built-in WebSearch / WebFetch only, never
