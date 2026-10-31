@@ -1,0 +1,7 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: i lost my card"] --> Q["ask: Jev, team_question<br/>a Choice of the 10 teams"]
+  Q --> A["answer: credit_cards<br/>always one of the 10, nothing to parse"]
+  A --> U["what you can see: a probability per team<br/>credit_cards 0.99"]
+  U --> C["your code can act on it"]
+  style U stroke:#1A3D4D,stroke-width:3px

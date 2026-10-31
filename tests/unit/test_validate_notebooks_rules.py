@@ -140,6 +140,16 @@ def test_validate_notebooks_module1_part0_text_only_passes_and_code_fails():
     assert any("Part 0: code cells" in e for e in errs(vn.check_beats, cells, "module_01"))
 
 
+def test_validate_notebooks_module1_setup_between_part0_and_part1_passes():
+    cells = exercises()
+    setup = cells[1:3]
+    del cells[1:3]
+    cells[1:1] = [md("## Part 0: What is Jev\n\nJev is a System One model."), figure("what-is-jev"),
+                  md("# Setup\n\nRun the next cells in order."), *setup]
+    assert errs(vn.check_beats, cells, "module_01") == []
+    assert errs(vn.check_pip_cell, cells) == []
+
+
 def test_validate_notebooks_no_parts_fails():
     cells = [c for c in exercises() if "Part 1" not in vn.cell_src(c)]
     assert errs(vn.check_beats, cells, "module_02")

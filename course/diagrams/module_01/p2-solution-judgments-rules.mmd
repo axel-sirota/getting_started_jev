@@ -1,0 +1,12 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: why was my card<br/>declined at the gas station"] --> Q["ask: one request, three judgments<br/>team: Choice / urgency: Score / risk: Noul"]
+  Q --> A["answer: credit_cards / urgency 1.8 / risk 0.04"]
+  A --> R1{"risk >= 0.7?"}
+  R1 -- "no, 0.04" --> R2{"risk > 0.3?"}
+  R2 -- "no, 0.04" --> R3{"urgency >= 1.5?"}
+  R3 -- "yes, 1.8" --> P["PRIORITY to credit_cards<br/>new policy: change a threshold"]
+  R1 -. yes .-> E["ESCALATE"]
+  R2 -. yes .-> V["REVIEW"]
+  R3 -. no .-> RT["ROUTE"]
+  style P stroke:#1A3D4D,stroke-width:3px

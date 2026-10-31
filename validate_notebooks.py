@@ -98,6 +98,7 @@ BEAT_NAMES = {1: "The problem", 2: "The solution", 3: "Demo", 4: "Lab"}
 PART0_TITLE = "What is Jev"
 PART0_MODULES = {"module_01"}
 SUMMARY_LAST_RE = re.compile(r"^#\s+Summary\b", re.MULTILINE)
+H1_RE = re.compile(r"^#\s+\S", re.MULTILINE)
 
 # Diagrams. Colab renders neither ```mermaid blocks nor cell attachments (it strips them,
 # googlecolab/colabtools#3836). A DIAGRAM cell links the PNG rendered from
@@ -494,7 +495,8 @@ def check_ai_tells(cells: list[dict]) -> tuple[list[str], list[str]]:
 
 
 def notebook_beats(cells: list[dict]) -> list[tuple[int, int, int]]:
-    """(cell index, part, beat) for every Part heading (beat 0) and beat heading, in order."""
+    """(cell index, part, beat) for every Part heading (beat 0) and beat heading, in order.
+    A top-level "# " heading (Setup, Summary) closes the current Part: beat -1."""
     found, part = [], None
     for i, c in enumerate(cells):
         if c["cell_type"] != "markdown":
@@ -502,10 +504,15 @@ def notebook_beats(cells: list[dict]) -> list[tuple[int, int, int]]:
         src = cell_src(c)
         marks = [(m.start(), "part", int(m.group(1))) for m in PART_RE.finditer(src)]
         marks += [(m.start(), "beat", int(m.group(1))) for m in BEAT_RE.finditer(src)]
+        marks += [(m.start(), "end", 0) for m in H1_RE.finditer(src)]
         for _, kind, n in sorted(marks):
             if kind == "part":
                 part = n
                 found.append((i, n, 0))
+            elif kind == "end":
+                if part is not None:
+                    found.append((i, part, -1))
+                part = None
             elif part is not None:
                 found.append((i, part, n))
     return found
