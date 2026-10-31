@@ -1,7 +1,30 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  T["chat thread<br/>customer: i can't find my card anywhere<br/>customer: ok so what do i do now"] --> S["state = thread: every turn<br/>from: customer, text: ..."]
-  S --> Q["ask: lost_or_stolen<br/>Does the customer in `thread` report<br/>that their card is lost or stolen?"]
-  Q --> A["answer: 0.76, YES"]
-  A --> D["risk_decision(): ESCALATE<br/>reason: lost_or_stolen"]
-  style D stroke:#1A3D4D,stroke-width:3px
+  subgraph CHAT["THE CHAT"]
+    T["customer: i can't find my card anywhere<br/>customer: ok so what do i do now"]
+  end
+  subgraph STATE["STATE"]
+    S["thread: a list of turns, every line with who said it<br/>from: customer, text: i can't find my card anywhere<br/>from: customer, text: ok so what do i do now"]
+  end
+  subgraph QUESTIONS["QUESTIONS: 3 Nouls"]
+    Q["lost_or_stolen: Does the customer in `thread` report that their card is lost or stolen?<br/>unknown_charge: Does the customer in `thread` report a charge they did not make?<br/>locked_out: Does the customer in `thread` report that they cannot get in?"]
+  end
+  subgraph ANSWERS["JEV ANSWERS"]
+    A["lost_or_stolen 0.77<br/>unknown_charge 0.02<br/>locked_out 0.05"]
+  end
+  subgraph CODE["YOUR CODE: risk_decision()"]
+    C["any flag >= 0.7: ESCALATE<br/>any above 0.3: REVIEW<br/>otherwise: NONE"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O["ESCALATE, reason: lost_or_stolen"]
+    R["6 threads, whole thread:<br/>3 ESCALATE: lost card, unknown charge, locked account<br/>found card 0.43 and stolen wallet 0.66: REVIEW<br/>balance: NONE"]
+  end
+  T --> S --> Q --> A --> C --> O
+  O --- R
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class S changed
+  class Q changed
+  class O ok

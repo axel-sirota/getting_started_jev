@@ -1,8 +1,26 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"] --> S1["stage 1: team_question_data<br/>criteria = TEAM_INTENTS<br/>each team described by its 15 intents<br/>on the 40 messages: 39 of 40 teams right"]
-  S1 --> T["team: kitchen_and_dining, 0.97"]
-  T --> S2["stage 2: intent_question(team)<br/>kitchen_and_dining's 15 intents"]
-  S2 --> A["answer: cancel_reservation, 1.00"]
-  A --> C["code: probability = 0.97 x 1.00<br/>needs_review if below REVIEW_BELOW"]
-  style C stroke:#1A3D4D,stroke-width:3px
+  subgraph STATE["STATE"]
+    S["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"]
+  end
+  subgraph STAGE1["STAGE 1: a Choice of 10 teams"]
+    T["criteria = TEAM_INTENTS, each team's 15 intents<br/>travel: book_hotel, book_flight, car_rental, ...<br/>kitchen_and_dining: ..., cancel_reservation, ..."]
+    TA["Jev: kitchen_and_dining 0.97"]
+  end
+  subgraph STAGE2["STAGE 2: a Choice of the picked team's 15 intents"]
+    I["kitchen_and_dining's 15: restaurant_reservation, ...<br/>cancel_reservation IS an option"]
+    IA["Jev: cancel_reservation 1.00"]
+  end
+  subgraph CODE["YOUR CODE"]
+    P["probability = 0.97 x 1.00 = 0.97<br/>below REVIEW_BELOW? then a person checks"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O["the right intent, no review<br/>40 messages, intent lists: 39 teams right"]
+  end
+  S --> T --> TA --> I --> IA --> P --> O
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class T changed
+  class O ok

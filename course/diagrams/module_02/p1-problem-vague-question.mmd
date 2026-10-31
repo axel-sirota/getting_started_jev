@@ -1,8 +1,26 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: my flight to boston is tomorrow, is it on time<br/>today: Friday, October 30, 2026"] --> Q["ask: one vague Noul<br/>urgent travel notice, because the trip<br/>is within 7 days of today?"]
-  Q --> H["hidden inside: 3 judgments<br/>asks for a notice? / when is the trip? / within 7 days?"]
-  H --> A["answers: one number per message<br/>boston on-time 0.86 YES, WRONG<br/>oslo, 8 days: 0.53 / cairo, 5 days: 0.42"]
-  A --> X["result: 7 of 10 right, careful wording 6 of 10<br/>one number: which judgment failed? CANNOT TELL"]
-  style H stroke:#B42318,stroke-width:3px
-  style X stroke:#B42318,stroke-width:3px
+  subgraph STATE["STATE"]
+    S["message: my trip to cairo is on wednesday, set a travel notice<br/>today: Friday, October 30, 2026<br/>(and oslo on 11/7, boston tomorrow, 7 more)"]
+  end
+  subgraph QUESTIONS["QUESTIONS"]
+    Q["urgent, ONE Noul:<br/>Does message need an urgent travel notice,<br/>because the trip is within 7 days of today?<br/>hidden inside: asks for a notice? / when is the trip? / within 7 days?"]
+  end
+  subgraph ANSWERS["JEV ANSWERS, per message"]
+    A["cairo (asks, 5 days away): urgent 0.50<br/>oslo (asks, 8 days away): urgent 0.51<br/>boston (does NOT ask, tomorrow): urgent 0.86"]
+  end
+  subgraph CODE["YOUR CODE"]
+    C["rule in code:<br/>urgent >= 0.7"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O["cairo: NOT URGENT, MISS<br/>oslo: NOT URGENT, right by a coin flip<br/>boston: URGENT, MISS<br/>which judgment failed? CANNOT TELL"]
+    R["all 10 messages: 7 right<br/>careful wording: 6 right<br/>new policy: reword, call again"]
+  end
+  S --> Q --> A --> C --> O
+  O --- R
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class Q fail
+  class O fail

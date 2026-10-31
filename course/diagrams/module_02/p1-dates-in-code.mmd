@@ -1,0 +1,37 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  IN["Jev's answers for one message<br/>relative_day, month, day, weekday<br/>each one is an option, or not_stated"]
+  D1{"relative_day is<br/>today or tomorrow?"}
+  D2{"month AND day<br/>both stated?"}
+  D3{"weekday stated?"}
+  T1["TODAY or TODAY + 1 day<br/>boston, tomorrow: Oct 31"]
+  T2["date(year, month, day)<br/>already past? next year<br/>oslo, november 7: Nov 7"]
+  T3["the next such weekday, today included<br/>cairo, wednesday: Nov 4"]
+  T4["None: no date stated<br/>london, march: NOT URGENT"]
+  DAYS["days = trip - TODAY<br/>TODAY = Friday, October 30, a constant in code"]
+  W{"asks_notice >= 0.7 and<br/>0 <= days <= WINDOW_DAYS ?"}
+  U["URGENT"]
+  N["NOT URGENT"]
+  P["policy change: WINDOW_DAYS = 3<br/>cairo, 5 days: NOT URGENT now<br/>paris, 1 day and madrid, 2 days: URGENT<br/>same answers, 0 new Jev calls, 10 of 10"]
+  IN --> D1
+  D1 -- yes --> T1
+  D1 -- no --> D2
+  D2 -- yes --> T2
+  D2 -- no --> D3
+  D3 -- yes --> T3
+  D3 -- no --> T4
+  T4 --> N
+  T1 --> DAYS
+  T2 --> DAYS
+  T3 --> DAYS
+  DAYS --> W
+  W -- yes --> U
+  W -- no --> N
+  W -.- P
+  style P fill:#FFF6DA,stroke:#E0B84C,stroke-dasharray:5 5
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class U ok
+  class N ok

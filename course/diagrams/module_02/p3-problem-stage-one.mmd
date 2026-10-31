@@ -1,8 +1,26 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"] --> S1["stage 1: team_question_text<br/>each team described in a few words<br/>on the 40 messages: 29 of 40 teams right"]
-  S1 --> T["team: travel, 0.95<br/>WRONG TEAM"]
-  T --> S2["stage 2: travel's 15 intents<br/>book_hotel, book_flight, car_rental, ...<br/>cancel_reservation is NOT an option"]
-  S2 --> X["answer: book_hotel, 0.6, WRONG, no error<br/>every wrong team is an intent lost for good"]
-  style T stroke:#B42318,stroke-width:3px
-  style X stroke:#B42318,stroke-width:3px
+  subgraph STATE["STATE"]
+    S["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"]
+  end
+  subgraph STAGE1["STAGE 1: a Choice of 10 teams"]
+    T["criteria = TEAMS, Module 1's few words per team<br/>travel: flights, hotels, luggage, visas, ...<br/>kitchen_and_dining: recipes, cooking, nutrition, restaurants"]
+    TA["Jev: travel 0.96, WRONG TEAM"]
+  end
+  subgraph STAGE2["STAGE 2: a Choice of the picked team's 15 intents"]
+    I["travel's 15: book_hotel, book_flight, car_rental, ...<br/>cancel_reservation is NOT an option"]
+    IA["Jev: book_hotel 0.60, WRONG, no error"]
+  end
+  subgraph CODE["YOUR CODE"]
+    P["probability = 0.96 x 0.60 = 0.58<br/>below REVIEW_BELOW? then a person checks"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O["a wrong intent: a person may see it, nobody can fix it<br/>40 messages, Module 1's team question: 29 right<br/>11 intents lost for good"]
+  end
+  S --> T --> TA --> I --> IA --> P --> O
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class T fail
+  class O fail

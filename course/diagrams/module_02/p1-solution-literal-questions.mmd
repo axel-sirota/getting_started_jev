@@ -1,7 +1,28 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart TD
-  M["message: my flight to boston is tomorrow, is it on time<br/>no date in the state: TODAY lives in code"] --> Q["ask: one request, literal questions<br/>asks_notice: Noul<br/>month, day, weekday, relative_day: Choices"]
-  Q --> A["answers: asks_notice 0.02<br/>relative_day: tomorrow"]
-  A --> C["code: trip_date() = October 31<br/>rule: asks_notice >= 0.7 and 0 <= days <= WINDOW_DAYS"]
-  C --> D["NOT URGENT: no notice asked<br/>10 of 10 right; new policy = one constant"]
-  style D stroke:#1A3D4D,stroke-width:3px
+  subgraph STATE["STATE"]
+    S["message: my trip to cairo is on wednesday, set a travel notice<br/>no date here: TODAY = Friday, October 30, 2026 lives in code<br/>(and oslo on 11/7, boston tomorrow, 7 more)"]
+  end
+  subgraph QUESTIONS["QUESTIONS"]
+    Q["5 LITERAL questions, one call:<br/>asks_notice, a Noul: ask to tell the bank about travel?<br/>month: a Choice of 12 + not_stated / day: a Choice of 31 + not_stated<br/>weekday: a Choice of 7 + not_stated<br/>relative_day: a Choice of today / tomorrow / not_stated"]
+  end
+  subgraph ANSWERS["JEV ANSWERS, per message"]
+    A["cairo: asks 0.98, weekday wednesday<br/>oslo: asks 0.98, month november, day 7<br/>boston: asks 0.02, relative_day tomorrow"]
+  end
+  subgraph CODE["YOUR CODE"]
+    C["rule in code: trip_date() builds the date,<br/>days = trip - TODAY, then<br/>asks_notice >= 0.7 and 0 <= days <= WINDOW_DAYS"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O["cairo: Nov 4, 5 days: URGENT, right<br/>oslo: Nov 7, 8 days: NOT URGENT, right<br/>boston: no notice asked: NOT URGENT, right<br/>a miss now points at one answer"]
+    R["all 10 messages: 10 right<br/>new policy: change WINDOW_DAYS,<br/>0 new Jev calls"]
+  end
+  S --> Q --> A --> C --> O
+  O --- R
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class S changed
+  class Q changed
+  class C changed
+  class O ok
