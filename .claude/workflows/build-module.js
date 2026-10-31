@@ -143,7 +143,10 @@ imp_files/outline_getting_started_jev.md`
   results.review = await stage('Review', `Apply the reviewer findings below to everything built for
 module ${N}: ${BUILT}. Fix every BLOCKER and every MAJOR you agree with, in BOTH notebooks when
 the cell exists in both (pair rule); list rejected ones with the reason (approved plan content
-changes only to fix a real defect; reviewers never reorder the 4 beats or move Part 0). Re-render
+changes only to fix a real defect; reviewers never reorder the 4 beats or move Part 0). Never
+reverse a decision the plan records (its rejected review findings, Axel's answers, what a lab
+gives versus what the learner chooses, which module teaches what): report such a finding in
+issues for Axel instead of applying it. Re-render
 changed diagrams. Re-run both notebooks against the real APIs if any code changed. Then:
 - .venv/bin/python3 validate_notebooks.py ${N} --pair --strict   (must PASS)
 

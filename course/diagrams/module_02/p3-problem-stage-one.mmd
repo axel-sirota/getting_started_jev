@@ -1,0 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"] --> S1["stage 1: team_question_text<br/>each team described in a few words<br/>on the 40 messages: 29 of 40 teams right"]
+  S1 --> T["team: travel, 0.95<br/>WRONG TEAM"]
+  T --> S2["stage 2: travel's 15 intents<br/>book_hotel, book_flight, car_rental, ...<br/>cancel_reservation is NOT an option"]
+  S2 --> X["answer: book_hotel, 0.6, WRONG, no error<br/>every wrong team is an intent lost for good"]
+  style T stroke:#B42318,stroke-width:3px
+  style X stroke:#B42318,stroke-width:3px

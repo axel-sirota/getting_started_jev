@@ -1,0 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  T["chat thread<br/>customer: i can't find my card anywhere<br/>customer: ok so what do i do now"] --> S["state = message: the last line only<br/>ok so what do i do now"]
+  S --> Q["ask: lost_or_stolen<br/>Does `message` report that the<br/>customer's card is lost or stolen?"]
+  Q --> A["answer: 0.01, MISSED<br/>risk_decision(): NONE"]
+  A --> X["the lost card is OUTSIDE the state<br/>no error: a lost card gets NONE"]
+  style S stroke:#B42318,stroke-width:3px
+  style X stroke:#B42318,stroke-width:3px

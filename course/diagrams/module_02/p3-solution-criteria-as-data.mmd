@@ -1,0 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"] --> S1["stage 1: team_question_data<br/>criteria = TEAM_INTENTS<br/>each team described by its 15 intents<br/>on the 40 messages: 39 of 40 teams right"]
+  S1 --> T["team: kitchen_and_dining, 0.97"]
+  T --> S2["stage 2: intent_question(team)<br/>kitchen_and_dining's 15 intents"]
+  S2 --> A["answer: cancel_reservation, 1.00"]
+  A --> C["code: probability = 0.97 x 1.00<br/>needs_review if below REVIEW_BELOW"]
+  style C stroke:#1A3D4D,stroke-width:3px

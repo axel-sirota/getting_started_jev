@@ -1,0 +1,8 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: my flight to boston is tomorrow, is it on time<br/>today: Friday, October 30, 2026"] --> Q["ask: one vague Noul<br/>urgent travel notice, because the trip<br/>is within 7 days of today?"]
+  Q --> H["hidden inside: 3 judgments<br/>asks for a notice? / when is the trip? / within 7 days?"]
+  H --> A["answers: one number per message<br/>boston on-time 0.86 YES, WRONG<br/>oslo, 8 days: 0.53 / cairo, 5 days: 0.42"]
+  A --> X["result: 7 of 10 right, careful wording 6 of 10<br/>one number: which judgment failed? CANNOT TELL"]
+  style H stroke:#B42318,stroke-width:3px
+  style X stroke:#B42318,stroke-width:3px

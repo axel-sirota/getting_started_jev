@@ -1,0 +1,7 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  T["chat thread<br/>customer: i can't find my card anywhere<br/>customer: ok so what do i do now"] --> S["state = thread: every turn<br/>from: customer, text: ..."]
+  S --> Q["ask: lost_or_stolen<br/>Does the customer in `thread` report<br/>that their card is lost or stolen?"]
+  Q --> A["answer: 0.76, YES"]
+  A --> D["risk_decision(): ESCALATE<br/>reason: lost_or_stolen"]
+  style D stroke:#1A3D4D,stroke-width:3px

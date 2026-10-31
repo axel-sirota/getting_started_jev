@@ -1,0 +1,7 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["message: my flight to boston is tomorrow, is it on time<br/>no date in the state: TODAY lives in code"] --> Q["ask: one request, literal questions<br/>asks_notice: Noul<br/>month, day, weekday, relative_day: Choices"]
+  Q --> A["answers: asks_notice 0.02<br/>relative_day: tomorrow"]
+  A --> C["code: trip_date() = October 31<br/>rule: asks_notice >= 0.7 and 0 <= days <= WINDOW_DAYS"]
+  C --> D["NOT URGENT: no notice asked<br/>10 of 10 right; new policy = one constant"]
+  style D stroke:#1A3D4D,stroke-width:3px
