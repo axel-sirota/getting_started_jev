@@ -9,7 +9,7 @@ flowchart LR
   end
   subgraph ZS["zero-shot, bart-large-mnli"]
     direction TB
-    Z1["DEV teams right<br/>56% few words<br/>36% intent names, probe"]
+    Z1["DEV teams right<br/>56% few words"]
     Z2["TEST at 2% target<br/>0 routed, 150 to a person<br/>no out-of-scope question"]
     Z3["121 ms per message, CPU<br/>no API bill"]
     Z1 ~~~ Z2 ~~~ Z3

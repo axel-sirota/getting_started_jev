@@ -1,0 +1,40 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph ST["STATE: a dict of facts"]
+    M["{'message':<br/>'how do i<br/>make lasagna'}"]
+  end
+  subgraph QS["QUESTIONS: one request"]
+    C["Choice: one option<br/>intent: 150 names<br/>criteria = data"]
+    N["Noul: yes or no<br/>fits: our task?<br/>true = ours"]
+    S["Score: a number<br/>not used here"]
+  end
+  subgraph JA["JEV ANSWERS: typed"]
+    CA[".choice: recipe<br/>.probabilities<br/>.confidence"]
+    NA[".noul: 0.96<br/>P(true)"]
+    SA[".score<br/>.confidence"]
+  end
+  subgraph CD["YOUR CODE DECIDES"]
+    B1["below 0.3: no"]
+    B2["0.3 to 0.7: unsure"]
+    B3["0.7 and up: yes"]
+    RB["intent p below<br/>REVIEW_BELOW:<br/>a person checks"]
+  end
+  M --> C
+  M --> N
+  M -.-> S
+  C --> CA
+  N --> NA
+  S -.-> SA
+  NA --> B1
+  NA --> B2
+  NA --> B3
+  CA --> RB
+
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef faded fill:#F9FAFB,stroke:#9CA3AF,stroke-width:2px,stroke-dasharray: 5 5
+  class C,N,CA,NA jev
+  class B1,B2,B3 code
+  class RB human
+  class S,SA faded

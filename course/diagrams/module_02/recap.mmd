@@ -1,0 +1,30 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph IN["MODULE 1: YOU SEND"]
+    direction LR
+    S["STATE: a dict of facts<br/>{'message': 'i lost my card'}<br/>`message` in a question = that field"]
+    Q["QUESTIONS: a dict, name to question<br/>criteria = what each option means<br/>{name: None} = the name says it"]
+    S ~~~ Q
+  end
+  J["jev.system_one(state, questions, model)<br/>one call, one typed answer per question"]
+  subgraph OUT["JEV ANSWERS, typed: nothing to parse"]
+    direction LR
+    AC["Choice: pick one option<br/>.choice, .probabilities<br/>.confidence: how decided, not if right"]
+    AS["Score: rate on your levels<br/>.score, .probabilities<br/>.confidence"]
+    AN["Noul: is a statement true?<br/>.noul = probability it is true<br/>no confidence"]
+    AC ~~~ AS ~~~ AN
+  end
+  C["YOUR CODE decides: judgments in Jev, decisions in code<br/>if noul >= 0.7: ESCALATE"]
+  subgraph LEFT["MODULE 1 LEFT TWO LOOSE ENDS: MODULE 2 FIXES THEM"]
+    direction LR
+    L1["risk Noul joins 3 risks with or<br/>which one fired? CANNOT TELL<br/>Part 1 and Lab 1 split it"]
+    L2["team Choice, a few words per team<br/>about 3 in 4 teams right<br/>Part 3 describes teams by intents"]
+    L1 ~~~ L2
+  end
+  IN --> J --> OUT --> C
+  C ~~~ LEFT
+
+  classDef jev fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef warn fill:#FFF6DA,stroke:#B54708,stroke-width:3px
+  class J,C jev
+  class L1,L2 warn
