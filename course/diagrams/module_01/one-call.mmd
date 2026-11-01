@@ -1,0 +1,17 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+sequenceDiagram
+    autonumber
+    participant C as Your code
+    participant S as typesafe-sdk
+    participant A as TypeSafe API (Jev)
+    C->>S: jev.system_one(state, questions, model)
+    S->>S: check questions (criteria present)
+    S->>A: POST /v1/systemone, Bearer key
+    opt error 408, 429 or 5xx
+        A-->>S: error status
+        S->>A: retry, up to 2 times, 30 s budget
+    end
+    Note over A: Jev reads the state<br/>one typed answer per question
+    A-->>S: JSON: model, answers, usage
+    S-->>C: SystemOneResponse
+    C->>C: if / else on answers

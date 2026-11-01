@@ -1,0 +1,10 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  ONE["ONE answer at 0.95<br/>right or wrong:<br/>no promise"] -.->|"collect many"| G["GROUP: answers Jev said<br/>0.90 to 0.99<br/>mean said: 0.95"]
+  G --> W{"share right?"}
+  W -->|"text: 0.75"| OVER["OVERCONFIDENT<br/>right below said"]
+  W -->|"= said"| CAL["CALIBRATED<br/>right matches said<br/>a threshold on it holds"]
+  W -->|"intents: 1.00"| UNDER["UNDER-CONFIDENT<br/>right above said"]
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  class OVER fail

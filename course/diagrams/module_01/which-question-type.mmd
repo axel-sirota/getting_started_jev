@@ -1,0 +1,28 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+    S(["What does the answer look like?<br/>ask in order, first yes wins"])
+    subgraph R1[" "]
+        direction LR
+        Q1["1. a date or a sum?"] -->|yes| A1["CODE, not Jev"]
+    end
+    subgraph R2[" "]
+        direction LR
+        Q2["2. text to write?"] -->|yes| A2["LLM: Jev writes no text"]
+    end
+    subgraph R3[" "]
+        direction LR
+        Q3["3. yes or no?"] -->|yes| A3["Noul: noul = P(yes)"]
+    end
+    subgraph R4[" "]
+        direction LR
+        Q4["4. ordered levels?"] -->|yes| A4["Score: 2 to 10 levels"]
+    end
+    subgraph R5[" "]
+        direction LR
+        Q5["5. none of these"] -->|yes| A5["Choice: up to 255 options"]
+    end
+    S --> R1
+    R1 ~~~ R2
+    R2 ~~~ R3
+    R3 ~~~ R4
+    R4 ~~~ R5

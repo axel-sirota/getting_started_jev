@@ -1,0 +1,19 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+    subgraph M1["1 Meet Jev"]
+        direction LR
+        P1["PROBLEM<br/>LLM gives a bare label<br/>no probability"] --> F1["Choice, Score, Noul<br/>typed answers, confidence"]
+    end
+    subgraph M2["2 Designing Good Questions"]
+        direction LR
+        P2["PROBLEM<br/>one question hides<br/>several judgments"] --> F2["one judgment per question<br/>team, then 1 of 150 intents"]
+    end
+    subgraph M3["3 Measuring and Trusting Jev"]
+        direction LR
+        P3["PROBLEM<br/>numbers never checked<br/>review line is a guess"] --> F3["calibration, out-of-scope Noul<br/>threshold from data"]
+    end
+    subgraph M4["4 Jev and LLMs Together"]
+        direction LR
+        P4["PROBLEM<br/>triage cannot write<br/>a reply"] --> F4["Jev routes before the LLM<br/>and guards its reply"]
+    end
+    M1 --> M2 --> M3 --> M4

@@ -1,0 +1,30 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph STATE["STATE: same for all"]
+    M["message<br/>oslo on 11/7,<br/>travel notice please"]
+  end
+  subgraph REQ["ONE REQUEST: each question alone"]
+    direction TB
+    N["NEVER SEEN by a question<br/>its id, the other questions,<br/>the other answers"]
+    QA["asks_notice: Noul<br/>sees message + its criteria"]
+    QM["month: Choice<br/>sees message + its 13 options"]
+    QD["day: Choice<br/>sees message + its 32 options"]
+    QW["weekday, relative_day<br/>each sees message + own options"]
+  end
+  subgraph CODE["YOUR CODE: answers meet here"]
+    direction TB
+    T["trip_date()<br/>parts into a date"]
+    R["URGENT if asks >= 0.7<br/>and days <= WINDOW_DAYS"]
+  end
+  M --> QA
+  M --> QM
+  M --> QD
+  M --> QW
+  QA --> R
+  QM --> T
+  QD --> T
+  QW --> T
+  T --> R
+
+  classDef never fill:#FFF6DA,stroke:#1A3D4D,stroke-width:3px,stroke-dasharray: 6 4
+  class N never

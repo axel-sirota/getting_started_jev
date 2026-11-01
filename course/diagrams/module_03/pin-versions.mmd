@@ -1,0 +1,17 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph ROW1["1. BEFORE THE RELEASE"]
+    direction LR
+    P["PINNED<br/>jev-1.13.0<br/>log response.model"] --> T["TUNED<br/>choose_threshold()<br/>on DEV"] --> M["ALIAS MOVES<br/>jev-1.14.0 ships 14 Oct 2026<br/>jev-latest now answers 1.14.0"]
+  end
+  subgraph ROW2["2. BEFORE YOU SWITCH"]
+    direction LR
+    E["RE-EVAL<br/>on jev-1.14.0<br/>DEV sweep + TEST check"] --> R{"numbers<br/>held?"}
+    R -->|"no"| RT["RETUNE<br/>new thresholds"]
+    R -->|"yes"| S["SWITCH<br/>JEV_MODEL = jev-1.14.0<br/>pinned again"]
+    RT --> S
+  end
+  ROW1 -->|"your code did not change"| ROW2
+
+  classDef hot fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  class M hot

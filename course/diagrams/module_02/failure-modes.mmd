@@ -1,0 +1,22 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph TAUGHT["TAUGHT IN THIS MODULE"]
+    direction LR
+    F4["Indirection<br/>multi-hop wording"] --> X4["Part 2: name the field<br/>questions name thread"]
+    F3["Date comparison<br/>dates read as text"] --> X3["Part 1: month, day, weekday Choices<br/>trip_date() compares in code"]
+    F2["Math and numbers<br/>not a calculator"] --> X2["Part 1: maths in code<br/>days <= WINDOW_DAYS"]
+    F1["Literal reading<br/>answers what you wrote"] --> X1["Part 1: one judgment per question<br/>asks_notice criteria name edge cases"]
+  end
+  subgraph PUB["PUBLISHED ONLY: not measured here"]
+    direction LR
+    F9["Generation<br/>not trained for text"] -.-> X9["bounded: a Choice<br/>free text: an LLM"]
+    F8["Choice option order<br/>leans to the first"] -.-> X8["reorder the options,<br/>check the answer holds"]
+    F7["Instructions and criteria<br/>disagree"] -.-> X7["criteria extend the instruction,<br/>align the wording"]
+    F6["Adversarial content<br/>in the state"] -.-> X6["explicit criteria,<br/>test before wide use"]
+    F5["Large state<br/>full of irrelevant detail"] -.-> X5["filter in code,<br/>send only what it needs"]
+  end
+
+  TAUGHT ~~~ PUB
+
+  classDef pub stroke-dasharray: 6 4
+  class F5,F6,F7,F8,F9,X5,X6,X7,X8,X9 pub

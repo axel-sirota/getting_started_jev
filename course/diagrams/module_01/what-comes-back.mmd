@@ -1,0 +1,32 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+classDiagram
+    direction LR
+    class SystemOneResponse {
+        model : str
+        usage : Usage
+        answers : dict
+    }
+    class Usage {
+        input_tokens : int
+        output_tokens : int
+    }
+    class ChoiceAnswer {
+        choice : str
+        probabilities : dict
+        confidence : float
+    }
+    class ScoreAnswer {
+        score : float
+        probabilities : dict
+        legend : dict
+        confidence : float
+    }
+    class NoulAnswer {
+        noul : float
+    }
+    SystemOneResponse --> ChoiceAnswer : answers["team"]
+    SystemOneResponse --> ScoreAnswer : answers["urgency"]
+    SystemOneResponse --> NoulAnswer : answers["risk"]
+    SystemOneResponse --> Usage : usage
+    note for NoulAnswer "no confidence: noul is P(yes)"
+    note for Usage "billed on input_tokens, output free"
