@@ -1,0 +1,1152 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Jev Course Diagrams</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of figure panels grouped by teaching module, with a module index up top */
+:root {
+  --bg: #F2F4F7;
+  --surface: #FFFFFF;
+  --ink: #131922;
+  --muted: #56616F;
+  --line: #D6DCE4;
+  --accent: #2C45C4;
+  --accent-soft: #E4E8F9;
+  --code-bg: #F6F7FA;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1217; --surface: #161B22; --ink: #E4E9F0; --muted: #98A2AF; --line: #29313B;
+    --accent: #93A5FF; --accent-soft: #1C2445; --code-bg: #11161C; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1217; --surface: #161B22; --ink: #E4E9F0; --muted: #98A2AF; --line: #29313B;
+  --accent: #93A5FF; --accent-soft: #1C2445; --code-bg: #11161C; color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55; }
+.wrap {
+  max-width: 1040px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+  display: grid; gap: 56px;
+}
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.top { display: grid; gap: 14px; }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(34px, 6vw, 52px); line-height: 1.05; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+.lede { margin: 0; max-width: 62ch; color: var(--muted); font-size: 17px; }
+.lede code, .say code { font-family: var(--f-mono); font-size: .9em; }
+
+.index { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.index a {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 10px;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  text-decoration: none; color: var(--ink);
+}
+.index a:hover { border-color: var(--accent); }
+.nav-kicker { font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+.nav-title { font-weight: 500; min-width: 0; }
+.nav-count { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.sec { display: grid; gap: 20px; scroll-margin-top: 16px; }
+.sec-head { display: grid; gap: 4px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.sec-kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.sec-head h2 { font-family: var(--f-display); font-weight: 600; font-size: clamp(26px, 4vw, 32px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.sec-head p { margin: 0; color: var(--muted); }
+.figs { display: grid; gap: 20px; }
+
+.fig { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 14px; min-width: 0; scroll-margin-top: 16px; }
+.fig-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.fig-no { font-family: var(--f-mono); font-size: 13px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.fig-head h3 { font-family: var(--f-display); font-weight: 600; font-size: 21px; line-height: 1.2; margin: 0; flex: 1 1 auto; min-width: 0; }
+.fig-kind { font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
+.say { margin: 0; max-width: 72ch; display: flex; gap: 10px; align-items: baseline; }
+.say-label { flex: none; font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 2px 6px; }
+.diagram { overflow-x: auto; min-width: 0; padding-block: 8px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.diagram pre.mermaid { margin: 0; background: transparent; text-align: center; font-family: var(--f-mono); font-size: 12px; color: var(--muted); white-space: pre; }
+.diagram svg { max-width: 100%; height: auto; }
+
+.fig-foot { display: grid; gap: 10px; justify-items: start; }
+.copy {
+  font-family: var(--f-mono); font-size: 13px; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer;
+}
+.copy:hover { border-color: var(--accent); color: var(--accent); }
+.copy[data-state="done"] { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+details { width: 100%; min-width: 0; }
+summary { font-family: var(--f-mono); font-size: 13px; color: var(--muted); cursor: pointer; width: max-content; }
+pre.src { margin: 10px 0 0; overflow-x: auto; background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; font-size: 12.5px; line-height: 1.5; }
+pre.src code { font-family: var(--f-mono); color: var(--ink); }
+
+.notes { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 14px; display: grid; gap: 6px; }
+.notes p { margin: 0; max-width: 72ch; }
+
+@media (max-width: 520px) {
+  .fig { padding: 14px; }
+  .say { flex-direction: column; gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Getting Started with Jev &middot; instructor reference</span>
+    <h1>Jev Course Diagrams</h1>
+    <p class="lede">23 diagrams in teaching order, grouped by module. Each one has the line to say out loud, and a button that copies its Mermaid source for slides.</p>
+    <nav aria-label="Sections"><ol class="index"><li><a href="#storyline"><span class="nav-kicker">Course</span><span class="nav-title">The storyline</span><span class="nav-count">1</span></a></li><li><a href="#how-it-works"><span class="nav-kicker">Part 0</span><span class="nav-title">How Jev works</span><span class="nav-count">5</span></a></li><li><a href="#module-1"><span class="nav-kicker">Module 1</span><span class="nav-title">Meet Jev</span><span class="nav-count">6</span></a></li><li><a href="#module-2"><span class="nav-kicker">Module 2</span><span class="nav-title">Designing good questions</span><span class="nav-count">4</span></a></li><li><a href="#module-3"><span class="nav-kicker">Module 3</span><span class="nav-title">Measuring and trusting Jev</span><span class="nav-count">4</span></a></li><li><a href="#module-4"><span class="nav-kicker">Module 4</span><span class="nav-title">Jev and LLMs together</span><span class="nav-count">3</span></a></li></ol></nav>
+  </header>
+  
+    <section class="sec" id="storyline">
+      <div class="sec-head">
+        <span class="sec-kicker">Course</span>
+        <h2>The storyline</h2>
+        <p>Quokka&#x27;s problem, solved one module at a time.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-1">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 1</span>
+          <h3>Course storyline</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Each module fixes one of Quokka&#x27;s problems. Show it at the start and again at the end.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    S0["Quokka today&lt;br/&gt;LLM reads everything&lt;br/&gt;slow, pricey, silently wrong"] --&gt; M1["Module 1&lt;br/&gt;typed triage in one call"]
+    M1 --&gt; M2["Module 2&lt;br/&gt;atomic questions,&lt;br/&gt;150 intents, logic in code"]
+    M2 --&gt; M3["Module 3&lt;br/&gt;measured: accuracy, calibration,&lt;br/&gt;a human-review threshold"]
+    M3 --&gt; M4["Module 4&lt;br/&gt;Jev routes in front,&lt;br/&gt;guards behind the LLM"]
+    M4 --&gt; AHA["Aha: every decision typed,&lt;br/&gt;with a confidence and a cost"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-1" data-fig="fig-1">Copy Mermaid</button>
+          <details id="src-1"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    S0["Quokka today&lt;br/&gt;LLM reads everything&lt;br/&gt;slow, pricey, silently wrong"] --&gt; M1["Module 1&lt;br/&gt;typed triage in one call"]
+    M1 --&gt; M2["Module 2&lt;br/&gt;atomic questions,&lt;br/&gt;150 intents, logic in code"]
+    M2 --&gt; M3["Module 3&lt;br/&gt;measured: accuracy, calibration,&lt;br/&gt;a human-review threshold"]
+    M3 --&gt; M4["Module 4&lt;br/&gt;Jev routes in front,&lt;br/&gt;guards behind the LLM"]
+    M4 --&gt; AHA["Aha: every decision typed,&lt;br/&gt;with a confidence and a cost"]</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+    <section class="sec" id="how-it-works">
+      <div class="sec-head">
+        <span class="sec-kicker">Part 0</span>
+        <h2>How Jev works</h2>
+        <p>Your reference for the questions students ask first.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-2">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 2</span>
+          <h3>LLM way vs Jev way</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>An LLM writes and you parse. Jev returns typed values with a probability, and your code routes.</p>
+        <div class="diagram"><pre class="mermaid">flowchart TB
+    subgraph LLM["LLM way (System Two)"]
+        direction LR
+        L1["Message"] --&gt; L2["Prompt + message"]
+        L2 --&gt; L3["LLM writes text&lt;br/&gt;token by token"]
+        L3 --&gt; L4["Parse JSON or regex"]
+        L4 --&gt; L5{"Valid label?"}
+        L5 --&gt;|no| L6["Retry or crash"]
+        L5 --&gt;|yes| L7["Route it&lt;br/&gt;no idea how sure it was"]
+    end
+    subgraph JEV["Jev way (System One)"]
+        direction LR
+        J1["Message as state"] --&gt; J2["+ typed questions"]
+        J2 --&gt; J3["Jev: one parallel pass"]
+        J3 --&gt; J4["Typed answers&lt;br/&gt;+ probabilities"]
+        J4 --&gt; J5["Your if / else routes"]
+    end
+    LLM ~~~ JEV</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-2" data-fig="fig-2">Copy Mermaid</button>
+          <details id="src-2"><summary>Show source</summary><pre class="src"><code>flowchart TB
+    subgraph LLM["LLM way (System Two)"]
+        direction LR
+        L1["Message"] --&gt; L2["Prompt + message"]
+        L2 --&gt; L3["LLM writes text&lt;br/&gt;token by token"]
+        L3 --&gt; L4["Parse JSON or regex"]
+        L4 --&gt; L5{"Valid label?"}
+        L5 --&gt;|no| L6["Retry or crash"]
+        L5 --&gt;|yes| L7["Route it&lt;br/&gt;no idea how sure it was"]
+    end
+    subgraph JEV["Jev way (System One)"]
+        direction LR
+        J1["Message as state"] --&gt; J2["+ typed questions"]
+        J2 --&gt; J3["Jev: one parallel pass"]
+        J3 --&gt; J4["Typed answers&lt;br/&gt;+ probabilities"]
+        J4 --&gt; J5["Your if / else routes"]
+    end
+    LLM ~~~ JEV</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-3">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 3</span>
+          <h3>What happens on one call</h3>
+          <span class="fig-kind">sequence</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>One HTTP request. The SDK checks your questions, Jev reads the state once and answers every question in parallel.</p>
+        <div class="diagram"><pre class="mermaid">sequenceDiagram
+    autonumber
+    participant C as Your code
+    participant S as typesafe-sdk
+    participant A as TypeSafe API
+    participant J as Jev
+    C-&gt;&gt;S: system_one(state, questions, model=jev-1.14.0)
+    S-&gt;&gt;S: validate question objects (pydantic)
+    S-&gt;&gt;A: POST /v1/systemone with Bearer key
+    A-&gt;&gt;J: state + every question
+    Note over J: state read once&lt;br/&gt;each question answered in parallel, on its own
+    J--&gt;&gt;A: one typed answer per question
+    A--&gt;&gt;S: JSON: answers, model, usage
+    S--&gt;&gt;C: SystemOneResponse (.choices .scores .nouls)
+    C-&gt;&gt;C: if / else on answer and confidence</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-3" data-fig="fig-3">Copy Mermaid</button>
+          <details id="src-3"><summary>Show source</summary><pre class="src"><code>sequenceDiagram
+    autonumber
+    participant C as Your code
+    participant S as typesafe-sdk
+    participant A as TypeSafe API
+    participant J as Jev
+    C-&gt;&gt;S: system_one(state, questions, model=jev-1.14.0)
+    S-&gt;&gt;S: validate question objects (pydantic)
+    S-&gt;&gt;A: POST /v1/systemone with Bearer key
+    A-&gt;&gt;J: state + every question
+    Note over J: state read once&lt;br/&gt;each question answered in parallel, on its own
+    J--&gt;&gt;A: one typed answer per question
+    A--&gt;&gt;S: JSON: answers, model, usage
+    S--&gt;&gt;C: SystemOneResponse (.choices .scores .nouls)
+    C-&gt;&gt;C: if / else on answer and confidence</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-4">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 4</span>
+          <h3>Questions don&#x27;t see each other</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Each question sees the state and its own options, nothing else. That&#x27;s why 28 Nouls in one request over-predict yes.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    ST["state&lt;br/&gt;message, order, policy..."]
+    subgraph REQ["One request"]
+        direction TB
+        Q1["Choice: department&lt;br/&gt;sees state + its own options"]
+        Q2["Score: frustration&lt;br/&gt;sees state + its own levels"]
+        Q3["Noul: is_urgent&lt;br/&gt;sees state + its own question"]
+    end
+    ST --&gt; Q1
+    ST --&gt; Q2
+    ST --&gt; Q3
+    Q1 --&gt; A1["choice, probabilities, confidence"]
+    Q2 --&gt; A2["score, probabilities, legend, confidence"]
+    Q3 --&gt; A3["noul = P(yes)"]
+    X["For every question, never seen:&lt;br/&gt;its ID, the other questions"] -.- REQ</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-4" data-fig="fig-4">Copy Mermaid</button>
+          <details id="src-4"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    ST["state&lt;br/&gt;message, order, policy..."]
+    subgraph REQ["One request"]
+        direction TB
+        Q1["Choice: department&lt;br/&gt;sees state + its own options"]
+        Q2["Score: frustration&lt;br/&gt;sees state + its own levels"]
+        Q3["Noul: is_urgent&lt;br/&gt;sees state + its own question"]
+    end
+    ST --&gt; Q1
+    ST --&gt; Q2
+    ST --&gt; Q3
+    Q1 --&gt; A1["choice, probabilities, confidence"]
+    Q2 --&gt; A2["score, probabilities, legend, confidence"]
+    Q3 --&gt; A3["noul = P(yes)"]
+    X["For every question, never seen:&lt;br/&gt;its ID, the other questions"] -.- REQ</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-5">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 5</span>
+          <h3>Where Jev comes from</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Same pretrained start, different reward. RLCD rewards probabilities that match outcomes, not text people like.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    PT["Pretrained language model"] --&gt; RLHF["RLHF&lt;br/&gt;reward: what people prefer"]
+    PT --&gt; RLVR["RLVR&lt;br/&gt;reward: verifiable answers"]
+    PT --&gt; RLCD["RLCD&lt;br/&gt;reward: calibrated decisions"]
+    RLHF --&gt; CHAT["Chatbots&lt;br/&gt;fluent, can be sycophantic,&lt;br/&gt;confident when wrong"]
+    RLVR --&gt; REASON["Reasoning models&lt;br/&gt;strong at maths, slow, pricey"]
+    RLCD --&gt; JEV["Jev&lt;br/&gt;no text, typed decisions,&lt;br/&gt;probabilities that match outcomes"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-5" data-fig="fig-5">Copy Mermaid</button>
+          <details id="src-5"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    PT["Pretrained language model"] --&gt; RLHF["RLHF&lt;br/&gt;reward: what people prefer"]
+    PT --&gt; RLVR["RLVR&lt;br/&gt;reward: verifiable answers"]
+    PT --&gt; RLCD["RLCD&lt;br/&gt;reward: calibrated decisions"]
+    RLHF --&gt; CHAT["Chatbots&lt;br/&gt;fluent, can be sycophantic,&lt;br/&gt;confident when wrong"]
+    RLVR --&gt; REASON["Reasoning models&lt;br/&gt;strong at maths, slow, pricey"]
+    RLCD --&gt; JEV["Jev&lt;br/&gt;no text, typed decisions,&lt;br/&gt;probabilities that match outcomes"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-6">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 6</span>
+          <h3>What calibrated means</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Calibration is about groups of answers. It never promises that one answer is right.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    B["1,000 answers where&lt;br/&gt;Jev said p ≈ 0.8"] --&gt; W{"How many were right?"}
+    W --&gt;|about 800| CAL["Calibrated&lt;br/&gt;you can put a threshold on it"]
+    W --&gt;|about 600| OVER["Overconfident&lt;br/&gt;p promises more than it delivers"]
+    W --&gt;|about 950| UNDER["Under-confident&lt;br/&gt;p undersells it"]
+    CAL --&gt; NOTE["A property of groups of answers&lt;br/&gt;never a promise about one answer"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-6" data-fig="fig-6">Copy Mermaid</button>
+          <details id="src-6"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    B["1,000 answers where&lt;br/&gt;Jev said p ≈ 0.8"] --&gt; W{"How many were right?"}
+    W --&gt;|about 800| CAL["Calibrated&lt;br/&gt;you can put a threshold on it"]
+    W --&gt;|about 600| OVER["Overconfident&lt;br/&gt;p promises more than it delivers"]
+    W --&gt;|about 950| UNDER["Under-confident&lt;br/&gt;p undersells it"]
+    CAL --&gt; NOTE["A property of groups of answers&lt;br/&gt;never a promise about one answer"]</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+    <section class="sec" id="module-1">
+      <div class="sec-head">
+        <span class="sec-kicker">Module 1</span>
+        <h2>Meet Jev</h2>
+        <p>Typed decisions instead of text.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-7">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 7</span>
+          <h3>Which primitive?</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Code first, an LLM for text, then pick Noul, Score or Choice by the shape of the answer.</p>
+        <div class="diagram"><pre class="mermaid">flowchart TD
+    S["What does the answer look like?"] --&gt; Q1{"Exact maths, dates,&lt;br/&gt;counts or lookups?"}
+    Q1 --&gt;|yes| CODE["Code, not Jev"]
+    Q1 --&gt;|no| Q2{"Free text needed?"}
+    Q2 --&gt;|yes| LLM["LLM, Jev can't write"]
+    Q2 --&gt;|no| Q3{"Yes or no?"}
+    Q3 --&gt;|yes| NOUL["Noul&lt;br/&gt;returns P(yes)"]
+    Q3 --&gt;|no| Q4{"Ordered levels?&lt;br/&gt;e.g. calm to angry"}
+    Q4 --&gt;|yes| SCORE["Score&lt;br/&gt;2 to 10 described levels"]
+    Q4 --&gt;|no| Q5{"More than 255 options?"}
+    Q5 --&gt;|no| CHOICE["Choice&lt;br/&gt;one of up to 255 options"]
+    Q5 --&gt;|yes| TREE["Hierarchy of Choices&lt;br/&gt;two-stage, fan-out or beam"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-7" data-fig="fig-7">Copy Mermaid</button>
+          <details id="src-7"><summary>Show source</summary><pre class="src"><code>flowchart TD
+    S["What does the answer look like?"] --&gt; Q1{"Exact maths, dates,&lt;br/&gt;counts or lookups?"}
+    Q1 --&gt;|yes| CODE["Code, not Jev"]
+    Q1 --&gt;|no| Q2{"Free text needed?"}
+    Q2 --&gt;|yes| LLM["LLM, Jev can't write"]
+    Q2 --&gt;|no| Q3{"Yes or no?"}
+    Q3 --&gt;|yes| NOUL["Noul&lt;br/&gt;returns P(yes)"]
+    Q3 --&gt;|no| Q4{"Ordered levels?&lt;br/&gt;e.g. calm to angry"}
+    Q4 --&gt;|yes| SCORE["Score&lt;br/&gt;2 to 10 described levels"]
+    Q4 --&gt;|no| Q5{"More than 255 options?"}
+    Q5 --&gt;|no| CHOICE["Choice&lt;br/&gt;one of up to 255 options"]
+    Q5 --&gt;|yes| TREE["Hierarchy of Choices&lt;br/&gt;two-stage, fan-out or beam"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-8">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 8</span>
+          <h3>What comes back</h3>
+          <span class="fig-kind">class</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Read answers through .choices, .scores and .nouls. Score keys are ints in Python, and a Noul has no confidence.</p>
+        <div class="diagram"><pre class="mermaid">classDiagram
+    class SystemOneResponse {
+        model : str
+        usage : Usage
+        answers : dict
+        choices : dict
+        scores : dict
+        nouls : dict
+    }
+    class ChoiceAnswer {
+        choice : str
+        probabilities : dict option to p
+        confidence : float
+    }
+    class ScoreAnswer {
+        score : float
+        probabilities : dict int level to p
+        legend : dict int level to text
+        confidence : float
+    }
+    class NoulAnswer {
+        noul : float
+    }
+    class Usage {
+        input_tokens : int
+        output_tokens : int
+    }
+    SystemOneResponse --&gt; ChoiceAnswer : choices by id
+    SystemOneResponse --&gt; ScoreAnswer : scores by id
+    SystemOneResponse --&gt; NoulAnswer : nouls by id
+    SystemOneResponse --&gt; Usage
+    note for NoulAnswer "No confidence field. noul is P(yes)"
+    note for Usage "Billed on input tokens only, output is free"</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-8" data-fig="fig-8">Copy Mermaid</button>
+          <details id="src-8"><summary>Show source</summary><pre class="src"><code>classDiagram
+    class SystemOneResponse {
+        model : str
+        usage : Usage
+        answers : dict
+        choices : dict
+        scores : dict
+        nouls : dict
+    }
+    class ChoiceAnswer {
+        choice : str
+        probabilities : dict option to p
+        confidence : float
+    }
+    class ScoreAnswer {
+        score : float
+        probabilities : dict int level to p
+        legend : dict int level to text
+        confidence : float
+    }
+    class NoulAnswer {
+        noul : float
+    }
+    class Usage {
+        input_tokens : int
+        output_tokens : int
+    }
+    SystemOneResponse --&gt; ChoiceAnswer : choices by id
+    SystemOneResponse --&gt; ScoreAnswer : scores by id
+    SystemOneResponse --&gt; NoulAnswer : nouls by id
+    SystemOneResponse --&gt; Usage
+    note for NoulAnswer "No confidence field. noul is P(yes)"
+    note for Usage "Billed on input tokens only, output is free"</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-9">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 9</span>
+          <h3>How confidence is calculated</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Confidence is computed from the probabilities. With 151 options it is close to p_max, with 3 it is much lower.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    P["probabilities&lt;br/&gt;from the answer"] --&gt; T{"Question type"}
+    T --&gt;|Choice| C["(p_max − 1/n) ÷ (1 − 1/n)&lt;br/&gt;only the top option counts"]
+    T --&gt;|Score| S["1 − spread around the peak level&lt;br/&gt;÷ spread of an even split&lt;br/&gt;floored at 0"]
+    T --&gt;|Noul| N["No confidence field&lt;br/&gt;noul itself is P(yes)&lt;br/&gt;use abs(2p − 1) if you need one"]
+    C --&gt; R["confidence 0 to 1&lt;br/&gt;1 = all on one option&lt;br/&gt;0 = even spread"]
+    S --&gt; R
+    C -.- EX["Same p_max 0.6:&lt;br/&gt;3 options gives 0.4&lt;br/&gt;151 options gives 0.6"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-9" data-fig="fig-9">Copy Mermaid</button>
+          <details id="src-9"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    P["probabilities&lt;br/&gt;from the answer"] --&gt; T{"Question type"}
+    T --&gt;|Choice| C["(p_max − 1/n) ÷ (1 − 1/n)&lt;br/&gt;only the top option counts"]
+    T --&gt;|Score| S["1 − spread around the peak level&lt;br/&gt;÷ spread of an even split&lt;br/&gt;floored at 0"]
+    T --&gt;|Noul| N["No confidence field&lt;br/&gt;noul itself is P(yes)&lt;br/&gt;use abs(2p − 1) if you need one"]
+    C --&gt; R["confidence 0 to 1&lt;br/&gt;1 = all on one option&lt;br/&gt;0 = even spread"]
+    S --&gt; R
+    C -.- EX["Same p_max 0.6:&lt;br/&gt;3 options gives 0.4&lt;br/&gt;151 options gives 0.6"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-10">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 10</span>
+          <h3>Context limits</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>64k tokens for the whole request, 32k for the state plus any one question. No cap on the number of questions.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    subgraph R["Per request limit: 64k tokens"]
+        direction TB
+        RS["state, counted once"]
+        RQ["question 1 + question 2&lt;br/&gt;+ ... + question N"]
+    end
+    subgraph P["Per question limit: 32k tokens"]
+        direction TB
+        PS["state"]
+        PQ["any ONE question"]
+    end
+    R ~~~ P
+    LC["Long-context header:&lt;br/&gt;both limits become 262k&lt;br/&gt;same price, slower, less accurate"]
+    R -.- LC
+    P -.- LC
+    NQ["No cap on how many questions,&lt;br/&gt;only these two limits"] -.- R</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-10" data-fig="fig-10">Copy Mermaid</button>
+          <details id="src-10"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    subgraph R["Per request limit: 64k tokens"]
+        direction TB
+        RS["state, counted once"]
+        RQ["question 1 + question 2&lt;br/&gt;+ ... + question N"]
+    end
+    subgraph P["Per question limit: 32k tokens"]
+        direction TB
+        PS["state"]
+        PQ["any ONE question"]
+    end
+    R ~~~ P
+    LC["Long-context header:&lt;br/&gt;both limits become 262k&lt;br/&gt;same price, slower, less accurate"]
+    R -.- LC
+    P -.- LC
+    NQ["No cap on how many questions,&lt;br/&gt;only these two limits"] -.- R</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-11">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 11</span>
+          <h3>Errors and retries in the SDK</h3>
+          <span class="fig-kind">sequence</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>The SDK retries 408, 429 and 5xx twice with backoff. Auth and validation errors come straight back.</p>
+        <div class="diagram"><pre class="mermaid">sequenceDiagram
+    participant C as Your code
+    participant S as SDK
+    participant A as TypeSafe API
+    C-&gt;&gt;S: system_one(...)
+    S-&gt;&gt;A: POST /v1/systemone
+    A--&gt;&gt;S: 429 rate limited
+    Note over S: backoff 0.5s, doubling to 5s,&lt;br/&gt;follows retry-after if sent
+    S-&gt;&gt;A: retry 1
+    A--&gt;&gt;S: 529 overloaded
+    S-&gt;&gt;A: retry 2
+    alt success
+        A--&gt;&gt;S: 200 with answers
+        S--&gt;&gt;C: SystemOneResponse
+    else still failing
+        S--&gt;&gt;C: raises TypeSafeRateLimitError or InternalServerError
+    end
+    Note over C,A: 400, 401 and 422 are not retried. Fix the key or the request</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-11" data-fig="fig-11">Copy Mermaid</button>
+          <details id="src-11"><summary>Show source</summary><pre class="src"><code>sequenceDiagram
+    participant C as Your code
+    participant S as SDK
+    participant A as TypeSafe API
+    C-&gt;&gt;S: system_one(...)
+    S-&gt;&gt;A: POST /v1/systemone
+    A--&gt;&gt;S: 429 rate limited
+    Note over S: backoff 0.5s, doubling to 5s,&lt;br/&gt;follows retry-after if sent
+    S-&gt;&gt;A: retry 1
+    A--&gt;&gt;S: 529 overloaded
+    S-&gt;&gt;A: retry 2
+    alt success
+        A--&gt;&gt;S: 200 with answers
+        S--&gt;&gt;C: SystemOneResponse
+    else still failing
+        S--&gt;&gt;C: raises TypeSafeRateLimitError or InternalServerError
+    end
+    Note over C,A: 400, 401 and 422 are not retried. Fix the key or the request</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-12">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 12</span>
+          <h3>Why you pin versions</h3>
+          <span class="fig-kind">state</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>jev-latest moved to 1.14.0 on 14 October. Pin a version, log response.model, re-run your eval before switching.</p>
+        <div class="diagram"><pre class="mermaid">stateDiagram-v2
+    [*] --&gt; Pinned: pin jev-1.13.0 and tune thresholds
+    Pinned --&gt; AliasMoved: TypeSafe ships 1.14.0 on 14 Oct
+    AliasMoved --&gt; ReEval: re-run your eval on jev-1.14.0
+    ReEval --&gt; Retune: numbers moved
+    ReEval --&gt; Switch: numbers held
+    Retune --&gt; Switch: new thresholds
+    Switch --&gt; Pinned: pin jev-1.14.0
+    note right of AliasMoved
+        jev-latest already answers with 1.14.0.
+        Code on the alias changed behaviour
+        without a deploy.
+    end note</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-12" data-fig="fig-12">Copy Mermaid</button>
+          <details id="src-12"><summary>Show source</summary><pre class="src"><code>stateDiagram-v2
+    [*] --&gt; Pinned: pin jev-1.13.0 and tune thresholds
+    Pinned --&gt; AliasMoved: TypeSafe ships 1.14.0 on 14 Oct
+    AliasMoved --&gt; ReEval: re-run your eval on jev-1.14.0
+    ReEval --&gt; Retune: numbers moved
+    ReEval --&gt; Switch: numbers held
+    Retune --&gt; Switch: new thresholds
+    Switch --&gt; Pinned: pin jev-1.14.0
+    note right of AliasMoved
+        jev-latest already answers with 1.14.0.
+        Code on the alias changed behaviour
+        without a deploy.
+    end note</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+    <section class="sec" id="module-2">
+      <div class="sec-head">
+        <span class="sec-kicker">Module 2</span>
+        <h2>Designing good questions</h2>
+        <p>Atomic questions, logic in code.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-13">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 13</span>
+          <h3>Vague vs literal questions</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Split the judgment into literal questions and put the rule in code, where you can read and change it.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    subgraph BAD["Vague: one question doing three jobs"]
+        V["Noul: should we prioritise this customer&lt;br/&gt;because the bill is overdue and they seem stressed?"] --&gt; VP["One number&lt;br/&gt;which part was wrong? no idea"]
+    end
+    subgraph GOOD["Literal: one job each"]
+        G1["Noul: is the message about a late&lt;br/&gt;or unpayable bill?"]
+        G2["Score: how stressed is the author?"]
+        G3["Code: due date before today?"]
+        G1 --&gt; R["Code decides:&lt;br/&gt;overdue AND late_bill ≥ 0.7 AND stress ≥ 1"]
+        G2 --&gt; R
+        G3 --&gt; R
+    end</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-13" data-fig="fig-13">Copy Mermaid</button>
+          <details id="src-13"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    subgraph BAD["Vague: one question doing three jobs"]
+        V["Noul: should we prioritise this customer&lt;br/&gt;because the bill is overdue and they seem stressed?"] --&gt; VP["One number&lt;br/&gt;which part was wrong? no idea"]
+    end
+    subgraph GOOD["Literal: one job each"]
+        G1["Noul: is the message about a late&lt;br/&gt;or unpayable bill?"]
+        G2["Score: how stressed is the author?"]
+        G3["Code: due date before today?"]
+        G1 --&gt; R["Code decides:&lt;br/&gt;overdue AND late_bill ≥ 0.7 AND stress ≥ 1"]
+        G2 --&gt; R
+        G3 --&gt; R
+    end</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-14">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 14</span>
+          <h3>Dates: Jev extracts, code computes</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Jev picks the month, day and year. Code builds the date and does every comparison.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    T["Email: please pay by&lt;br/&gt;3 November 2026"] --&gt; M["Choice: month&lt;br/&gt;12 months + not stated"]
+    T --&gt; D["Choice: day&lt;br/&gt;1 to 31 + not stated"]
+    T --&gt; Y["Choice: year&lt;br/&gt;bounded range + not stated"]
+    M --&gt; CODE["Code builds a real date"]
+    D --&gt; CODE
+    Y --&gt; CODE
+    CODE --&gt; CHK{"Any part low confidence&lt;br/&gt;or not stated?"}
+    CHK --&gt;|yes| REVIEW["Send for review"]
+    CHK --&gt;|no| OUT["Code compares, counts days,&lt;br/&gt;checks weekdays and windows"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-14" data-fig="fig-14">Copy Mermaid</button>
+          <details id="src-14"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    T["Email: please pay by&lt;br/&gt;3 November 2026"] --&gt; M["Choice: month&lt;br/&gt;12 months + not stated"]
+    T --&gt; D["Choice: day&lt;br/&gt;1 to 31 + not stated"]
+    T --&gt; Y["Choice: year&lt;br/&gt;bounded range + not stated"]
+    M --&gt; CODE["Code builds a real date"]
+    D --&gt; CODE
+    Y --&gt; CODE
+    CODE --&gt; CHK{"Any part low confidence&lt;br/&gt;or not stated?"}
+    CHK --&gt;|yes| REVIEW["Send for review"]
+    CHK --&gt;|no| OUT["Code compares, counts days,&lt;br/&gt;checks weekdays and windows"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-15">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 15</span>
+          <h3>Known failure modes and their fixes</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>TypeSafe&#x27;s own list for jev-1.13, each with its fix. Most fixes move work into code.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    F1["Literal reading"] --&gt; X1["Write the exact condition,&lt;br/&gt;boundary cases in criteria"]
+    F2["Maths, counting, numbers"] --&gt; X2["Compute in code,&lt;br/&gt;one Noul per item"]
+    F3["Date comparison"] --&gt; X3["Extract parts with Choices,&lt;br/&gt;compare in code"]
+    F4["Indirection, double negatives"] --&gt; X4["Fewer hops, name the field"]
+    F5["Big state, irrelevant detail"] --&gt; X5["Filter first, small state"]
+    F6["Adversarial content in state"] --&gt; X6["Precise criteria, test attacks"]
+    F7["Instructions vs criteria disagree"] --&gt; X7["Criteria extend the instruction"]
+    F8["Choice option order"] --&gt; X8["Shuffle and re-ask"]
+    F9["Generation"] --&gt; X9["Use an LLM, or a Choice&lt;br/&gt;over extracted candidates"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-15" data-fig="fig-15">Copy Mermaid</button>
+          <details id="src-15"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    F1["Literal reading"] --&gt; X1["Write the exact condition,&lt;br/&gt;boundary cases in criteria"]
+    F2["Maths, counting, numbers"] --&gt; X2["Compute in code,&lt;br/&gt;one Noul per item"]
+    F3["Date comparison"] --&gt; X3["Extract parts with Choices,&lt;br/&gt;compare in code"]
+    F4["Indirection, double negatives"] --&gt; X4["Fewer hops, name the field"]
+    F5["Big state, irrelevant detail"] --&gt; X5["Filter first, small state"]
+    F6["Adversarial content in state"] --&gt; X6["Precise criteria, test attacks"]
+    F7["Instructions vs criteria disagree"] --&gt; X7["Criteria extend the instruction"]
+    F8["Choice option order"] --&gt; X8["Shuffle and re-ask"]
+    F9["Generation"] --&gt; X9["Use an LLM, or a Choice&lt;br/&gt;over extracted candidates"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-16">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 16</span>
+          <h3>Three ways to classify 150 intents</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Fan-out asks everything in one call and multiplies probabilities in code, so a wrong domain guess can still recover.</p>
+        <div class="diagram"><pre class="mermaid">flowchart TB
+    Q["query"]
+    subgraph A["A. Single Choice, 1 call"]
+        A1["Choice over 151 options&lt;br/&gt;150 intents + out_of_scope"]
+    end
+    subgraph B["B. Two-stage, 2 calls"]
+        B1["Choice: domain, 11 options"] --&gt; B2["Choice: the 15 intents&lt;br/&gt;of that domain only"]
+        B2 -.- BX["Stage 1 wrong means&lt;br/&gt;stage 2 can never be right"]
+    end
+    subgraph C["C. Speculative fan-out, 1 call"]
+        C1["Choice: domain"]
+        C2["10 Choices: intents per domain"]
+        C1 --&gt; C3["Code: P(domain) × P(intent given domain)&lt;br/&gt;pick the highest"]
+        C2 --&gt; C3
+    end
+    Q --&gt; A1
+    Q --&gt; B1
+    Q --&gt; C1
+    Q --&gt; C2</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-16" data-fig="fig-16">Copy Mermaid</button>
+          <details id="src-16"><summary>Show source</summary><pre class="src"><code>flowchart TB
+    Q["query"]
+    subgraph A["A. Single Choice, 1 call"]
+        A1["Choice over 151 options&lt;br/&gt;150 intents + out_of_scope"]
+    end
+    subgraph B["B. Two-stage, 2 calls"]
+        B1["Choice: domain, 11 options"] --&gt; B2["Choice: the 15 intents&lt;br/&gt;of that domain only"]
+        B2 -.- BX["Stage 1 wrong means&lt;br/&gt;stage 2 can never be right"]
+    end
+    subgraph C["C. Speculative fan-out, 1 call"]
+        C1["Choice: domain"]
+        C2["10 Choices: intents per domain"]
+        C1 --&gt; C3["Code: P(domain) × P(intent given domain)&lt;br/&gt;pick the highest"]
+        C2 --&gt; C3
+    end
+    Q --&gt; A1
+    Q --&gt; B1
+    Q --&gt; C1
+    Q --&gt; C2</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+    <section class="sec" id="module-3">
+      <div class="sec-head">
+        <span class="sec-kicker">Module 3</span>
+        <h2>Measuring and trusting Jev</h2>
+        <p>Accuracy, calibration and a threshold you can defend.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-17">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 17</span>
+          <h3>Measure before you trust</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Tune the threshold on one half, check it on the other, and redo it for every model version.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    L["Labelled queries&lt;br/&gt;your own traffic, not only CLINC150"] --&gt; SPLIT["Split into dev and hold-out"]
+    SPLIT --&gt; RUN["Run Jev on a pinned version"]
+    RUN --&gt; M["Accuracy, in-scope accuracy,&lt;br/&gt;OOS recall and precision"]
+    RUN --&gt; CAL["Reliability plot + ECE&lt;br/&gt;use p_max, not confidence"]
+    RUN --&gt; RC["Risk-coverage curve"]
+    RC --&gt; TH["Pick the threshold on dev&lt;br/&gt;for a target, e.g. 95%"]
+    TH --&gt; HO["Check coverage and accuracy&lt;br/&gt;on hold-out"]
+    HO --&gt; SHIP["Ship: pin the version,&lt;br/&gt;log response.model"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-17" data-fig="fig-17">Copy Mermaid</button>
+          <details id="src-17"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    L["Labelled queries&lt;br/&gt;your own traffic, not only CLINC150"] --&gt; SPLIT["Split into dev and hold-out"]
+    SPLIT --&gt; RUN["Run Jev on a pinned version"]
+    RUN --&gt; M["Accuracy, in-scope accuracy,&lt;br/&gt;OOS recall and precision"]
+    RUN --&gt; CAL["Reliability plot + ECE&lt;br/&gt;use p_max, not confidence"]
+    RUN --&gt; RC["Risk-coverage curve"]
+    RC --&gt; TH["Pick the threshold on dev&lt;br/&gt;for a target, e.g. 95%"]
+    TH --&gt; HO["Check coverage and accuracy&lt;br/&gt;on hold-out"]
+    HO --&gt; SHIP["Ship: pin the version,&lt;br/&gt;log response.model"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-18">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 18</span>
+          <h3>Why calibration pays</h3>
+          <span class="fig-kind">chart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Answering only its most confident half lifts CLINC150 accuracy from 89.5% to 97.9% (Bonn eval, jev-1.13.0).</p>
+        <div class="diagram"><pre class="mermaid">%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#2563eb"}}}}%%
+xychart-beta
+    title "CLINC150, jev-1.13.0 (Bonn eval)"
+    x-axis "Share of queries Jev answers, most confident first" ["100%", "80%", "50%"]
+    y-axis "Accuracy on what it answers (%)" 85 --&gt; 100
+    line [89.5, 95.8, 97.9]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-18" data-fig="fig-18">Copy Mermaid</button>
+          <details id="src-18"><summary>Show source</summary><pre class="src"><code>%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#2563eb"}}}}%%
+xychart-beta
+    title "CLINC150, jev-1.13.0 (Bonn eval)"
+    x-axis "Share of queries Jev answers, most confident first" ["100%", "80%", "50%"]
+    y-axis "Accuracy on what it answers (%)" 85 --&gt; 100
+    line [89.5, 95.8, 97.9]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-19">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 19</span>
+          <h3>Confidence-gated routing</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>TypeSafe&#x27;s starting thresholds. The real ones come from your own labelled data.</p>
+        <div class="diagram"><pre class="mermaid">flowchart TD
+    A["Jev answer"] --&gt; T{"Type?"}
+    T --&gt;|Choice or Score| C{"confidence"}
+    T --&gt;|Noul| N{"noul = P(yes)"}
+    C --&gt;|"below 0.5"| H["Human or a bigger model"]
+    C --&gt;|"0.5 to 0.9"| M["Act if low stakes&lt;br/&gt;confirm if high stakes"]
+    C --&gt;|"0.9 and up"| AUTO["Act automatically"]
+    N --&gt;|"0.7 and up"| YES["Treat as yes"]
+    N --&gt;|"0.3 to 0.7"| REV["Review band: a person decides"]
+    N --&gt;|"0.3 and below"| NO["Treat as no"]
+    TIP["Starting points only.&lt;br/&gt;Tune per question, per version,&lt;br/&gt;on your own labelled data"] -.- A</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-19" data-fig="fig-19">Copy Mermaid</button>
+          <details id="src-19"><summary>Show source</summary><pre class="src"><code>flowchart TD
+    A["Jev answer"] --&gt; T{"Type?"}
+    T --&gt;|Choice or Score| C{"confidence"}
+    T --&gt;|Noul| N{"noul = P(yes)"}
+    C --&gt;|"below 0.5"| H["Human or a bigger model"]
+    C --&gt;|"0.5 to 0.9"| M["Act if low stakes&lt;br/&gt;confirm if high stakes"]
+    C --&gt;|"0.9 and up"| AUTO["Act automatically"]
+    N --&gt;|"0.7 and up"| YES["Treat as yes"]
+    N --&gt;|"0.3 to 0.7"| REV["Review band: a person decides"]
+    N --&gt;|"0.3 and below"| NO["Treat as no"]
+    TIP["Starting points only.&lt;br/&gt;Tune per question, per version,&lt;br/&gt;on your own labelled data"] -.- A</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-20">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 20</span>
+          <h3>Hugging Face zero-shot vs Jev</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>The NLI model runs one pass per label and has no out-of-scope option. Jev answers 151 options in one pass.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    subgraph NLI["Hugging Face zero-shot, bart-large-mnli"]
+        direction TB
+        Q1["query"] --&gt; P1["This request is about balance."]
+        Q1 --&gt; P2["This request is about transfer."]
+        Q1 --&gt; P3["... 150 hypotheses"]
+        P1 --&gt; E["150 entailment passes&lt;br/&gt;softmax across labels"]
+        P2 --&gt; E
+        P3 --&gt; E
+        E --&gt; O1["Top label&lt;br/&gt;no out-of-scope option&lt;br/&gt;scores not trained to be calibrated"]
+    end
+    subgraph J["Jev"]
+        direction TB
+        Q2["query"] --&gt; C["One Choice, 151 options&lt;br/&gt;one pass"]
+        C --&gt; O2["choice + probabilities&lt;br/&gt;explicit out_of_scope"]
+    end
+    NLI ~~~ J</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-20" data-fig="fig-20">Copy Mermaid</button>
+          <details id="src-20"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    subgraph NLI["Hugging Face zero-shot, bart-large-mnli"]
+        direction TB
+        Q1["query"] --&gt; P1["This request is about balance."]
+        Q1 --&gt; P2["This request is about transfer."]
+        Q1 --&gt; P3["... 150 hypotheses"]
+        P1 --&gt; E["150 entailment passes&lt;br/&gt;softmax across labels"]
+        P2 --&gt; E
+        P3 --&gt; E
+        E --&gt; O1["Top label&lt;br/&gt;no out-of-scope option&lt;br/&gt;scores not trained to be calibrated"]
+    end
+    subgraph J["Jev"]
+        direction TB
+        Q2["query"] --&gt; C["One Choice, 151 options&lt;br/&gt;one pass"]
+        C --&gt; O2["choice + probabilities&lt;br/&gt;explicit out_of_scope"]
+    end
+    NLI ~~~ J</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+    <section class="sec" id="module-4">
+      <div class="sec-head">
+        <span class="sec-kicker">Module 4</span>
+        <h2>Jev and LLMs together</h2>
+        <p>Jev in front of the LLM and behind it.</p>
+      </div>
+      <div class="figs">
+      <figure class="fig" id="fig-21">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 21</span>
+          <h3>Code, Jev, LLM or human</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Code for exact rules, Jev for closed-set judgments, the LLM for text, a person for low confidence or high stakes.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    REQ["A decision in your product"] --&gt; Q{"What kind?"}
+    Q --&gt;|"exact, rule-based"| CODE["Code&lt;br/&gt;maths, dates, counts,&lt;br/&gt;lookups, permissions, the action"]
+    Q --&gt;|"closed-set judgment"| JEV["Jev&lt;br/&gt;which intent, how urgent,&lt;br/&gt;in scope, breaks policy"]
+    Q --&gt;|"open-ended text"| LLM["LLM&lt;br/&gt;the reply, summaries"]
+    Q --&gt;|"low confidence or high stakes"| HUM["Human&lt;br/&gt;fraud, disputes, unclear asks"]</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-21" data-fig="fig-21">Copy Mermaid</button>
+          <details id="src-21"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    REQ["A decision in your product"] --&gt; Q{"What kind?"}
+    Q --&gt;|"exact, rule-based"| CODE["Code&lt;br/&gt;maths, dates, counts,&lt;br/&gt;lookups, permissions, the action"]
+    Q --&gt;|"closed-set judgment"| JEV["Jev&lt;br/&gt;which intent, how urgent,&lt;br/&gt;in scope, breaks policy"]
+    Q --&gt;|"open-ended text"| LLM["LLM&lt;br/&gt;the reply, summaries"]
+    Q --&gt;|"low confidence or high stakes"| HUM["Human&lt;br/&gt;fraud, disputes, unclear asks"]</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-22">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 22</span>
+          <h3>The full Quokka pipeline</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Jev in front decides what reaches the LLM. Jev behind checks every reply before the user sees it.</p>
+        <div class="diagram"><pre class="mermaid">flowchart TD
+    Q["User query"] --&gt; T["Jev triage, one call&lt;br/&gt;intent from 151 + needs_human + jailbreak"]
+    subgraph FRONT["Jev in front of the LLM"]
+        T --&gt; J{"jailbreak ≥ 0.7?"}
+        J --&gt;|yes| REF["Refuse"]
+        J --&gt;|no| O{"out_of_scope?"}
+        O --&gt;|yes| NO["Can't help yet"]
+        O --&gt;|no| H{"confidence below 0.5&lt;br/&gt;or needs_human ≥ 0.7?"}
+        H --&gt;|yes| HUM["Human agent"]
+        H --&gt;|no| C{"Can code answer it?&lt;br/&gt;time, date, coin, dice"}
+        C --&gt;|yes| CODE["Code answers"]
+    end
+    C --&gt;|no| LLM["LLM writes the reply&lt;br/&gt;policy in the system prompt"]
+    subgraph BEHIND["Jev behind the LLM"]
+        LLM --&gt; G["Jev guard, one call&lt;br/&gt;4 hazard Nouls + severity Score"]
+        G --&gt; D{"route_reply"}
+        D --&gt;|pass| SEND["Send to user"]
+        D --&gt;|review| REV["Hold for a person"]
+        D --&gt;|block| BLK["Block"]
+    end</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-22" data-fig="fig-22">Copy Mermaid</button>
+          <details id="src-22"><summary>Show source</summary><pre class="src"><code>flowchart TD
+    Q["User query"] --&gt; T["Jev triage, one call&lt;br/&gt;intent from 151 + needs_human + jailbreak"]
+    subgraph FRONT["Jev in front of the LLM"]
+        T --&gt; J{"jailbreak ≥ 0.7?"}
+        J --&gt;|yes| REF["Refuse"]
+        J --&gt;|no| O{"out_of_scope?"}
+        O --&gt;|yes| NO["Can't help yet"]
+        O --&gt;|no| H{"confidence below 0.5&lt;br/&gt;or needs_human ≥ 0.7?"}
+        H --&gt;|yes| HUM["Human agent"]
+        H --&gt;|no| C{"Can code answer it?&lt;br/&gt;time, date, coin, dice"}
+        C --&gt;|yes| CODE["Code answers"]
+    end
+    C --&gt;|no| LLM["LLM writes the reply&lt;br/&gt;policy in the system prompt"]
+    subgraph BEHIND["Jev behind the LLM"]
+        LLM --&gt; G["Jev guard, one call&lt;br/&gt;4 hazard Nouls + severity Score"]
+        G --&gt; D{"route_reply"}
+        D --&gt;|pass| SEND["Send to user"]
+        D --&gt;|review| REV["Hold for a person"]
+        D --&gt;|block| BLK["Block"]
+    end</code></pre></details>
+        </div>
+      </figure>
+      <figure class="fig" id="fig-23">
+        <div class="fig-head">
+          <span class="fig-no">Fig. 23</span>
+          <h3>Inside the guard</h3>
+          <span class="fig-kind">flowchart</span>
+        </div>
+        <p class="say"><span class="say-label">Say</span>Four hazard Nouls and a severity Score in one request. Thresholds and precedence live in your code.</p>
+        <div class="diagram"><pre class="mermaid">flowchart LR
+    R["LLM reply + user query"] --&gt; G["One Jev request"]
+    subgraph HZ["Hazard Nouls and their action"]
+        direction TB
+        H1["personal_advice: review"]
+        H2["asks_secrets: block"]
+        H3["claims_action: block"]
+        H4["made_up_account_facts: review"]
+    end
+    G --&gt; HZ
+    G --&gt; SEV["Score: severity 0 to 3"]
+    HZ --&gt; TH{"Each P(yes)"}
+    TH --&gt;|"≥ 0.70"| ACT["Its action"]
+    TH --&gt;|"0.35 to 0.70"| RV["Review"]
+    TH --&gt;|"below 0.35"| OK["Nothing"]
+    SEV --&gt;|"≥ 2.0"| UP["Upgrade review to block"]
+    ACT --&gt; PREC["block beats review beats pass"]
+    RV --&gt; PREC
+    OK --&gt; PREC
+    UP --&gt; PREC</pre></div>
+        <div class="fig-foot">
+          <button type="button" class="copy" id="copy-23" data-fig="fig-23">Copy Mermaid</button>
+          <details id="src-23"><summary>Show source</summary><pre class="src"><code>flowchart LR
+    R["LLM reply + user query"] --&gt; G["One Jev request"]
+    subgraph HZ["Hazard Nouls and their action"]
+        direction TB
+        H1["personal_advice: review"]
+        H2["asks_secrets: block"]
+        H3["claims_action: block"]
+        H4["made_up_account_facts: review"]
+    end
+    G --&gt; HZ
+    G --&gt; SEV["Score: severity 0 to 3"]
+    HZ --&gt; TH{"Each P(yes)"}
+    TH --&gt;|"≥ 0.70"| ACT["Its action"]
+    TH --&gt;|"0.35 to 0.70"| RV["Review"]
+    TH --&gt;|"below 0.35"| OK["Nothing"]
+    SEV --&gt;|"≥ 2.0"| UP["Upgrade review to block"]
+    ACT --&gt; PREC["block beats review beats pass"]
+    RV --&gt; PREC
+    OK --&gt; PREC
+    UP --&gt; PREC</code></pre></details>
+        </div>
+      </figure>
+      </div>
+    </section>
+  <footer class="notes">
+    <p>Sources: <a href="https://docs.typesafe.ai/introduction/quickstart" target="_blank" rel="noopener">TypeSafe docs</a>, including <a href="https://docs.typesafe.ai/confidence.md" target="_blank" rel="noopener">Confidence</a>, <a href="https://docs.typesafe.ai/models.md" target="_blank" rel="noopener">Models</a>, <a href="https://docs.typesafe.ai/model-jaggedness/jev-1.13" target="_blank" rel="noopener">Jev 1.13 jaggedness</a> and the <a href="https://docs.typesafe.ai/cookbooks/llm_guardrails.md" target="_blank" rel="noopener">guardrails cookbook</a>; the University of Bonn evaluation (<a href="https://arxiv.org/pdf/2609.37647" target="_blank" rel="noopener">arXiv 2609.37647</a>); <a href="https://github.com/clinc/oos-eval" target="_blank" rel="noopener">CLINC150</a>.</p>
+    <p>Thresholds shown are starting points from TypeSafe's docs, not tuned values. Benchmark figures are for jev-1.13.0.</p>
+  </footer>
+</div>
+
+<script type="application/json" id="mermaid-sources">{"fig-1": "flowchart LR\n    S0[\"Quokka today<br/>LLM reads everything<br/>slow, pricey, silently wrong\"] --> M1[\"Module 1<br/>typed triage in one call\"]\n    M1 --> M2[\"Module 2<br/>atomic questions,<br/>150 intents, logic in code\"]\n    M2 --> M3[\"Module 3<br/>measured: accuracy, calibration,<br/>a human-review threshold\"]\n    M3 --> M4[\"Module 4<br/>Jev routes in front,<br/>guards behind the LLM\"]\n    M4 --> AHA[\"Aha: every decision typed,<br/>with a confidence and a cost\"]", "fig-2": "flowchart TB\n    subgraph LLM[\"LLM way (System Two)\"]\n        direction LR\n        L1[\"Message\"] --> L2[\"Prompt + message\"]\n        L2 --> L3[\"LLM writes text<br/>token by token\"]\n        L3 --> L4[\"Parse JSON or regex\"]\n        L4 --> L5{\"Valid label?\"}\n        L5 -->|no| L6[\"Retry or crash\"]\n        L5 -->|yes| L7[\"Route it<br/>no idea how sure it was\"]\n    end\n    subgraph JEV[\"Jev way (System One)\"]\n        direction LR\n        J1[\"Message as state\"] --> J2[\"+ typed questions\"]\n        J2 --> J3[\"Jev: one parallel pass\"]\n        J3 --> J4[\"Typed answers<br/>+ probabilities\"]\n        J4 --> J5[\"Your if / else routes\"]\n    end\n    LLM ~~~ JEV", "fig-3": "sequenceDiagram\n    autonumber\n    participant C as Your code\n    participant S as typesafe-sdk\n    participant A as TypeSafe API\n    participant J as Jev\n    C->>S: system_one(state, questions, model=jev-1.14.0)\n    S->>S: validate question objects (pydantic)\n    S->>A: POST /v1/systemone with Bearer key\n    A->>J: state + every question\n    Note over J: state read once<br/>each question answered in parallel, on its own\n    J-->>A: one typed answer per question\n    A-->>S: JSON: answers, model, usage\n    S-->>C: SystemOneResponse (.choices .scores .nouls)\n    C->>C: if / else on answer and confidence", "fig-4": "flowchart LR\n    ST[\"state<br/>message, order, policy...\"]\n    subgraph REQ[\"One request\"]\n        direction TB\n        Q1[\"Choice: department<br/>sees state + its own options\"]\n        Q2[\"Score: frustration<br/>sees state + its own levels\"]\n        Q3[\"Noul: is_urgent<br/>sees state + its own question\"]\n    end\n    ST --> Q1\n    ST --> Q2\n    ST --> Q3\n    Q1 --> A1[\"choice, probabilities, confidence\"]\n    Q2 --> A2[\"score, probabilities, legend, confidence\"]\n    Q3 --> A3[\"noul = P(yes)\"]\n    X[\"For every question, never seen:<br/>its ID, the other questions\"] -.- REQ", "fig-5": "flowchart LR\n    PT[\"Pretrained language model\"] --> RLHF[\"RLHF<br/>reward: what people prefer\"]\n    PT --> RLVR[\"RLVR<br/>reward: verifiable answers\"]\n    PT --> RLCD[\"RLCD<br/>reward: calibrated decisions\"]\n    RLHF --> CHAT[\"Chatbots<br/>fluent, can be sycophantic,<br/>confident when wrong\"]\n    RLVR --> REASON[\"Reasoning models<br/>strong at maths, slow, pricey\"]\n    RLCD --> JEV[\"Jev<br/>no text, typed decisions,<br/>probabilities that match outcomes\"]", "fig-6": "flowchart LR\n    B[\"1,000 answers where<br/>Jev said p \u2248 0.8\"] --> W{\"How many were right?\"}\n    W -->|about 800| CAL[\"Calibrated<br/>you can put a threshold on it\"]\n    W -->|about 600| OVER[\"Overconfident<br/>p promises more than it delivers\"]\n    W -->|about 950| UNDER[\"Under-confident<br/>p undersells it\"]\n    CAL --> NOTE[\"A property of groups of answers<br/>never a promise about one answer\"]", "fig-7": "flowchart TD\n    S[\"What does the answer look like?\"] --> Q1{\"Exact maths, dates,<br/>counts or lookups?\"}\n    Q1 -->|yes| CODE[\"Code, not Jev\"]\n    Q1 -->|no| Q2{\"Free text needed?\"}\n    Q2 -->|yes| LLM[\"LLM, Jev can't write\"]\n    Q2 -->|no| Q3{\"Yes or no?\"}\n    Q3 -->|yes| NOUL[\"Noul<br/>returns P(yes)\"]\n    Q3 -->|no| Q4{\"Ordered levels?<br/>e.g. calm to angry\"}\n    Q4 -->|yes| SCORE[\"Score<br/>2 to 10 described levels\"]\n    Q4 -->|no| Q5{\"More than 255 options?\"}\n    Q5 -->|no| CHOICE[\"Choice<br/>one of up to 255 options\"]\n    Q5 -->|yes| TREE[\"Hierarchy of Choices<br/>two-stage, fan-out or beam\"]", "fig-8": "classDiagram\n    class SystemOneResponse {\n        model : str\n        usage : Usage\n        answers : dict\n        choices : dict\n        scores : dict\n        nouls : dict\n    }\n    class ChoiceAnswer {\n        choice : str\n        probabilities : dict option to p\n        confidence : float\n    }\n    class ScoreAnswer {\n        score : float\n        probabilities : dict int level to p\n        legend : dict int level to text\n        confidence : float\n    }\n    class NoulAnswer {\n        noul : float\n    }\n    class Usage {\n        input_tokens : int\n        output_tokens : int\n    }\n    SystemOneResponse --> ChoiceAnswer : choices by id\n    SystemOneResponse --> ScoreAnswer : scores by id\n    SystemOneResponse --> NoulAnswer : nouls by id\n    SystemOneResponse --> Usage\n    note for NoulAnswer \"No confidence field. noul is P(yes)\"\n    note for Usage \"Billed on input tokens only, output is free\"", "fig-9": "flowchart LR\n    P[\"probabilities<br/>from the answer\"] --> T{\"Question type\"}\n    T -->|Choice| C[\"(p_max \u2212 1/n) \u00f7 (1 \u2212 1/n)<br/>only the top option counts\"]\n    T -->|Score| S[\"1 \u2212 spread around the peak level<br/>\u00f7 spread of an even split<br/>floored at 0\"]\n    T -->|Noul| N[\"No confidence field<br/>noul itself is P(yes)<br/>use abs(2p \u2212 1) if you need one\"]\n    C --> R[\"confidence 0 to 1<br/>1 = all on one option<br/>0 = even spread\"]\n    S --> R\n    C -.- EX[\"Same p_max 0.6:<br/>3 options gives 0.4<br/>151 options gives 0.6\"]", "fig-10": "flowchart LR\n    subgraph R[\"Per request limit: 64k tokens\"]\n        direction TB\n        RS[\"state, counted once\"]\n        RQ[\"question 1 + question 2<br/>+ ... + question N\"]\n    end\n    subgraph P[\"Per question limit: 32k tokens\"]\n        direction TB\n        PS[\"state\"]\n        PQ[\"any ONE question\"]\n    end\n    R ~~~ P\n    LC[\"Long-context header:<br/>both limits become 262k<br/>same price, slower, less accurate\"]\n    R -.- LC\n    P -.- LC\n    NQ[\"No cap on how many questions,<br/>only these two limits\"] -.- R", "fig-11": "sequenceDiagram\n    participant C as Your code\n    participant S as SDK\n    participant A as TypeSafe API\n    C->>S: system_one(...)\n    S->>A: POST /v1/systemone\n    A-->>S: 429 rate limited\n    Note over S: backoff 0.5s, doubling to 5s,<br/>follows retry-after if sent\n    S->>A: retry 1\n    A-->>S: 529 overloaded\n    S->>A: retry 2\n    alt success\n        A-->>S: 200 with answers\n        S-->>C: SystemOneResponse\n    else still failing\n        S-->>C: raises TypeSafeRateLimitError or InternalServerError\n    end\n    Note over C,A: 400, 401 and 422 are not retried. Fix the key or the request", "fig-12": "stateDiagram-v2\n    [*] --> Pinned: pin jev-1.13.0 and tune thresholds\n    Pinned --> AliasMoved: TypeSafe ships 1.14.0 on 14 Oct\n    AliasMoved --> ReEval: re-run your eval on jev-1.14.0\n    ReEval --> Retune: numbers moved\n    ReEval --> Switch: numbers held\n    Retune --> Switch: new thresholds\n    Switch --> Pinned: pin jev-1.14.0\n    note right of AliasMoved\n        jev-latest already answers with 1.14.0.\n        Code on the alias changed behaviour\n        without a deploy.\n    end note", "fig-13": "flowchart LR\n    subgraph BAD[\"Vague: one question doing three jobs\"]\n        V[\"Noul: should we prioritise this customer<br/>because the bill is overdue and they seem stressed?\"] --> VP[\"One number<br/>which part was wrong? no idea\"]\n    end\n    subgraph GOOD[\"Literal: one job each\"]\n        G1[\"Noul: is the message about a late<br/>or unpayable bill?\"]\n        G2[\"Score: how stressed is the author?\"]\n        G3[\"Code: due date before today?\"]\n        G1 --> R[\"Code decides:<br/>overdue AND late_bill \u2265 0.7 AND stress \u2265 1\"]\n        G2 --> R\n        G3 --> R\n    end", "fig-14": "flowchart LR\n    T[\"Email: please pay by<br/>3 November 2026\"] --> M[\"Choice: month<br/>12 months + not stated\"]\n    T --> D[\"Choice: day<br/>1 to 31 + not stated\"]\n    T --> Y[\"Choice: year<br/>bounded range + not stated\"]\n    M --> CODE[\"Code builds a real date\"]\n    D --> CODE\n    Y --> CODE\n    CODE --> CHK{\"Any part low confidence<br/>or not stated?\"}\n    CHK -->|yes| REVIEW[\"Send for review\"]\n    CHK -->|no| OUT[\"Code compares, counts days,<br/>checks weekdays and windows\"]", "fig-15": "flowchart LR\n    F1[\"Literal reading\"] --> X1[\"Write the exact condition,<br/>boundary cases in criteria\"]\n    F2[\"Maths, counting, numbers\"] --> X2[\"Compute in code,<br/>one Noul per item\"]\n    F3[\"Date comparison\"] --> X3[\"Extract parts with Choices,<br/>compare in code\"]\n    F4[\"Indirection, double negatives\"] --> X4[\"Fewer hops, name the field\"]\n    F5[\"Big state, irrelevant detail\"] --> X5[\"Filter first, small state\"]\n    F6[\"Adversarial content in state\"] --> X6[\"Precise criteria, test attacks\"]\n    F7[\"Instructions vs criteria disagree\"] --> X7[\"Criteria extend the instruction\"]\n    F8[\"Choice option order\"] --> X8[\"Shuffle and re-ask\"]\n    F9[\"Generation\"] --> X9[\"Use an LLM, or a Choice<br/>over extracted candidates\"]", "fig-16": "flowchart TB\n    Q[\"query\"]\n    subgraph A[\"A. Single Choice, 1 call\"]\n        A1[\"Choice over 151 options<br/>150 intents + out_of_scope\"]\n    end\n    subgraph B[\"B. Two-stage, 2 calls\"]\n        B1[\"Choice: domain, 11 options\"] --> B2[\"Choice: the 15 intents<br/>of that domain only\"]\n        B2 -.- BX[\"Stage 1 wrong means<br/>stage 2 can never be right\"]\n    end\n    subgraph C[\"C. Speculative fan-out, 1 call\"]\n        C1[\"Choice: domain\"]\n        C2[\"10 Choices: intents per domain\"]\n        C1 --> C3[\"Code: P(domain) \u00d7 P(intent given domain)<br/>pick the highest\"]\n        C2 --> C3\n    end\n    Q --> A1\n    Q --> B1\n    Q --> C1\n    Q --> C2", "fig-17": "flowchart LR\n    L[\"Labelled queries<br/>your own traffic, not only CLINC150\"] --> SPLIT[\"Split into dev and hold-out\"]\n    SPLIT --> RUN[\"Run Jev on a pinned version\"]\n    RUN --> M[\"Accuracy, in-scope accuracy,<br/>OOS recall and precision\"]\n    RUN --> CAL[\"Reliability plot + ECE<br/>use p_max, not confidence\"]\n    RUN --> RC[\"Risk-coverage curve\"]\n    RC --> TH[\"Pick the threshold on dev<br/>for a target, e.g. 95%\"]\n    TH --> HO[\"Check coverage and accuracy<br/>on hold-out\"]\n    HO --> SHIP[\"Ship: pin the version,<br/>log response.model\"]", "fig-18": "%%{init: {\"themeVariables\": {\"xyChart\": {\"plotColorPalette\": \"#2563eb\"}}}}%%\nxychart-beta\n    title \"CLINC150, jev-1.13.0 (Bonn eval)\"\n    x-axis \"Share of queries Jev answers, most confident first\" [\"100%\", \"80%\", \"50%\"]\n    y-axis \"Accuracy on what it answers (%)\" 85 --> 100\n    line [89.5, 95.8, 97.9]", "fig-19": "flowchart TD\n    A[\"Jev answer\"] --> T{\"Type?\"}\n    T -->|Choice or Score| C{\"confidence\"}\n    T -->|Noul| N{\"noul = P(yes)\"}\n    C -->|\"below 0.5\"| H[\"Human or a bigger model\"]\n    C -->|\"0.5 to 0.9\"| M[\"Act if low stakes<br/>confirm if high stakes\"]\n    C -->|\"0.9 and up\"| AUTO[\"Act automatically\"]\n    N -->|\"0.7 and up\"| YES[\"Treat as yes\"]\n    N -->|\"0.3 to 0.7\"| REV[\"Review band: a person decides\"]\n    N -->|\"0.3 and below\"| NO[\"Treat as no\"]\n    TIP[\"Starting points only.<br/>Tune per question, per version,<br/>on your own labelled data\"] -.- A", "fig-20": "flowchart LR\n    subgraph NLI[\"Hugging Face zero-shot, bart-large-mnli\"]\n        direction TB\n        Q1[\"query\"] --> P1[\"This request is about balance.\"]\n        Q1 --> P2[\"This request is about transfer.\"]\n        Q1 --> P3[\"... 150 hypotheses\"]\n        P1 --> E[\"150 entailment passes<br/>softmax across labels\"]\n        P2 --> E\n        P3 --> E\n        E --> O1[\"Top label<br/>no out-of-scope option<br/>scores not trained to be calibrated\"]\n    end\n    subgraph J[\"Jev\"]\n        direction TB\n        Q2[\"query\"] --> C[\"One Choice, 151 options<br/>one pass\"]\n        C --> O2[\"choice + probabilities<br/>explicit out_of_scope\"]\n    end\n    NLI ~~~ J", "fig-21": "flowchart LR\n    REQ[\"A decision in your product\"] --> Q{\"What kind?\"}\n    Q -->|\"exact, rule-based\"| CODE[\"Code<br/>maths, dates, counts,<br/>lookups, permissions, the action\"]\n    Q -->|\"closed-set judgment\"| JEV[\"Jev<br/>which intent, how urgent,<br/>in scope, breaks policy\"]\n    Q -->|\"open-ended text\"| LLM[\"LLM<br/>the reply, summaries\"]\n    Q -->|\"low confidence or high stakes\"| HUM[\"Human<br/>fraud, disputes, unclear asks\"]", "fig-22": "flowchart TD\n    Q[\"User query\"] --> T[\"Jev triage, one call<br/>intent from 151 + needs_human + jailbreak\"]\n    subgraph FRONT[\"Jev in front of the LLM\"]\n        T --> J{\"jailbreak \u2265 0.7?\"}\n        J -->|yes| REF[\"Refuse\"]\n        J -->|no| O{\"out_of_scope?\"}\n        O -->|yes| NO[\"Can't help yet\"]\n        O -->|no| H{\"confidence below 0.5<br/>or needs_human \u2265 0.7?\"}\n        H -->|yes| HUM[\"Human agent\"]\n        H -->|no| C{\"Can code answer it?<br/>time, date, coin, dice\"}\n        C -->|yes| CODE[\"Code answers\"]\n    end\n    C -->|no| LLM[\"LLM writes the reply<br/>policy in the system prompt\"]\n    subgraph BEHIND[\"Jev behind the LLM\"]\n        LLM --> G[\"Jev guard, one call<br/>4 hazard Nouls + severity Score\"]\n        G --> D{\"route_reply\"}\n        D -->|pass| SEND[\"Send to user\"]\n        D -->|review| REV[\"Hold for a person\"]\n        D -->|block| BLK[\"Block\"]\n    end", "fig-23": "flowchart LR\n    R[\"LLM reply + user query\"] --> G[\"One Jev request\"]\n    subgraph HZ[\"Hazard Nouls and their action\"]\n        direction TB\n        H1[\"personal_advice: review\"]\n        H2[\"asks_secrets: block\"]\n        H3[\"claims_action: block\"]\n        H4[\"made_up_account_facts: review\"]\n    end\n    G --> HZ\n    G --> SEV[\"Score: severity 0 to 3\"]\n    HZ --> TH{\"Each P(yes)\"}\n    TH -->|\"\u2265 0.70\"| ACT[\"Its action\"]\n    TH -->|\"0.35 to 0.70\"| RV[\"Review\"]\n    TH -->|\"below 0.35\"| OK[\"Nothing\"]\n    SEV -->|\"\u2265 2.0\"| UP[\"Upgrade review to block\"]\n    ACT --> PREC[\"block beats review beats pass\"]\n    RV --> PREC\n    OK --> PREC\n    UP --> PREC"}</script>
+<script>
+(function () {
+  var sources = {};
+  try { sources = JSON.parse(document.getElementById("mermaid-sources").textContent); } catch (e) {}
+
+  function selectSource(fig) {
+    var details = fig.querySelector("details");
+    if (!details) return;
+    details.open = true;
+    var code = details.querySelector("code");
+    var range = document.createRange();
+    range.selectNodeContents(code);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var fig = document.getElementById(btn.dataset.fig);
+      var text = sources[btn.dataset.fig] || "";
+      function done(label) {
+        btn.textContent = label;
+        btn.dataset.state = "done";
+        setTimeout(function () { btn.textContent = "Copy Mermaid"; btn.dataset.state = ""; }, 1600);
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { done("Copied"); }, function () {
+          selectSource(fig); done("Selected, press Ctrl+C");
+        });
+      } catch (e) {
+        selectSource(fig); done("Selected, press Ctrl+C");
+      }
+    });
+  });
+})();
+</script>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+
+</body></html>
