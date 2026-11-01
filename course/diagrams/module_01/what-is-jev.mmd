@@ -1,11 +1,43 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  ST["state: what Jev reads<br/>message: i lost my card"]
-  Q["questions: what you ask<br/>which team? how urgent?"]
-  J["Jev<br/>answers, never writes text"]
-  A["typed answers<br/>team: a choice + a probability per team<br/>urgency: a score from 0 to 2"]
-  C["your code<br/>decides what happens"]
-  ST --> J
-  Q --> J
-  J --> A --> C
-  style J stroke:#1A3D4D,stroke-width:3px
+flowchart TB
+  subgraph INPUT["YOU SEND: one call, jev.system_one()"]
+    direction LR
+    subgraph STATE["STATE: what Jev reads"]
+      direction TB
+      S["message<br/>i lost my card at the mall,<br/>need it frozen right away"]
+    end
+    subgraph QUESTIONS["QUESTIONS: what you ask"]
+      direction TB
+      Q1["team: Choice<br/>which team?"]
+      Q2["urgency: Score<br/>how urgent, 0 to 2?"]
+      Q3["risk: Noul<br/>money at risk?"]
+      Q1 ~~~ Q2 ~~~ Q3
+    end
+    STATE ~~~ QUESTIONS
+  end
+  subgraph OUTPUT[" "]
+    direction LR
+    subgraph ANSWERS["JEV ANSWERS: typed, never text"]
+      direction TB
+      A1["team = credit_cards<br/>+ a p per team"]
+      A2["urgency = 2.00"]
+      A3["risk = 0.97"]
+      A1 ~~~ A2 ~~~ A3
+    end
+    subgraph CODE["YOUR CODE decides"]
+      direction TB
+      R["risk >= 0.7"]
+    end
+    subgraph OUTCOME["OUTCOME"]
+      direction TB
+      O["ESCALATE<br/>to a person now"]
+    end
+    ANSWERS --> CODE --> OUTCOME
+  end
+  INPUT --> OUTPUT
+
+  classDef jev fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef out fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  class A1,A2,A3 jev
+  class O out
+  style OUTPUT fill:#FFFFFF,stroke:#FFFFFF

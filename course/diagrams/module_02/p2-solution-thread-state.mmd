@@ -1,30 +1,52 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
+flowchart TB
   subgraph CHAT["THE CHAT"]
-    T["customer: i can't find my card anywhere<br/>customer: ok so what do i do now"]
+    direction LR
+    T1["customer:<br/>i can't find my card anywhere"]
+    T2["customer:<br/>ok so what do i do now"]
+    T1 ~~~ T2
   end
-  subgraph STATE["STATE"]
-    S["thread: a list of turns, every line with who said it<br/>from: customer, text: i can't find my card anywhere<br/>from: customer, text: ok so what do i do now"]
+  subgraph STATE["STATE: thread, a list of turns"]
+    direction LR
+    S1["from: customer<br/>i can't find my card anywhere"]
+    S2["from: customer<br/>ok so what do i do now"]
+    S1 ~~~ S2
   end
   subgraph QUESTIONS["QUESTIONS: 3 Nouls"]
-    Q["lost_or_stolen: Does the customer in `thread` report that their card is lost or stolen?<br/>unknown_charge: Does the customer in `thread` report a charge they did not make?<br/>locked_out: Does the customer in `thread` report that they cannot get in?"]
+    direction LR
+    Q1["lost_or_stolen<br/>names thread"]
+    Q2["unknown_charge<br/>names thread"]
+    Q3["locked_out<br/>names thread"]
+    Q1 ~~~ Q2 ~~~ Q3
   end
   subgraph ANSWERS["JEV ANSWERS"]
-    A["lost_or_stolen 0.77<br/>unknown_charge 0.02<br/>locked_out 0.05"]
+    direction LR
+    A1["lost_or_stolen 0.77"]
+    A2["unknown_charge 0.02"]
+    A3["locked_out 0.05"]
+    A1 ~~~ A2 ~~~ A3
   end
-  subgraph CODE["YOUR CODE: risk_decision()"]
-    C["any flag >= 0.7: ESCALATE<br/>any above 0.3: REVIEW<br/>otherwise: NONE"]
+  subgraph CODE["YOUR CODE: risk_decision(), unchanged"]
+    direction LR
+    C1[">= 0.7: ESCALATE"]
+    C2["> 0.3: REVIEW"]
+    C3["else: NONE"]
+    C1 ~~~ C2 ~~~ C3
   end
   subgraph OUTCOME["OUTCOME"]
-    O["ESCALATE, reason: lost_or_stolen"]
-    R["6 threads, whole thread:<br/>3 ESCALATE: lost card, unknown charge, locked account<br/>found card 0.43 and stolen wallet 0.66: REVIEW<br/>balance: NONE"]
+    direction LR
+    O1["ESCALATE<br/>reason: lost_or_stolen"]
+    O2["6 threads: 3 to 4 ESCALATE<br/>found card REVIEW"]
+    O3["stolen wallet 0.66 to 0.71<br/>ESCALATE or REVIEW"]
+    O1 ~~~ O2 ~~~ O3
   end
-  T --> S --> Q --> A --> C --> O
-  O --- R
+  CHAT --> STATE --> QUESTIONS --> ANSWERS --> CODE --> OUTCOME
 
-  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef score fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class S changed
-  class Q changed
-  class O ok
+  classDef border fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px,stroke-dasharray:5 5
+  class S1,S2,Q1,Q2,Q3 changed
+  class A1,A2,A3 score
+  class O1,O2 ok
+  class O3 border

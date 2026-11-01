@@ -1,37 +1,53 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  T["TICKET from the support system<br/>ticket_id, customer_id, channel<br/>turns: customer and agent lines, in order"]
-  subgraph L1["LAB 2.1 Guided: ticket_state"]
-    S["must hold a field called thread: the questions name it<br/>which other fields go in? how does a turn say who spoke?<br/>YOU DECIDE"]
+flowchart TB
+  subgraph ROW1[" "]
+    direction LR
+    subgraph T["TICKET T-88202"]
+      direction TB
+      T1["ticket_id, customer_id<br/>channel: chat"]
+      T2["customer: $300 charge,<br/>a store i've never been to"]
+      T3["agent: is the card<br/>still with you?"]
+      T4["customer: yes,<br/>it's right here"]
+      T1 ~~~ T2 ~~~ T3 ~~~ T4
+    end
+    subgraph L1["LEVEL 1: ticket_state"]
+      direction TB
+      S1["must hold: thread<br/>the questions name it"]
+      S2["YOU DECIDE: ids? agent lines?<br/>each turn: from, text"]
+      S3["should give<br/>unknown_charge 0.98<br/>lost_or_stolen 0.05"]
+      S1 ~~~ S2 ~~~ S3
+    end
+    subgraph L2["LEVEL 2: assess_thread(ticket)"]
+      direction TB
+      B["build the state<br/>as in Level 1"]
+      J["1 Jev call<br/>THREAD_RISK_QUESTIONS"]
+      D["risk_decision(flags)<br/>given"]
+      B --> J --> D
+    end
+    subgraph OUT["RETURNS, 6 tickets"]
+      direction TB
+      O1["3 ESCALATE<br/>lost, charge, locked"]
+      O2["found card: REVIEW"]
+      O3["stolen wallet 0.66 to 0.71<br/>ESCALATE or REVIEW"]
+      O4["balance: NONE"]
+      O1 ~~~ O2 ~~~ O3 ~~~ O4
+    end
+    T --> L1 --> L2 --> OUT
   end
-  subgraph GIVEN["GIVEN"]
-    Q["THREAD_RISK_QUESTIONS<br/>lost_or_stolen, unknown_charge, locked_out<br/>3 Nouls about thread"]
-    D["risk_decision(flags)<br/>ESCALATE / REVIEW / NONE"]
+  subgraph L3["LEVEL 3, optional: nothing later uses it"]
+    direction LR
+    R1["+ resolved: a 4th Noul<br/>names thread"]
+    R2["resolved >= 0.7<br/>checked first"]
+    R3["CLOSE<br/>the found card"]
+    R1 -.-> R2 -.-> R3
   end
-  subgraph L2["LAB 2.2 Core: assess_thread(ticket)"]
-    B["build the state from ticket turns,<br/>the way you decided in 2.1"]
-    J["one Jev call"]
-    F["flags"]
-  end
-  OUT["returns flags, action, reasons<br/>one row per ticket, 6 tickets"]
-  subgraph L3["LAB 2.3 Challenge, optional: nothing later uses it"]
-    RQ["+ resolved: a 4th Noul about thread"]
-    RR{"resolved >= 0.7 ?<br/>checked first"}
-    CL["CLOSE"]
-  end
-  T --> S
-  S --> B
-  B --> J
-  Q --> J
-  J --> F
-  F --> D
-  D --> OUT
-  RQ --> RR
-  RR -- yes --> CL
-  OUT ~~~ RQ
-  style L3 stroke-dasharray:5 5
+  ROW1 ~~~ L3
 
-  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
-  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef mine fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class S changed
+  classDef opt fill:#FFFFFF,stroke:#40B8A6,stroke-width:2px,stroke-dasharray:5 5
+  class S1,S2,B mine
+  class O1,O2,O3,O4 ok
+  class R1,R2,R3 opt
+  style L3 stroke-dasharray:5 5
+  style ROW1 fill:none,stroke:none

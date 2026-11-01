@@ -1,9 +1,46 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  M["message: i lost my credit card<br/>and i fly to rome tomorrow"] --> Q["ask: an LLM, prompt or JSON schema<br/>listing the 10 teams"]
-  Q --> A["answer: text to parse<br/>credit_cards"]
-  Q --> P["how sure? NO PROBABILITY<br/>logprobs refused, or tokens only"]
-  A --> C["your code: SAME ROUTE<br/>for a sure and a torn message"]
-  P --> C
-  style P stroke:#B42318,stroke-width:3px
-  style C stroke:#B42318,stroke-width:3px
+flowchart TB
+  subgraph TOP[" "]
+    direction LR
+    subgraph STATE["STATE: two messages"]
+      direction TB
+      M1["EASY<br/>i lost my credit card<br/>and i fly to rome tomorrow"]
+      M2["HARD<br/>abort mission"]
+      M1 ~~~ M2
+    end
+    subgraph ASK["ASK: an LLM"]
+      direction TB
+      Q["JSON schema<br/>enum of the 10 teams"]
+      K["schema LLM, 40 messages<br/>p50 879 ms, $0.256 per 1,000"]
+      Q ~~~ K
+    end
+    subgraph ANSWER["LLM ANSWER: a label only"]
+      direction TB
+      A1["credit_cards<br/>how sure? NO NUMBER"]
+      A2["small_talk (true: meta)<br/>how sure? NO NUMBER"]
+      A1 ~~~ A2
+    end
+    STATE --> ASK --> ANSWER
+  end
+  subgraph BOTTOM[" "]
+    direction LR
+    subgraph CODE["YOUR CODE"]
+      direction TB
+      C["easy or hard?<br/>CANNOT TELL"]
+    end
+    subgraph OUTCOME["OUTCOME"]
+      direction TB
+      O1["easy: ROUTE<br/>right"]
+      O2["hard: ROUTE too<br/>wrong team, MISSED"]
+      O1 ~~~ O2
+    end
+    CODE --> OUTCOME
+  end
+  TOP --> BOTTOM
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef num fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
+  class A1,A2,C,O2 fail
+  class K num
+  style TOP fill:#FFFFFF,stroke:#FFFFFF
+  style BOTTOM fill:#FFFFFF,stroke:#FFFFFF

@@ -1,0 +1,28 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph L1["LEVEL 1, Guided: a new Choice"]
+    direction LR
+    A["request_types<br/>YOU write 3 descriptions"] --> B["request_question<br/>information, action, complaint"] --> C["8 messages<br/>type + confidence"]
+  end
+  subgraph L2["LEVEL 2, Core: classify_team(message)"]
+    direction LR
+    D["1 Jev call<br/>team_question"] --> E["top 2 teams<br/>and their p"] --> F["needs_review<br/>YOUR rule"] --> G["20 messages<br/>sorted by gap"]
+  end
+  subgraph READ["THE TABLE YOU READ for your rule"]
+    direction LR
+    T1["smallest gap<br/>right or WRONG?"] ~~~ T4["needs_review line?<br/>YOU choose it"] ~~~ T3["largest gap<br/>right or WRONG?"]
+  end
+  L2 --> READ
+  subgraph L3["LEVEL 3, optional: order_check(messages)"]
+    direction LR
+    H["TEAMS forward<br/>and reversed, 1 call"] -.-> I["answers changed<br/>accuracy of each"]
+  end
+  L1 ~~~ L2
+  READ ~~~ L3
+  class T4 mine
+
+  classDef mine fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef opt fill:#FFFFFF,stroke:#40B8A6,stroke-width:2px,stroke-dasharray:5 5
+  class A,F mine
+  class H,I opt
+  style L3 stroke-dasharray:5 5

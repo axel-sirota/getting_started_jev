@@ -1,11 +1,54 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  M["message: why was my card<br/>declined at the gas station"] --> QA["ask THREE judgments, one request<br/>credit_cards / urgency 1.8 / risk 0.04"]
-  QA --> R1{"risk >= 0.7?"}
-  R1 -- no --> R2{"risk > 0.3?"}
-  R2 -- no --> R3{"urgency >= 1.5?"}
-  R1 -- yes --> E["ESCALATE"]
-  R2 -- yes --> V["REVIEW"]
-  R3 -- yes --> P["PRIORITY"]
-  R3 -- no --> RT["ROUTE"]
-  style P stroke:#1A3D4D,stroke-width:3px
+flowchart TB
+  subgraph TOP[" "]
+    direction LR
+    subgraph STATE["STATE"]
+      direction TB
+      M["message<br/>i lost my card at the mall,<br/>need it frozen right away"]
+    end
+    subgraph QUESTIONS["QUESTIONS: 3, one request"]
+      direction TB
+      Q1["team: Choice<br/>which team?"]
+      Q2["urgency: Score<br/>0 can wait, 2 now"]
+      Q3["risk: Noul<br/>money or access at risk?"]
+      Q1 ~~~ Q2 ~~~ Q3
+    end
+    subgraph ANSWERS["JEV ANSWERS"]
+      direction TB
+      A1["team = credit_cards"]
+      A2["urgency = 2.00"]
+      A3["risk = 0.97"]
+      A1 ~~~ A2 ~~~ A3
+    end
+    STATE --> QUESTIONS --> ANSWERS
+  end
+  subgraph BOTTOM[" "]
+    direction LR
+    subgraph CODE["YOUR CODE: triage(), rules in order"]
+      direction TB
+      R1["1. risk >= 0.7: ESCALATE<br/>0.97, YES"]
+      R2["2. risk > 0.3: REVIEW"]
+      R3["3. urgency >= 1.5: PRIORITY"]
+      R4["4. else: ROUTE"]
+      R1 ~~~ R2 ~~~ R3 ~~~ R4
+    end
+    subgraph OUTCOME["OUTCOME"]
+      direction TB
+      O1["ESCALATE to a person now<br/>because risk = 0.97"]
+      O2["new policy<br/>change a threshold"]
+      O1 ~~~ O2
+    end
+    CODE --> OUTCOME
+  end
+  TOP --> BOTTOM
+
+  classDef fix fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef num fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef skip fill:#FFFFFF,stroke:#D1D5DB,stroke-width:2px
+  classDef note fill:#FFFFFF,stroke:#40B8A6,stroke-width:2px,stroke-dasharray:5 5
+  class Q1,Q2,Q3,R1,O1 fix
+  class A1,A2,A3 num
+  class R2,R3,R4 skip
+  class O2 note
+  style TOP fill:#FFFFFF,stroke:#FFFFFF
+  style BOTTOM fill:#FFFFFF,stroke:#FFFFFF

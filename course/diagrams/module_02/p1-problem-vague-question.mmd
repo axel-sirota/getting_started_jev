@@ -1,26 +1,47 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  subgraph STATE["STATE"]
-    S["message: my trip to cairo is on wednesday, set a travel notice<br/>today: Friday, October 30, 2026<br/>(and oslo on 11/7, boston tomorrow, 7 more)"]
+flowchart TB
+  subgraph STATE["STATE: 3 of the 10 messages, one call each"]
+    direction LR
+    S1["cairo<br/>on wednesday, set a notice"]
+    S2["oslo<br/>on 11/7, travel notice please"]
+    S3["boston<br/>flight tomorrow, on time?"]
+    S4["today<br/>Fri, Oct 30"]
+    S1 ~~~ S2 ~~~ S3 ~~~ S4
   end
-  subgraph QUESTIONS["QUESTIONS"]
-    Q["urgent, ONE Noul:<br/>Does message need an urgent travel notice,<br/>because the trip is within 7 days of today?<br/>hidden inside: asks for a notice? / when is the trip? / within 7 days?"]
+  subgraph QUESTIONS["QUESTIONS: 1 Noul"]
+    direction LR
+    Q["urgent<br/>notice within 7 days?"]
+    H1["hidden: asks for a notice?"]
+    H2["hidden: when is the trip?"]
+    H3["hidden: within 7 days?"]
+    Q ~~~ H1 ~~~ H2 ~~~ H3
   end
-  subgraph ANSWERS["JEV ANSWERS, per message"]
-    A["cairo (asks, 5 days away): urgent 0.50<br/>oslo (asks, 8 days away): urgent 0.51<br/>boston (does NOT ask, tomorrow): urgent 0.86"]
+  subgraph ANSWERS["JEV ANSWERS: urgent"]
+    direction LR
+    A1["cairo 0.47"]
+    A2["oslo 0.49"]
+    A3["boston 0.86"]
+    A1 ~~~ A2 ~~~ A3
   end
   subgraph CODE["YOUR CODE"]
-    C["rule in code:<br/>urgent >= 0.7"]
+    direction LR
+    C["URGENT if urgent >= 0.7"]
   end
   subgraph OUTCOME["OUTCOME"]
-    O["cairo: NOT URGENT, MISS<br/>oslo: NOT URGENT, right by a coin flip<br/>boston: URGENT, MISS<br/>which judgment failed? CANNOT TELL"]
-    R["all 10 messages: 7 right<br/>careful wording: 6 right<br/>new policy: reword, call again"]
+    direction LR
+    O1["cairo: MISS<br/>5 days, asked"]
+    O2["oslo: ok by luck<br/>8 days, 0.49"]
+    O3["boston: MISS<br/>asked no notice"]
+    O4["which judgment failed?<br/>CANNOT TELL"]
+    O5["all 10: vague 7 right<br/>careful wording 6"]
+    O1 ~~~ O2 ~~~ O3 ~~~ O4 ~~~ O5
   end
-  S --> Q --> A --> C --> O
-  O --- R
+  STATE --> QUESTIONS --> ANSWERS --> CODE --> OUTCOME
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
-  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
-  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef hidden fill:#FFFFFF,stroke:#B42318,stroke-width:2px,stroke-dasharray:5 5
+  classDef score fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
   class Q fail
-  class O fail
+  class H1,H2,H3 hidden
+  class A1,A2,A3 score
+  class O1,O3,O4,O5 fail

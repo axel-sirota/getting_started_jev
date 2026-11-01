@@ -1,5 +1,21 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 flowchart LR
-  C["Choice: pick one option<br/>which team?"] --> CA["ChoiceAnswer: choice, probability per option<br/>confidence: how decided Jev is"]
-  S["Score: rate on your levels<br/>how urgent, 0 to 2?"] --> SA["ScoreAnswer: score, probability per level<br/>confidence: how decided Jev is"]
-  N["Noul: is this statement true?<br/>is a card lost?"] --> NA["NoulAnswer: noul, one probability 0 to 1<br/>the probability is the whole answer"]
+  M["STATE: message<br/>flight to rome tomorrow,<br/>card keeps getting declined"]
+  subgraph CH["CHOICE: pick one option"]
+    direction LR
+    C["team<br/>which team?"] --> CC["criteria: dict<br/>banking, credit_cards, ..."] --> CA["choice = credit_cards<br/>credit_cards 0.93, travel 0.06<br/>confidence 0.92"]
+  end
+  subgraph SC["SCORE: rate on your levels"]
+    direction LR
+    S["frustration<br/>how upset?"] --> SCC["criteria: list, 0 lowest<br/>calm, annoyed, angry"] --> SA["score = 1.42<br/>levels 0.08, 0.42, 0.50<br/>confidence 0.13"]
+  end
+  subgraph NO["NOUL: is a statement true?"]
+    direction LR
+    N["travel_plans<br/>travelling soon?"] --> NC["no criteria<br/>the statement is enough"] --> NA["noul = 0.99<br/>one probability, that is all"]
+  end
+  M --> CH
+  M --> SC
+  M --> NO
+
+  classDef jev fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  class CA,SA,NA jev

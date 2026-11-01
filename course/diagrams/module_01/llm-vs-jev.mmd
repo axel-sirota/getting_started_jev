@@ -1,0 +1,24 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph LLM["LLM: writes text"]
+    direction TB
+    L1["you send a prompt<br/>which team? reply the name"]
+    L2["you get text<br/>credit_cards, parse it"]
+    L3["how sure? NO NUMBER<br/>for your 10 teams"]
+    L4["use it for WORDS<br/>a reply to the customer"]
+    L1 --> L2 --> L3 --> L4
+  end
+  subgraph JEV["JEV: fills typed slots"]
+    direction TB
+    J1["you send a Choice<br/>options = the 10 teams"]
+    J2["you get data<br/>choice = credit_cards"]
+    J3["how sure? EVERY OPTION<br/>credit_cards 0.99, travel 0.01"]
+    J4["use it for DECISIONS<br/>your code acts on it"]
+    J1 --> J2 --> J3 --> J4
+  end
+  LLM ~~~ JEV
+
+  classDef bad fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef good fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  class L3 bad
+  class J3 good

@@ -1,29 +1,51 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
+flowchart TB
   subgraph CHAT["THE CHAT"]
-    T["customer: i can't find my card anywhere<br/>customer: ok so what do i do now"]
+    direction LR
+    T1["customer:<br/>i can't find my card anywhere"]
+    T2["customer:<br/>ok so what do i do now"]
+    T1 ~~~ T2
   end
   subgraph STATE["STATE"]
-    S["message: ok so what do i do now<br/>the last line only: the lost card is left OUT"]
+    direction LR
+    S2["the lost card line<br/>LEFT OUT"]
+    S1["message<br/>ok so what do i do now"]
+    S2 ~~~ S1
   end
   subgraph QUESTIONS["QUESTIONS: 3 Nouls"]
-    Q["lost_or_stolen: Does `message` report that the card is lost or stolen?<br/>unknown_charge: Does `message` report a charge the customer did not make?<br/>locked_out: Does `message` report that the customer cannot get in?"]
+    direction LR
+    Q1["lost_or_stolen<br/>about message"]
+    Q2["unknown_charge<br/>about message"]
+    Q3["locked_out<br/>about message"]
+    Q1 ~~~ Q2 ~~~ Q3
   end
   subgraph ANSWERS["JEV ANSWERS"]
-    A["lost_or_stolen 0.02<br/>unknown_charge 0.01<br/>locked_out 0.04"]
+    direction LR
+    A1["lost_or_stolen 0.02"]
+    A2["unknown_charge 0.01"]
+    A3["locked_out 0.04"]
+    A1 ~~~ A2 ~~~ A3
   end
   subgraph CODE["YOUR CODE: risk_decision()"]
-    C["any flag >= 0.7: ESCALATE<br/>any above 0.3: REVIEW<br/>otherwise: NONE"]
+    direction LR
+    C1[">= 0.7: ESCALATE"]
+    C2["> 0.3: REVIEW"]
+    C3["else: NONE"]
+    C1 ~~~ C2 ~~~ C3
   end
   subgraph OUTCOME["OUTCOME"]
-    O["NONE: a lost card, MISSED, no error"]
-    R["6 threads, last line only:<br/>1 ESCALATE, the locked account<br/>lost card, unknown charge, stolen wallet: NONE"]
+    direction LR
+    O1["NONE<br/>lost card MISSED"]
+    O2["no error raised"]
+    O3["6 threads:<br/>1 ESCALATE"]
+    O1 ~~~ O2 ~~~ O3
   end
-  T --> S --> Q --> A --> C --> O
-  O --- R
+  CHAT --> STATE --> QUESTIONS --> ANSWERS --> CODE --> OUTCOME
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
-  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
-  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class S fail
-  class O fail
+  classDef score fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
+  classDef dropped fill:#FFFFFF,stroke:#B42318,stroke-width:2px,stroke-dasharray:5 5
+  class S1 fail
+  class S2 dropped
+  class A1,A2,A3 score
+  class O1,O2,O3 fail

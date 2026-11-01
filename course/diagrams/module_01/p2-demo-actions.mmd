@@ -1,0 +1,46 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph RULES["demo_action(): rules in order"]
+    direction LR
+    R1["1. travel_plans >= 0.7<br/>REMIND"] ~~~ R2["2. frustration >= 1.5<br/>CALL BACK"] ~~~ R3["3. else<br/>ROUTE to the team"]
+  end
+  subgraph ROWS["same 6 messages: escalate was, judgments now, action"]
+    direction TB
+    subgraph RA[" "]
+      direction LR
+      A["lost card<br/>escalate was 0.60"] --> A2["frust 1.61<br/>travel 0.02"] --> AA["CALL BACK<br/>no risk rule yet"]
+    end
+    subgraph RB[" "]
+      direction LR
+      B["unknown charge<br/>escalate was 0.92"] --> B2["frust 0.42<br/>travel 0.01"] --> BB["ROUTE credit_cards<br/>no risk rule yet"]
+    end
+    subgraph RC[" "]
+      direction LR
+      C["declined card<br/>escalate was 0.41"] --> C2["frust 0.41<br/>travel 0.02"] --> CC["ROUTE credit_cards"]
+    end
+    subgraph RD[" "]
+      direction LR
+      D["app login<br/>escalate was 0.63"] --> D2["frust 0.26<br/>travel 0.01"] --> DD["ROUTE banking"]
+    end
+    subgraph RE[" "]
+      direction LR
+      E["flight next month<br/>escalate was 0.21"] --> E2["frust 0.00<br/>travel 0.99"] --> EE["REMIND<br/>travel notice"]
+    end
+    subgraph RF[" "]
+      direction LR
+      F["balance<br/>escalate was 0.19"] --> F2["frust 0.00<br/>travel 0.01"] --> FF["ROUTE banking"]
+    end
+    RA ~~~ RB ~~~ RC ~~~ RD ~~~ RE ~~~ RF
+  end
+  RULES --> ROWS
+
+  classDef gap fill:#FFF6DA,stroke:#B54708,stroke-width:4px
+  classDef act fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  class AA,BB gap
+  class CC,DD,EE,FF act
+  style RA fill:#FFFFFF,stroke:#FFFFFF
+  style RB fill:#FFFFFF,stroke:#FFFFFF
+  style RC fill:#FFFFFF,stroke:#FFFFFF
+  style RD fill:#FFFFFF,stroke:#FFFFFF
+  style RE fill:#FFFFFF,stroke:#FFFFFF
+  style RF fill:#FFFFFF,stroke:#FFFFFF

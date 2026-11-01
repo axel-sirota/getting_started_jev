@@ -1,0 +1,39 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph ROW[" "]
+    direction LR
+    subgraph TXT["criteria = TEAMS"]
+      direction TB
+      a1["stage 1: travel 0.95"]
+      a2["stage 2: book_hotel 0.67"]
+      a3["0.95 x 0.67 = 0.64<br/>WRONG intent"]
+      a1 --> a2 --> a3
+    end
+    subgraph DAT["criteria = TEAM_INTENTS"]
+      direction TB
+      b1["stage 1: kitchen_and_dining 0.97"]
+      b2["stage 2: cancel_reservation 1.00"]
+      b3["0.97 x 1.00 = 0.97<br/>RIGHT intent"]
+      b1 --> b2 --> b3
+    end
+  end
+  subgraph CODE["YOUR CODE, Lab 3.2"]
+    direction LR
+    W["stage 2 only counts<br/>if stage 1 was right"]
+    M["probability = team x intent<br/>both stages right"]
+    W --> M
+    G["needs_review =<br/>probability < REVIEW_BELOW"]
+    M --> G
+  end
+  N["REVIEW_BELOW: a placeholder today<br/>Module 3 chooses it from data"]
+  ROW --> CODE -.-> N
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef note fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px,stroke-dasharray:5 5
+  class a3 fail
+  class b3 ok
+  class W,M,G changed
+  class N note
+  style ROW fill:none,stroke:none

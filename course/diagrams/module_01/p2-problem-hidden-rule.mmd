@@ -1,7 +1,44 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  M["message: why was my card<br/>declined at the gas station"] --> QA["ask ONE Noul: should this be escalated?<br/>answer: about 0.4 (our run)"]
-  QA --> H["rule: HIDDEN inside the model<br/>urgent? risky? both? why 0.4?"]
-  H --> X["new policy: REWRITE the question<br/>and hope"]
-  style H stroke:#B42318,stroke-width:3px
-  style X stroke:#B42318,stroke-width:3px
+flowchart TB
+  subgraph TOP[" "]
+    direction LR
+    subgraph STATE["STATE"]
+      direction TB
+      M["message<br/>i lost my card at the mall,<br/>need it frozen right away"]
+    end
+    subgraph QUESTIONS["QUESTIONS: 1 Noul"]
+      direction TB
+      Q["escalate<br/>send to a human?"]
+      H["hidden inside: urgent?<br/>risky? which team?"]
+      Q ~~~ H
+    end
+    subgraph ANSWERS["JEV ANSWERS"]
+      direction TB
+      A["escalate = 0.60<br/>urgent or risky?"]
+    end
+    STATE --> QUESTIONS --> ANSWERS
+  end
+  subgraph BOTTOM[" "]
+    direction LR
+    subgraph CODE["YOUR CODE"]
+      direction TB
+      C["escalate >= some cut-off<br/>you guess: 0.5? 0.7?"]
+    end
+    subgraph OUTCOME["OUTCOME"]
+      direction TB
+      O1["at 0.7: NOT escalated<br/>a card that must be frozen"]
+      O2["new policy<br/>REWRITE the question, hope"]
+      O1 ~~~ O2
+    end
+    CODE --> OUTCOME
+  end
+  TOP --> BOTTOM
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef hidden fill:#FFFFFF,stroke:#B42318,stroke-width:2px,stroke-dasharray:5 5
+  classDef num fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  class Q,C,O1 fail
+  class H,O2 hidden
+  class A num
+  style TOP fill:#FFFFFF,stroke:#FFFFFF
+  style BOTTOM fill:#FFFFFF,stroke:#FFFFFF

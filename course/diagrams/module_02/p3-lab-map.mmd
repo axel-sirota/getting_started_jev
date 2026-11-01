@@ -1,41 +1,50 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  M["message"]
-  subgraph GIVEN["GIVEN: stage 1 from the demo"]
-    T["team_question_data<br/>criteria = TEAM_INTENTS"]
+flowchart TB
+  subgraph ROW1[" "]
+    direction LR
+    subgraph IN["WHAT LEVEL 2 USES"]
+      direction TB
+      M["message"]
+      G["team_question_data<br/>GIVEN: stage 1"]
+      IQ["intent_question(team)<br/>LEVEL 1: stage 2<br/>alone, right team given: 4 of 5"]
+      RB["REVIEW_BELOW<br/>LEVEL 1: a placeholder"]
+      M ~~~ G ~~~ IQ ~~~ RB
+    end
+    subgraph L2["LEVEL 2: classify_intent(message)"]
+      direction TB
+      J1["call 1: team_question_data<br/>team + its probability"]
+      J2["call 2: intent_question(team)<br/>intent + its probability"]
+      P["probability =<br/>team x intent"]
+      NR["needs_review =<br/>probability < REVIEW_BELOW"]
+      J1 --> J2 --> P --> NR
+    end
+    subgraph OUT["RETURNS, a dict"]
+      direction TB
+      O1["team, intent<br/>probability, needs_review"]
+      O2["input_tokens<br/>both calls added"]
+      O3["our run, 40 new messages:<br/>40 teams, 40 intents right<br/>review at 0.5 / 0.7 / 0.9: 0 / 1 to 2 / 4"]
+      O1 ~~~ O2 ~~~ O3
+    end
+    IN --> L2 --> OUT
   end
-  subgraph L1["LAB 3.1 Guided"]
-    IQ["intent_question(team)<br/>your intent_instructions,<br/>options: that team's 15 intents"]
-    RB["REVIEW_BELOW<br/>your placeholder, 0.5 to 0.9"]
+  subgraph L3["LEVEL 3, optional: nothing later uses it"]
+    direction LR
+    F1["flat_check()<br/>1 Choice over 150"]
+    F2["vs the two stages<br/>timed the same way"]
+    F3["accuracy, p50 ms, tokens<br/>when keep two stages?"]
+    F1 -.-> F2 -.-> F3
   end
-  subgraph L2["LAB 3.2 Core: classify_intent(message)"]
-    J1["call 1: team, team_probability"]
-    J2["call 2: intent, intent_probability"]
-    P["probability = team_probability x intent_probability"]
-    G{"probability < REVIEW_BELOW ?"}
-    H["needs_review: True<br/>a person checks"]
-    AU["needs_review: False<br/>automatic"]
-  end
-  OUT["returns team, intent, the probabilities,<br/>needs_review, input_tokens"]
-  subgraph L3["LAB 3.3 Challenge, optional: nothing later uses it"]
-    FL["flat_check(): one Choice over all 150<br/>against the two stages<br/>accuracy, p50 ms, tokens"]
-  end
-  M --> J1
-  T --> J1
-  J1 --> J2
-  IQ --> J2
-  J2 --> P
-  P --> G
-  RB --> G
-  G -- yes --> H
-  G -- no --> AU
-  H --> OUT
-  AU --> OUT
-  OUT ~~~ FL
-  style L3 stroke-dasharray:5 5
+  ROW1 ~~~ L3
 
-  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
-  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef mine fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class H ok
-  class AU ok
+  classDef given fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
+  classDef opt fill:#FFFFFF,stroke:#40B8A6,stroke-width:2px,stroke-dasharray:5 5
+  class IQ,RB,J1,J2,P,NR mine
+  class M,G given
+  class O1,O2 ok
+  classDef run fill:#FFF6DA,stroke:#E0B84C,stroke-width:2px,stroke-dasharray:5 5
+  class O3 run
+  class F1,F2,F3 opt
+  style L3 stroke-dasharray:5 5
+  style ROW1 fill:none,stroke:none

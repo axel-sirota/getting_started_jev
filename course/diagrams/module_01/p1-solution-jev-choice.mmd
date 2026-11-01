@@ -1,9 +1,46 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  M["message: i lost my credit card<br/>and i fly to rome tomorrow"] --> Q["ask: Jev, team_question<br/>a Choice of the 10 teams"]
-  Q --> A["answer: TYPED, nothing to parse<br/>choice = credit_cards"]
-  Q --> P["how sure? A PROBABILITY PER TEAM<br/>credit_cards 0.99, travel 0.01"]
-  A --> C["your code: ROUTE when sure<br/>REVIEW when torn"]
-  P --> C
-  style P stroke:#1A3D4D,stroke-width:3px
-  style C stroke:#1A3D4D,stroke-width:3px
+flowchart TB
+  subgraph TOP[" "]
+    direction LR
+    subgraph STATE["STATE: two messages"]
+      direction TB
+      M1["EASY<br/>i lost my credit card<br/>and i fly to rome tomorrow"]
+      M2["HARD<br/>abort mission"]
+      M1 ~~~ M2
+    end
+    subgraph ASK["ASK: Jev"]
+      direction TB
+      Q["team_question: Choice<br/>options = the 10 teams"]
+      K["Jev, 40 messages<br/>p50 235 ms, $0.022 per 1,000"]
+      Q ~~~ K
+    end
+    subgraph ANSWER["JEV ANSWER: a p per team"]
+      direction TB
+      A1["credit_cards 0.99<br/>travel 0.01: SURE"]
+      A2["travel 0.22, meta 0.20<br/>confidence 0.13: TORN"]
+      A1 ~~~ A2
+    end
+    STATE --> ASK --> ANSWER
+  end
+  subgraph BOTTOM[" "]
+    direction LR
+    subgraph CODE["YOUR CODE"]
+      direction TB
+      C["easy or hard?<br/>READ THE NUMBER"]
+    end
+    subgraph OUTCOME["OUTCOME"]
+      direction TB
+      O1["easy: ROUTE<br/>right"]
+      O2["hard: 0.13 below your line<br/>REVIEW, an agent looks"]
+      O1 ~~~ O2
+    end
+    CODE --> OUTCOME
+  end
+  TOP --> BOTTOM
+
+  classDef fix fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef num fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
+  class A1,A2,C,O2 fix
+  class K num
+  style TOP fill:#FFFFFF,stroke:#FFFFFF
+  style BOTTOM fill:#FFFFFF,stroke:#FFFFFF

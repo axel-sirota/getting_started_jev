@@ -1,0 +1,29 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph L1["LEVEL 1, Guided: two new questions"]
+    direction LR
+    A["urgency_levels<br/>YOU write 3, about time"] --> B["urgency_question<br/>Score, 0 to 2"]
+    C["risk_instructions<br/>YOU write: money or access?"] --> D["risk_question<br/>Noul, 0 to 1"]
+  end
+  subgraph L2["LEVEL 2, Core: triage(message), YOU write the body"]
+    direction LR
+    E["1 Jev call<br/>team, urgency, risk"] --> F["risk >= 0.7<br/>ESCALATE"] --> G["risk > 0.3<br/>REVIEW"] --> H["urgency >= 1.5<br/>PRIORITY"] --> I["else<br/>ROUTE"]
+  end
+  subgraph EXP["EXPECTED, 12 messages (our run)"]
+    direction LR
+    X1["3 ESCALATE<br/>risk 0.81 to 0.97"] ~~~ X2["2 REVIEW<br/>risk 0.39, 0.49"] ~~~ X3["1 PRIORITY<br/>declined card"] ~~~ X4["6 ROUTE<br/>risk 0.01"]
+  end
+  subgraph L3["LEVEL 3, optional: compare_calls(messages)"]
+    direction LR
+    J["bundled, sequential<br/>parallel threads"] -.-> K["p50 ms and<br/>input tokens each"]
+  end
+  L1 --> L2 --> EXP
+  EXP ~~~ L3
+
+  classDef mine fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef out fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef opt fill:#FFFFFF,stroke:#40B8A6,stroke-width:2px,stroke-dasharray:5 5
+  class A,C mine
+  class X1,X2,X3,X4 out
+  class J,K opt
+  style L3 stroke-dasharray:5 5

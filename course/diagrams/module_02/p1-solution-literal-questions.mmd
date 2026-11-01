@@ -1,28 +1,49 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  subgraph STATE["STATE"]
-    S["message: my trip to cairo is on wednesday, set a travel notice<br/>no date here: TODAY = Friday, October 30, 2026 lives in code<br/>(and oslo on 11/7, boston tomorrow, 7 more)"]
+flowchart TB
+  subgraph STATE["STATE: 3 of the 10 messages, one call each"]
+    direction LR
+    S1["cairo<br/>on wednesday, set a notice"]
+    S2["oslo<br/>on 11/7, travel notice please"]
+    S3["boston<br/>flight tomorrow, on time?"]
+    S4["no date here<br/>TODAY lives in code"]
+    S1 ~~~ S2 ~~~ S3 ~~~ S4
   end
-  subgraph QUESTIONS["QUESTIONS"]
-    Q["5 LITERAL questions, one call:<br/>asks_notice, a Noul: ask to tell the bank about travel?<br/>month: a Choice of 12 + not_stated / day: a Choice of 31 + not_stated<br/>weekday: a Choice of 7 + not_stated<br/>relative_day: a Choice of today / tomorrow / not_stated"]
+  subgraph QUESTIONS["QUESTIONS: 5 literal"]
+    direction LR
+    Q["asks_notice: Noul<br/>asks for a notice?"]
+    H1["month: Choice<br/>12 + not_stated"]
+    H2["day: Choice<br/>31 + not_stated"]
+    H3["weekday: Choice<br/>7 + not_stated"]
+    H4["relative_day: Choice<br/>today, tomorrow, not_stated"]
+    Q ~~~ H1 ~~~ H2 ~~~ H3 ~~~ H4
   end
-  subgraph ANSWERS["JEV ANSWERS, per message"]
-    A["cairo: asks 0.98, weekday wednesday<br/>oslo: asks 0.98, month november, day 7<br/>boston: asks 0.02, relative_day tomorrow"]
+  subgraph ANSWERS["JEV ANSWERS"]
+    direction LR
+    A1["cairo<br/>asks 0.98, wednesday"]
+    A2["oslo<br/>asks 0.98, november 7"]
+    A3["boston<br/>asks 0.02, tomorrow"]
+    A1 ~~~ A2 ~~~ A3
   end
   subgraph CODE["YOUR CODE"]
-    C["rule in code: trip_date() builds the date,<br/>days = trip - TODAY, then<br/>asks_notice >= 0.7 and 0 <= days <= WINDOW_DAYS"]
+    direction LR
+    C1["trip_date()<br/>parts to a date"]
+    C2["URGENT if asks >= 0.7<br/>and days <= WINDOW_DAYS"]
+    C1 ~~~ C2
   end
   subgraph OUTCOME["OUTCOME"]
-    O["cairo: Nov 4, 5 days: URGENT, right<br/>oslo: Nov 7, 8 days: NOT URGENT, right<br/>boston: no notice asked: NOT URGENT, right<br/>a miss now points at one answer"]
-    R["all 10 messages: 10 right<br/>new policy: change WINDOW_DAYS,<br/>0 new Jev calls"]
+    direction LR
+    O1["cairo: ok<br/>Nov 4, 5 days, URGENT"]
+    O2["oslo: ok<br/>Nov 7, 8 days, NOT URGENT"]
+    O3["boston: ok<br/>no notice, NOT URGENT"]
+    O4["a miss points at<br/>ONE answer"]
+    O5["all 10: 10 right<br/>new policy: 1 constant"]
+    O1 ~~~ O2 ~~~ O3 ~~~ O4 ~~~ O5
   end
-  S --> Q --> A --> C --> O
-  O --- R
+  STATE --> QUESTIONS --> ANSWERS --> CODE --> OUTCOME
 
-  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef score fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class S changed
-  class Q changed
-  class C changed
-  class O ok
+  class S4,Q,H1,H2,H3,H4,C1,C2 changed
+  class A1,A2,A3 score
+  class O1,O2,O3,O4,O5 ok

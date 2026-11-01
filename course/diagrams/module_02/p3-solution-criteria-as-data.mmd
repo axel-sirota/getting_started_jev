@@ -1,26 +1,43 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
+flowchart TB
   subgraph STATE["STATE"]
-    S["message: i have to cancel my reservation after all<br/>label: cancel_reservation, owned by kitchen_and_dining"]
+    direction LR
+    S1["message<br/>i have to cancel my reservation after all"]
+    S2["answer key, not sent to Jev<br/>cancel_reservation<br/>team: kitchen_and_dining"]
+    S1 ~~~ S2
   end
-  subgraph STAGE1["STAGE 1: a Choice of 10 teams"]
-    T["criteria = TEAM_INTENTS, each team's 15 intents<br/>travel: book_hotel, book_flight, car_rental, ...<br/>kitchen_and_dining: ..., cancel_reservation, ..."]
-    TA["Jev: kitchen_and_dining 0.97"]
+  subgraph STAGE1["STAGE 1: a Choice of 10 teams, then JEV ANSWERS"]
+    direction LR
+    T1["criteria: TEAM_INTENTS<br/>each team's 15 intents"]
+    T2["kitchen_and_dining<br/>..., cancel_reservation, ..."]
+    T3["JEV: kitchen_and_dining<br/>0.97"]
+    T1 ~~~ T2 ~~~ T3
   end
-  subgraph STAGE2["STAGE 2: a Choice of the picked team's 15 intents"]
-    I["kitchen_and_dining's 15: restaurant_reservation, ...<br/>cancel_reservation IS an option"]
-    IA["Jev: cancel_reservation 1.00"]
+  subgraph STAGE2["STAGE 2: a Choice of kitchen_and_dining's 15, then JEV ANSWERS"]
+    direction LR
+    I1["restaurant_reservation,<br/>recipe, calories, ..."]
+    I2["cancel_reservation<br/>IS AN OPTION"]
+    I3["JEV: cancel_reservation 1.00"]
+    I1 ~~~ I2 ~~~ I3
   end
   subgraph CODE["YOUR CODE"]
-    P["probability = 0.97 x 1.00 = 0.97<br/>below REVIEW_BELOW? then a person checks"]
+    direction LR
+    P["probability = 0.97 x 1.00 = 0.97"]
   end
   subgraph OUTCOME["OUTCOME"]
-    O["the right intent, no review<br/>40 messages, intent lists: 39 teams right"]
+    direction LR
+    O1["intent: cancel_reservation<br/>RIGHT"]
+    O2["stage 1 saw what<br/>stage 2 offers"]
+    O3["teams right, of 40: 39<br/>1 wrong"]
+    O1 ~~~ O2 ~~~ O3
   end
-  S --> T --> TA --> I --> IA --> P --> O
+  STATE --> STAGE1 --> STAGE2 --> CODE --> OUTCOME
 
-  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef score fill:#FFFFFF,stroke:#1A3D4D,stroke-width:2px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class T changed
-  class O ok
+  class T1,T2,I2 changed
+  class T3,I3 score
+  class O1,O2,O3 ok
+  classDef key fill:#FFFFFF,stroke:#9CA3AF,stroke-width:2px,stroke-dasharray:5 5
+  class S2 key

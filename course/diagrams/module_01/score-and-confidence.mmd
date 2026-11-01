@@ -1,0 +1,34 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph SCORE["SCORE: the probability-weighted level (frustration, our run)"]
+    direction LR
+    L2["level 2, angry<br/>p = 0.50"]
+    L1["level 1, annoyed<br/>p = 0.42"]
+    L0["level 0, calm<br/>p = 0.08"]
+    SS["score = 1.42<br/>0*0.08 + 1*0.42 + 2*0.50"]
+    SP["SPLIT between 1 and 2<br/>not medium, Score confidence 0.13"]
+    L2 --> SS
+    L1 --> SS
+    L0 --> SS
+    SS --> SP
+  end
+  subgraph CONF["CONFIDENCE of a Choice: how decided, not if right (10 teams, our run)"]
+    direction LR
+    subgraph DEC["rome flight message"]
+      direction TB
+      D["credit_cards 0.93<br/>travel 0.06, rest tiny"] --> DC["confidence 0.92<br/>DECIDED"]
+    end
+    subgraph TORN["abort mission"]
+      direction TB
+      T["travel 0.22, meta 0.20<br/>rest spread out"] --> TC["Choice confidence 0.13<br/>TORN"]
+    end
+    DEC ~~~ TORN
+  end
+  SCORE ~~~ CONF
+
+  classDef good fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef warn fill:#FFF6DA,stroke:#B54708,stroke-width:4px
+  classDef num fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  class SS num
+  class DC good
+  class SP,TC warn
