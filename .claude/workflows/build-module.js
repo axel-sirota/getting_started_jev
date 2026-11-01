@@ -154,7 +154,12 @@ changed diagrams. ${N >= 2 ? `VISUAL LEARNING (Axel's rule, not optional): every
 BLOCKER (text-heavy beat, token figure, uncharted demo numbers, mismatched before/after, a Part
 that cannot be followed from its figures alone) MUST be fixed by adding or redrawing figures per
 .claude/skills/mermaid-diagrams/SKILL.md, and the prose cut to what the figure cannot say. If one
-still stands, set status "failed" so nothing is committed. ` : ''}Re-run both notebooks against the real APIs if any code changed. Then:
+still stands, set status "failed" so nothing is committed. ` : ''}SELF-CONTAINED (Axel's rule, every
+module): a student who missed the 4-hour class must follow the notebook alone. Every "I missed the
+class" BLOCKER from learner-engineer-refute (term before definition, figure or number needing a
+voice-over, demo takeaway not written, Think About It with no answer in the notebook, lab with no
+way to check success, live-class phrasing, unexplained jump) MUST be fixed; if one still stands,
+set status "failed". Re-run both notebooks against the real APIs if any code changed. Then:
 - .venv/bin/python3 validate_notebooks.py ${N} --pair --strict   (must PASS)
 
 REVIEWER FINDINGS:

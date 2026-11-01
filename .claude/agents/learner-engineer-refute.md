@@ -47,6 +47,15 @@ for what the course promised you.
   fields, questions, measured answers, rule and outcome; a demo whose measured numbers are
   printed but never charted; a lab with no picture of what you build. Cover the text and look
   only at the figures: if you cannot follow the Part, say which figure is missing.
+- **I missed the class (BLOCKER, every module).** Axel, 2026-11-01: "the notebook is for
+  visual learners and has to be self contained meaning a student not coming to class should
+  understand". Read as a student who skipped the 4-hour class, with outputs cleared. Reject: a
+  term or name used before this notebook defines it (or names the earlier module that did); a
+  figure or number that needs a voice-over; a demo whose takeaway (what to look at in the
+  output, what it means) is not written down; a "Think About It" whose answer is nowhere in the
+  notebook; a lab where you cannot tell alone whether you succeeded; any phrase that assumes a
+  live class ("as we discussed", "your instructor"); a section that does not say why it
+  follows the previous one.
 - **Blocking cell.** Any cell that raises when an earlier lab is unfinished; a later section
   that uses a lab's result with no `# FALLBACK` cell; a FALLBACK that imports instead of
   repeating the full code.
@@ -76,7 +85,8 @@ A ranked table, most severe first:
 |---|---|---|---|---|
 
 Then two lines: "Visual learning: PASS / FAIL, because ..." (Module 2 on, FAIL on any
-visual BLOCKER) and "Would I put Jev in my triage pipeline after this module? YES / NO,
+visual BLOCKER), "Self-contained: PASS / FAIL, because ..." (FAIL on any "I missed the
+class" BLOCKER) and "Would I put Jev in my triage pipeline after this module? YES / NO,
 because ..."
 
 Be specific. Quote the exact text or code. No praise section.
