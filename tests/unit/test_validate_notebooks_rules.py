@@ -28,7 +28,8 @@ def code(title: str, body: str) -> dict:
 
 
 def figure(slug: str) -> dict:
-    return md(f"**Figure: {slug}.**\n\n<!-- DIAGRAM: {slug} -->\n![{slug}]({URL.format(slug)})")
+    return md(f"**Figure: {slug}.**\n\n<!-- DIAGRAM: {slug} -->\n"
+              f'<img src="{URL.format(slug)}" width="650" alt="{slug}">')
 
 
 LAB_MD = md(
@@ -128,26 +129,15 @@ def test_validate_notebooks_lab_number_must_match_part():
     assert any("beat 4 must be '### 4. Lab 1" in e for e in errs(vn.check_beats, cells, "module_02"))
 
 
-def test_validate_notebooks_module1_needs_part0():
-    assert any("starts with Part 0" in e for e in errs(vn.check_beats, exercises(), "module_01"))
+def test_validate_notebooks_module1_starts_at_part1_passes():
+    assert errs(vn.check_beats, exercises(), "module_01") == []
 
 
-def test_validate_notebooks_module1_part0_text_only_passes_and_code_fails():
+def test_validate_notebooks_part0_fails_in_any_module():
     cells = exercises()
     cells[3:3] = [md("## Part 0: What is Jev\n\nJev is a System One model."), figure("what-is-jev")]
-    assert errs(vn.check_beats, cells, "module_01") == []
-    cells.insert(5, code("DEMO", "print(1)"))
-    assert any("Part 0: code cells" in e for e in errs(vn.check_beats, cells, "module_01"))
-
-
-def test_validate_notebooks_module1_setup_between_part0_and_part1_passes():
-    cells = exercises()
-    setup = cells[1:3]
-    del cells[1:3]
-    cells[1:1] = [md("## Part 0: What is Jev\n\nJev is a System One model."), figure("what-is-jev"),
-                  md("# Setup\n\nRun the next cells in order."), *setup]
-    assert errs(vn.check_beats, cells, "module_01") == []
-    assert errs(vn.check_pip_cell, cells) == []
+    for module in ("module_01", "module_02"):
+        assert any("Part 0 is not allowed" in e for e in errs(vn.check_beats, cells, module))
 
 
 def test_validate_notebooks_no_parts_fails():
@@ -206,8 +196,8 @@ def write_diagram(folder: Path, brand: bool = True) -> None:
     (folder / "jev-call.png").write_bytes(b"png")
 
 
-def diagram_cell(url: str, alt: str = "Jev call") -> dict:
-    return md(f"<!-- DIAGRAM: jev-call -->\n![{alt}]({url})")
+def diagram_cell(url: str, alt: str = "Jev call", width: str = "650") -> dict:
+    return md(f'<!-- DIAGRAM: jev-call -->\n<img src="{url}" width="{width}" alt="{alt}">')
 
 
 def test_validate_notebooks_raw_github_diagram_passes(tmp_path, monkeypatch):
@@ -215,6 +205,23 @@ def test_validate_notebooks_raw_github_diagram_passes(tmp_path, monkeypatch):
     write_diagram(tmp_path / "module_01")
     url = f"{vn.RAW_BASE}course/diagrams/module_01/jev-call.png"
     assert errs(vn.check_diagrams, [diagram_cell(url)], True, "module_01") == []
+
+
+def test_validate_notebooks_markdown_image_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(vn, "DIAGRAMS", tmp_path)
+    write_diagram(tmp_path / "module_01")
+    url = f"{vn.RAW_BASE}course/diagrams/module_01/jev-call.png"
+    cell = md(f"<!-- DIAGRAM: jev-call -->\n![Jev call]({url})")
+    assert any("full cell width" in e for e in errs(vn.check_diagrams, [cell], True, "module_01"))
+
+
+def test_validate_notebooks_diagram_without_width_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(vn, "DIAGRAMS", tmp_path)
+    write_diagram(tmp_path / "module_01")
+    url = f"{vn.RAW_BASE}course/diagrams/module_01/jev-call.png"
+    for width in ("", "1600"):
+        cell = diagram_cell(url, width=width)
+        assert any("needs width" in e for e in errs(vn.check_diagrams, [cell], True, "module_01"))
 
 
 def test_validate_notebooks_mermaid_block_in_notebook_fails(tmp_path, monkeypatch):

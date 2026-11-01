@@ -16,10 +16,11 @@ Every notebook (the whole class runs in it, there are no slides):
     install`; a key cell reading TYPESAFE_API_KEY from the environment or getpass; no Colab
     secrets; a 77-char banner with a known kind on every code cell (except %pip and
     %%writefile cells); at most 6 markdown cells in a row; syntax and cross-cell pyflakes;
-    diagrams as committed PNGs linked by raw GitHub URL (.mmd master with the brand line); no
-    keys or real names; no AI tells; the 4 beats per Part; Summary cell last; outputs cleared.
-Anatomy (the 4 beats): Module 1 opens with "## Part 0: What is Jev" (markdown and diagrams
-only). Every "## Part k: <concept>" then has, in order:
+    diagrams as committed PNGs linked by raw GitHub URL in an <img width> tag (.mmd master with
+    the brand line); no keys or real names; no AI tells; the 4 beats per Part; Summary cell
+    last; outputs cleared.
+Anatomy (the 4 beats): no Part 0; Jev is introduced in Module 1, Part 1, as the solution. Every
+"## Part k: <concept>" has, in order:
     ### 1. The problem      markdown, at least one diagram, no code
     ### 2. The solution     markdown, at least one diagram, no code
     ### 3. Demo             at least one DEMO code cell
@@ -91,12 +92,10 @@ YOUR_CODE_RE = re.compile(r"#\s*YOUR CODE")
 
 # The 4 beats (plans/NOTEBOOK_STYLE.md): every "## Part k: <concept>" has, in order,
 # "### 1. The problem", "### 2. The solution", "### 3. Demo", "### 4. Lab k: <title>".
-# Module 1 opens with "## Part 0: What is Jev" (markdown and diagrams only).
+# There is no Part 0: Jev is introduced in Module 1, Part 1, as the solution to its problem.
 PART_RE = re.compile(r"^##\s+Part\s+(\d+):\s*(.+?)\s*$", re.MULTILINE)
 BEAT_RE = re.compile(r"^###\s+([1-4])\.\s+(The problem|The solution|Demo|Lab\s+\d+)\b", re.MULTILINE)
 BEAT_NAMES = {1: "The problem", 2: "The solution", 3: "Demo", 4: "Lab"}
-PART0_TITLE = "What is Jev"
-PART0_MODULES = {"module_01"}
 SUMMARY_LAST_RE = re.compile(r"^#\s+Summary\b", re.MULTILINE)
 H1_RE = re.compile(r"^#\s+\S", re.MULTILINE)
 
@@ -104,12 +103,15 @@ H1_RE = re.compile(r"^#\s+\S", re.MULTILINE)
 # googlecolab/colabtools#3836). A DIAGRAM cell links the PNG rendered from
 # course/diagrams/module_NN/<slug>.mmd, committed and pushed, by its raw GitHub URL:
 #     <!-- DIAGRAM: <slug> -->
-#     ![<alt text>](RAW_BASE + course/diagrams/module_NN/<slug>.png)
+#     <img src="RAW_BASE + course/diagrams/module_NN/<slug>.png" width="650" alt="<alt text>">
+# An <img> tag with a width, not markdown ![](): Colab draws a markdown image at full cell width.
 # RAW_BASE is the one place that names the GitHub repo and branch (the repo must be public).
 RAW_BASE = "https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/"
 MARKER_RE = re.compile(r"<!--\s*DIAGRAM:\s*([\w-]+)\s*-->")
 MERMAID_RE = re.compile(r"```mermaid[ \t]*\n(.*?)\n?```", re.DOTALL)
 IMAGE_RE = re.compile(r"!\[([^\]]*)\]\(([^)\s]+)\)|<img\b[^>]*>", re.IGNORECASE)
+IMG_ATTR_RE = re.compile(r'\b(src|width|alt)="([^"]*)"', re.IGNORECASE)
+IMG_WIDTHS = range(400, 901)   # px; a Colab cell is about 900 px wide
 
 # Keys. Values that are ALL_CAPS identifiers are placeholders (KEY = "TYPESAFE_API_KEY").
 TOKEN_RE = re.compile(r"\bsk-(proj-|ant-)?[A-Za-z0-9_-]{16,}|\bts[_-][A-Za-z0-9_-]{20,}")
@@ -444,13 +446,18 @@ def check_diagrams(cells: list[dict], strict: bool, module: str = "") -> tuple[l
             continue
         slug, img = markers[0], images[0]
         want = f"{RAW_BASE}{shown}{slug}.png"
-        if img.group(0).lower().startswith("<img"):
-            errs.append(f"cell {i}: use markdown ![alt]({want}), not an <img> tag")
+        if not img.group(0).lower().startswith("<img"):
+            errs.append(f'cell {i}: use <img src="{want}" width="650" alt="...">, not markdown '
+                        "![](); Colab draws a markdown image at full cell width")
         else:
-            if not img.group(1).strip():
+            attrs = {k.lower(): v for k, v in IMG_ATTR_RE.findall(img.group(0))}
+            if not attrs.get("alt", "").strip():
                 errs.append(f"cell {i}: diagram {slug} has no alt text")
-            if img.group(2) != want:
-                errs.append(f"cell {i}: diagram URL {img.group(2)!r}; expected {want!r}")
+            if attrs.get("src") != want:
+                errs.append(f"cell {i}: diagram URL {attrs.get('src')!r}; expected {want!r}")
+            if not (attrs.get("width", "").isdigit() and int(attrs["width"]) in IMG_WIDTHS):
+                errs.append(f"cell {i}: diagram {slug} needs width=\"NNN\" between "
+                            f"{IMG_WIDTHS.start} and {IMG_WIDTHS.stop - 1}")
         mmd, png = folder / f"{slug}.mmd", folder / f"{slug}.png"
         for path in (mmd, png):
             if not path.exists():
@@ -519,25 +526,19 @@ def notebook_beats(cells: list[dict]) -> list[tuple[int, int, int]]:
 
 
 def check_beats(cells: list[dict], module: str = "") -> tuple[list[str], list[str]]:
-    """Parts numbered in order (Part 0 "What is Jev" first in Module 1); every Part k >= 1 has
-    the 4 beats in order; beats 1 and 2 have no code and at least one diagram; beat 3 has a
-    DEMO cell; beat 4 is "### 4. Lab k" with k equal to the Part number."""
+    """Parts numbered 1, 2, ... in order (no Part 0: a product is introduced as the solution to
+    a problem); every Part has the 4 beats in order; beats 1 and 2 have no code and at least
+    one diagram; beat 3 has a DEMO cell; beat 4 is "### 4. Lab k" with k equal to the Part."""
     errs = []
     beats = notebook_beats(cells)
     parts = [p for _, p, b in beats if b == 0]
     if not [p for p in parts if p >= 1]:
         return ["no '## Part k: <concept>' section; the notebook has no 4-beat Parts"], []
-    want_part0 = module in PART0_MODULES
-    first = 0 if want_part0 else 1
-    if parts != list(range(first, first + len(parts))):
-        errs.append(f"Parts {parts}; expected {list(range(first, first + len(parts)))}"
-                    + (" (Module 1 starts with Part 0)" if want_part0 else ""))
-    if want_part0:
-        part0 = [i for i, p, b in beats if p == 0 and b == 0]
-        if part0 and PART0_TITLE not in PART_RE.search(cell_src(cells[part0[0]])).group(2):
-            errs.append(f"cell {part0[0]}: Part 0 must be '## Part 0: {PART0_TITLE}'")
-    elif 0 in parts:
-        errs.append("Part 0 is only for Module 1 ('What is Jev')")
+    if 0 in parts:
+        errs.append("Part 0 is not allowed: every Part starts with its problem. "
+                    "Introduce the product in Part 1's solution")
+    if parts != list(range(1, 1 + len(parts))):
+        errs.append(f"Parts {parts}; expected {list(range(1, 1 + len(parts)))}")
 
     # Cell ranges: each heading owns the cells up to the next heading or the Summary.
     ends = [i for i, c in enumerate(cells) if c["cell_type"] == "markdown"
@@ -549,13 +550,7 @@ def check_beats(cells: list[dict], module: str = "") -> tuple[list[str], list[st
         spans.setdefault((p, b), []).append(range(start, max(end, start + 1)))
 
     for p in sorted(set(parts)):
-        span0 = spans.get((p, 0), [range(0)])[0]
         if p == 0:
-            code = [i for i in span0 if cells[i]["cell_type"] == "code"]
-            if code:
-                errs.append(f"Part 0: code cells {code}; Part 0 is text and diagrams only")
-            if not any(MARKER_RE.search(cell_src(cells[i])) for i in span0):
-                errs.append("Part 0: no diagram")
             continue
         order = [b for _, pp, b in beats if pp == p and b > 0]
         if order != [1, 2, 3, 4]:
