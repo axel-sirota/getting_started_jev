@@ -10,19 +10,18 @@ flowchart TB
     P --> L
     L --> R
   end
-  subgraph BOTTOM["CHECK: stopped 12 of 12 breaks"]
+  subgraph BOTTOM["CHECK: guard()"]
     direction LR
-    S["JEV STATE<br/>customer_message, reply"]
-    subgraph NOULS["one Noul per rule"]
-      direction TB
-      N1["promises_money 0.01"]
-      N2["asks_card_data 0.01"]
-      N3["investment_advice 0.01"]
-      N4["medical_advice 0.97"]
-    end
-    CD["code: >= 0.7<br/>BLOCK"]
-    O["BLOCKED<br/>never sent"]
-    S --> NOULS --> CD --> O
+    S["READS<br/>Jev: customer_message,<br/>reply"]
+    Q["ASKS<br/>4 Nouls, one per rule<br/>medical_advice 0.97<br/>the other three 0.01"]
+    A["DECIDES<br/>code, on the<br/>highest: 0.97"]
+    B3["BLOCK: 0.7 and up<br/>never sent"]
+    B2["REVIEW: 0.3 to 0.7<br/>a person reads it"]
+    B1["SEND: below 0.3"]
+    S --> Q --> A
+    A -.-> B1
+    A -.-> B2
+    A ==> B3
   end
   TOP --> BOTTOM
 
@@ -35,7 +34,8 @@ flowchart TB
   classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
   class R fail
   class L llm
-  class N1,N2,N3 jev
-  class N4,S changed
-  class CD code
-  class O ok
+  class S jev
+  class Q,A changed
+  class B3 ok
+  class B2 human
+  class B1 code

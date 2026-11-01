@@ -1,29 +1,26 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TD
-  subgraph TRY["answer(message), inside try"]
-    RT["route(): Jev in front"]
-    CO["code_reply()<br/>SEND"]
-    OS["fixed reply<br/>SEND"]
-    HU["HANDOFF<br/>HUMAN"]
-    DR["ask_assistant()<br/>a draft"]
-    G["guard(): 5 rules<br/>claims_action: Lab 2.1"]
-    SE["SEND the draft"]
-    HO["HANDOFF<br/>keep the draft"]
-    RT -- CODE --> CO
-    RT -- OUT_OF_SCOPE --> OS
-    RT -- HUMAN --> HU
-    RT -- LLM --> DR --> G
-    G -- SEND --> SE
-    G -- REVIEW / BLOCK --> HO
-  end
-  ER["any error:<br/>HANDOFF, ERROR"]
-  RET["returns handler, action,<br/>reply, draft, fired"]
-  RE["Lab 2.3, optional:<br/>retry_reply() on BLOCK"]
-  TRY -- except --> ER
-  TRY --> RET
-  ER --> RET
-  TRY -.-> RE
-
+flowchart TB
+  A["answer(message)<br/>returns handler, action,<br/>reply, draft, fired"]
+  RT["route()<br/>Jev in front"]
+  CO["code_reply()<br/>SEND"]
+  OS["fixed reply<br/>SEND"]
+  HU["HANDOFF<br/>a person"]
+  DR["ask_assistant()<br/>a draft"]
+  G["guard(): 5 rules<br/>claims_action: Lab 2.1"]
+  SE["SEND<br/>the draft"]
+  HO["HANDOFF<br/>a person reads the draft"]
+  ER["a call fails:<br/>HANDOFF, never the draft"]
+  RE["Lab 2.3, optional:<br/>retry_reply()"]
+  A --> RT
+  RT -- CODE --> CO
+  RT -- OUT_OF_SCOPE --> OS
+  RT -- HUMAN --> HU
+  RT -- LLM --> DR --> G
+  G -- SEND --> SE
+  G -- REVIEW or BLOCK --> HO
+  A -. "fail closed" .-> ER
+  HO -.-> RE
+  style RE stroke-dasharray:5 5
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
@@ -32,4 +29,6 @@ flowchart TD
   classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
   classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
   class G changed
+  class RT jev
+  class DR llm
   class HU,HO,ER human

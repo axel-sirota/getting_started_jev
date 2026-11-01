@@ -6,17 +6,17 @@ flowchart LR
     M3["how do i make lasagna"]
     M4["how do i get rid<br/>of a sore throat"]
   end
-  subgraph WHO["ALWAYS THE LLM"]
-    H1["ask_assistant()"]
-    H2["ask_assistant()"]
-    H3["ask_assistant()"]
-    H4["ask_assistant()"]
+  subgraph WHO["THE LLM, POLICY IN ITS PROMPT"]
+    H1["ask_assistant()<br/>about 1.2 s"]
+    H2["ask_assistant()<br/>about 1.2 s"]
+    H3["ask_assistant()<br/>about 1.2 s"]
+    H4["ask_assistant()<br/>about 1.2 s"]
   end
   subgraph GETS["CUSTOMER GETS: 5-6 of 10 say can't"]
     O1["I can't access your balance<br/>CANNOT SEE"]
     O2["I can't freeze it<br/>CANNOT ACT"]
     O3["a lasagna recipe<br/>OK"]
-    O4["fluids, lozenges, pain relievers<br/>BREAKS RULE 3"]
+    O4["fluids, lozenges, pain relievers<br/>BREAKS POLICY: medical advice"]
   end
   M1 --> H1 --> O1
   M2 --> H2 --> O2

@@ -10,12 +10,12 @@ flowchart TB
     P --> L
     L --> R
   end
-  subgraph BOTTOM["CHECK: approved 9 of 12 breaks"]
+  subgraph BOTTOM["CHECK: the LLM checks itself"]
     direction LR
-    S["same LLM, same prompt<br/>reads the reply"]
-    Q["one question:<br/>breaks the policy?"]
-    A["answer: fine<br/>no rule named"]
-    O["SHIPPED<br/>BREAKS RULE 3"]
+    S["READS<br/>the same LLM,<br/>the same prompt"]
+    Q["ASKS<br/>one question:<br/>breaks the policy?"]
+    A["DECIDES<br/>the LLM says fine,<br/>no rule named"]
+    O["OUTCOME: SHIPPED<br/>9 of 12 breaks,<br/>our runs"]
     S --> Q --> A --> O
   end
   TOP --> BOTTOM
@@ -29,3 +29,4 @@ flowchart TB
   classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
   class R,A,O fail
   class L,S,Q llm
+  class A,O fail

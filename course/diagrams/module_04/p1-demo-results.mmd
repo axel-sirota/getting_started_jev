@@ -1,6 +1,6 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
 xychart-beta horizontal
-  title "p50 ms per message, 10 messages (run 5)"
-  x-axis ["LLM for all: 1343 ms, $0.44/1k", "routed, all 10: 270 ms, $0.24/1k", "routed, 6 skip the LLM: 253 ms", "routed, 4 reach the LLM: 1544 ms"]
-  y-axis "p50 ms" 0 --> 1800
-  bar [1343, 270, 253, 1544]
+  title "Median ms per message, same 10 messages (our run, 2026-10-31)"
+  x-axis ["LLM for all 10: 1,343 ms", "routed, 6 skip the LLM: 253 ms", "routed, 4 reach the LLM: 1,544 ms"]
+  y-axis "median ms per message" 0 --> 1800
+  bar [1343, 253, 1544]

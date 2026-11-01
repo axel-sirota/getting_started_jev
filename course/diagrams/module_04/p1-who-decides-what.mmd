@@ -1,25 +1,44 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart TB
-  subgraph FRONT["1. IN FRONT"]
-    direction LR
-    M["how do i make lasagna"]
-    J1["JEV judges<br/>recipe 1.00, fits 0.95"]
-    C1["CODE decides<br/>route: LLM"]
-    M --> J1 --> C1
+flowchart LR
+  subgraph ST["STATE"]
+    M["message"]
   end
-  subgraph WRITE["2. THE WORDS"]
-    direction LR
-    L["LLM writes<br/>the recipe"]
-    X["other messages:<br/>CODE answers, or HUMAN"]
-    L ~~~ X
+  subgraph JV["JEV JUDGES: one request"]
+    I["intent: Choice of 150<br/>balance 1.00, recipe 1.00"]
+    F["fits: Noul<br/>one of our tasks?"]
   end
-  subgraph BEHIND["3. BEHIND"]
-    direction LR
-    J2["JEV judges<br/>5 checks (Lab 2.2), none above 0.3"]
-    C2["CODE decides<br/>SEND"]
-    J2 --> C2
+  subgraph CD["CODE DECIDES"]
+    H["your rules<br/>order: Lab 1.2"]
+    R1["fits below 0.3<br/>sore throat"]
+    R2["fits 0.3 to 0.7<br/>ebola 0.47"]
+    R3["intent p below<br/>REVIEW_BELOW"]
+    R4["a HUMAN intent<br/>lost card 0.68"]
+    R5["a CODE intent<br/>balance 1.00"]
+    R6["none of these<br/>lasagna, fits 0.96"]
   end
-  FRONT --> WRITE --> BEHIND
+  subgraph WR["WHO WRITES THE REPLY"]
+    W1["OUT_OF_SCOPE<br/>fixed text"]
+    W2["HUMAN<br/>a person"]
+    W3["CODE<br/>code_reply(), exact"]
+    W4["LLM<br/>the only free text"]
+  end
+  M --> I
+  M --> F
+  I --> H
+  F --> H
+  H --> R1
+  H --> R2
+  H --> R3
+  H --> R4
+  H --> R5
+  H --> R6
+  R1 --> W1
+  R2 -. "MIDDLE_BAND:<br/>your pick" .-> W1
+  R2 -.-> W2
+  R3 --> W2
+  R4 --> W2
+  R5 --> W3
+  R6 --> W4
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
@@ -28,7 +47,8 @@ flowchart TB
   classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
   classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
   classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
-  class J1,J2 jev
-  class C1,C2 code
-  class L llm
-  class X human
+  class I,F jev
+  class H,R1,R2,R3,R4,R5,R6,W3 code
+  class W1 ok
+  class W2 human
+  class W4 llm

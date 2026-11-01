@@ -1,0 +1,23 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  M["6 messages<br/>fee, stock, card number,<br/>airsick, hangover, fund"]
+  W["ask_assistant()<br/>router skipped"]
+  D["drafts to check<br/>6 live, 6 more medical,<br/>16 replies we wrote"]
+  C1["llm_self_check()<br/>one word: fine?"]
+  C2["guard()<br/>one Noul per rule"]
+  C3["llm_rule_check()<br/>one verdict per rule"]
+  V["you compare<br/>flagged, right of 16,<br/>ms, $ per 1,000"]
+  M --> W --> D
+  D --> C1 --> V
+  D --> C2 --> V
+  D --> C3 --> V
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class W,C1,C3 llm
+  class C2 jev
+  class V changed
