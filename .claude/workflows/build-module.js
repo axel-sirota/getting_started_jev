@@ -93,7 +93,7 @@ source by cell id, delete every "# FALLBACK" cell. Verify: validate_notebooks.py
 (minus approval pauses), using .claude/skills/mermaid-diagrams/SKILL.md. For each slug in the
 plan's "## Diagram Index": make sure course/diagrams/module_${NN}/<slug>.mmd exists and starts
 with the brand line, render it with
-cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_${NN}/<slug>.mmd -o ../course/diagrams/module_${NN}/<slug>.png -s 2 -b white -c tools/mermaid-config.json
+cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_${NN}/<slug>.mmd -o ../course/diagrams/module_${NN}/<slug>.png -s 2 -b white -c tools/mermaid-config.json -C tools/inter.css
 (mermaid-cli 12: -s is the scale; there is no -w. Call the local binary, not npx: a hook rewrites npx)
 and look at the PNG with the Read tool (legible, labels match the code, the problem and
 solution figures of each Part line up). Any fix goes into the .mmd and is re-rendered. Both

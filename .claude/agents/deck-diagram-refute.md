@@ -26,6 +26,12 @@ prose. Read every markdown cell of each Part, then ask:
 - **Missing lab map**: the lab markdown has no figure of what the learner builds. MAJOR.
 - **Before and after do not match**: problem and solution figures use different examples or
   layouts, so the change is not the only visible difference. BLOCKER.
+- **Not readable at a glance** (the "Read-at-a-glance limits" in the skill): a PNG more than
+  2x taller than wide or more than about 2.5x wider than tall (tiny text in a Colab cell), a node with a full sentence or more than ~8 words per line, arrows
+  crossing arrows or subgraph titles, an oversized diamond, an unconnected box, a serif font
+  (Inter missing). BLOCKER: it reads like text in a box.
+- **Text cell that should be a figure**: a markdown cell whose prose explains a mechanism a
+  diagram cell could show. BLOCKER: replace it with a figure cell.
 - **Figures only test**: cover the prose and look only at the figures in order. If the Part
   cannot be followed, say which figure is missing. BLOCKER.
 

@@ -34,8 +34,27 @@ only looks at the figures can follow the Part.
     the product of two probabilities) gets its own figure
 - **Numbers on the figure** wherever measured: probabilities on arrows, scores in nodes,
   counts in bars. The learner should read the result off the picture
-- Readability still rules: a big figure is fine if it reads top to bottom in clear stages;
-  split it into two figures rather than shrink the text
+- Readability still rules: a big figure is fine if it reads in clear stages; split it into
+  two figures rather than shrink the text
+- **Diagram cells beat text cells.** When a markdown cell explains something in prose, replace
+  it with a figure cell plus one or two lines. Add figure cells freely (a beat can hold several)
+
+## Read-at-a-glance limits (hard, the reviewers reject on any)
+
+- **Shape:** the PNG is at most 2x taller than wide AND at most about 2.5x wider than tall
+  (a Colab cell is about 900 px wide: a 9:1 strip renders its text tiny). Aim for 1:1 to 2:1.
+  A five-stage LR pipeline that comes out too wide stacks its stages in two rows, or splits. Pipelines run `flowchart LR` with the
+  stages (STATE, QUESTIONS, JEV ANSWERS, YOUR CODE, OUTCOME) side by side; only a short rule
+  tree may run TD. A figure that becomes a long vertical column is split
+- **Words:** at most ~8 words per node line and 3 lines per node. Never a full sentence or the
+  full question text in a node: use the code name plus a short gist (`lost_or_stolen`:
+  card lost?). The full wording lives in the code cell
+- **Show, don't write:** numbers as numbers (0.77, 7/10), outcomes as one word (ESCALATE),
+  comparisons as charts (`xychart-beta`) or side-by-side subgraphs, never a sentence
+- **Clean lines:** no arrow crossing another arrow or a subgraph title; no oversized diamond
+  (keep the diamond text to a few words); every box connected; optional parts marked dashed
+- **Font:** Inter must be installed (`brew install --cask font-inter`); a serif render means it
+  is missing. Check every PNG with Read after rendering
 
 ## Where diagrams go (the 4 beats)
 
@@ -88,7 +107,7 @@ character):
 
 ```bash
 cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd \
-  -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json
+  -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json -C tools/inter.css
 ```
 
 mermaid-cli 12 has no `-w`; call the local binary, not `npx` (a hook rewrites npx). Read the

@@ -128,7 +128,7 @@ CYCLE TRACKER
 - **Diagrams, drafted in full now**: one for each problem beat, one for each solution beat
   (shaped so before and after line up), one per Part 0 cell. Write
   `course/diagrams/module_NN/<slug>.mmd` (brand line first, labels = code identifiers), render
-  `cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json`
+  `cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json -C tools/inter.css`
   and Read the PNG. The notebook cell holds the marker and the raw GitHub image link
 - **Refutation**: run `deck-diagram-refute` on the diagrams and fix every BLOCKER
 

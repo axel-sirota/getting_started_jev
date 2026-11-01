@@ -1,0 +1,31 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph STATE["STATE"]
+    S["300 DEV<br/>then 150 TEST"]
+  end
+  subgraph QUESTIONS["QUESTIONS"]
+    Q["team_question_data<br/>+ fits_question"]
+  end
+  subgraph ANSWERS["JEV ANSWERS, in code"]
+    A["route_score = team x fits<br/>lost card 0.92<br/>carpet 0.05"]
+  end
+  subgraph CODE["YOUR CODE: target 2%, sweep DEV"]
+    G1["0.5: 2.8%<br/>MISSES"]
+    G3["0.7: 1.9%<br/>LOWEST PASS"]
+    G2["0.9: 0.9%<br/>49 more to a person"]
+  end
+  subgraph OUTCOME["OUTCOME"]
+    O1["TEST at 0.7<br/>79 of 150, 0 wrong<br/>under 3.8%"]
+    O2["pinned<br/>jev-1.14.0"]
+  end
+  S --> Q --> A
+  A --> G1
+  A --> G3 --> O1 --> O2
+  A --> G2
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class G1 fail
+  class G3 changed
+  class O1 ok

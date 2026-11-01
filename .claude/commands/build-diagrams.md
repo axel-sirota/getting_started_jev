@@ -61,7 +61,7 @@ Does this look right? I'll write the file once you approve.
 ### 3c. Render and look
 
 ```bash
-cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json
+cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json -C tools/inter.css
 ```
 
 Read the PNG with the Read tool: legible, labels match the code. If `node_modules` is missing,
