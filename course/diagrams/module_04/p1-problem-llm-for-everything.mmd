@@ -1,0 +1,35 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph IN["MESSAGE"]
+    M1["what's my checking balance"]
+    M2["lost my card, freeze it"]
+    M3["how do i make lasagna"]
+    M4["how do i get rid<br/>of a sore throat"]
+  end
+  subgraph WHO["ALWAYS THE LLM"]
+    H1["ask_assistant()"]
+    H2["ask_assistant()"]
+    H3["ask_assistant()"]
+    H4["ask_assistant()"]
+  end
+  subgraph GETS["CUSTOMER GETS: 5-6 of 10 say can't"]
+    O1["I can't access your balance<br/>CANNOT SEE"]
+    O2["I can't freeze it<br/>CANNOT ACT"]
+    O3["a lasagna recipe<br/>OK"]
+    O4["fluids, lozenges, pain relievers<br/>BREAKS RULE 3"]
+  end
+  M1 --> H1 --> O1
+  M2 --> H2 --> O2
+  M3 --> H3 --> O3
+  M4 --> H4 --> O4
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class O1,O2,O4 fail
+  class O3 ok
+  class H1,H2,H3,H4 llm

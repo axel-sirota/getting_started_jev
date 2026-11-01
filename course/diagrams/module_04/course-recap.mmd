@@ -1,0 +1,38 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph ASK["M1 and M2: ASK WELL"]
+    direction LR
+    MSG["a customer message"]
+    Q["typed, literal questions<br/>intent: a Choice of 150"]
+    MSG --> Q
+  end
+  subgraph MEAS["M3: MEASURE"]
+    direction LR
+    F["fits, a companion Noul"]
+    TH["thresholds from<br/>labeled data"]
+    F --> TH
+  end
+  subgraph ROUTE["M4: ROUTE AND GUARD"]
+    direction LR
+    T["CODE: route()<br/>money, gates, table"]
+    L["LLM: a draft"]
+    G["JEV: guard()<br/>one Noul per rule"]
+    D["CODE: SEND,<br/>REVIEW or BLOCK"]
+    OUT["CODE, HUMAN or<br/>OUT_OF_SCOPE reply"]
+    CU["the customer<br/>or a person"]
+    T -- LLM --> L --> G --> D --> CU
+    T -- other --> OUT --> CU
+  end
+  ASK --> MEAS --> ROUTE
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class Q,F,G jev
+  class T,D,TH code
+  class L llm
+  class CU ok

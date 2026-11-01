@@ -1,0 +1,43 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart LR
+  subgraph IN["MESSAGE"]
+    M1["what's my checking balance"]
+    M2["lost my card, freeze it"]
+    M3["how do i make lasagna"]
+    M4["how do i get rid<br/>of a sore throat"]
+  end
+  subgraph JEV["JEV: intent"]
+    J1["balance 1.00"]
+    J2["report_lost_card<br/>0.68"]
+    J3["recipe 1.00"]
+    J4["what_can_i_ask_you<br/>0.21"]
+  end
+  subgraph CODE["CODE: the table"]
+    C1["CODE"]
+    C2["HUMAN<br/>always a person<br/>not M3 REVIEW"]
+    C3["LLM"]
+    C4["LLM"]
+  end
+  subgraph GETS["THE CUSTOMER GETS"]
+    O1["Checking $1,284.50<br/>no LLM call"]
+    O2["a person<br/>HANDOFF"]
+    O3["a lasagna recipe"]
+    O4["still the LLM<br/>the gap Lab 1 closes"]
+  end
+  M1 --> J1 --> C1 --> O1
+  M2 --> J2 --> C2 --> O2
+  M3 --> J3 --> C3 --> O3
+  M4 --> J4 --> C4 --> O4
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class J1,J2,J3,J4 jev
+  class C1,C2,C3,C4 code
+  class O1,O3 ok
+  class O2 human
+  class O4 fail

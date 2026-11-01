@@ -1,0 +1,36 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph L1["LAB 1.1 Guided"]
+    direction LR
+    Q1["1. fits_instructions"]
+    Q2["2. from the table:<br/>REVIEW_BELOW, MIDDLE_BAND"]
+    Q1 --> Q2
+  end
+  subgraph L2["LAB 1.2 Core: route()"]
+    direction LR
+    J["one request<br/>intent + fits"]
+    R["rules, in no order: the table,<br/>p < REVIEW_BELOW, fits < 0.7,<br/>confident HUMAN intent, fits < 0.3"]
+    O["first match wins<br/>ORDER: your decision"]
+    H["returns handler:<br/>CODE, LLM, HUMAN,<br/>OUT_OF_SCOPE"]
+    T["tests: ebola, a PIN request<br/>where should each go?"]
+    J --> O
+    R --> O
+    O --> H --> T
+  end
+  subgraph L3["LAB 1.3 optional"]
+    direction LR
+    REP["route_report()<br/>120 labeled messages"]
+  end
+  L1 -- "your thresholds" --> L2
+  L2 -.-> L3
+  style L3 stroke-dasharray:5 5
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class Q1,Q2 changed
+  class T human

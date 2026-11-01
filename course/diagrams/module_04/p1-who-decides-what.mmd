@@ -1,0 +1,34 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  subgraph FRONT["1. IN FRONT"]
+    direction LR
+    M["how do i make lasagna"]
+    J1["JEV judges<br/>recipe 1.00, fits 0.95"]
+    C1["CODE decides<br/>route: LLM"]
+    M --> J1 --> C1
+  end
+  subgraph WRITE["2. THE WORDS"]
+    direction LR
+    L["LLM writes<br/>the recipe"]
+    X["other messages:<br/>CODE answers, or HUMAN"]
+    L ~~~ X
+  end
+  subgraph BEHIND["3. BEHIND"]
+    direction LR
+    J2["JEV judges<br/>5 checks (Lab 2.2), none above 0.3"]
+    C2["CODE decides<br/>SEND"]
+    J2 --> C2
+  end
+  FRONT --> WRITE --> BEHIND
+
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#B7791F,stroke-width:4px
+  classDef jev fill:#D5F2EC,stroke:#40B8A6,stroke-width:3px
+  classDef code fill:#FFFFFF,stroke:#1A3D4D,stroke-width:3px
+  classDef llm fill:#EEF2FF,stroke:#4B5563,stroke-width:3px
+  class J1,J2 jev
+  class C1,C2 code
+  class L llm
+  class X human
