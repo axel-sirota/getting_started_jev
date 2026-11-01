@@ -1,0 +1,19 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TD
+  M["final_action: Parts 2 and 3 together<br/>route_score = team p x fits"]
+  D1{"route_score >= 0.7"}
+  D2{"fits below 0.3"}
+  R["ROUTE to the team<br/>TEST: 78"]
+  O["OUT_OF_SCOPE<br/>a person confirms<br/>TEST: 56"]
+  V["REVIEW<br/>a person routes it<br/>TEST: 16"]
+  M --> D1
+  D1 -- yes --> R
+  D1 -- no --> D2
+  D2 -- yes --> O
+  D2 -- no --> V
+
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef human fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px
+  class R ok
+  class O human
+  class V human

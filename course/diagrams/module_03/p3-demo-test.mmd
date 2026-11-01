@@ -1,0 +1,9 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#9CA3AF, #40B8A6, #B42318"}}, "xyChart": {"width": 1300, "height": 600}}}%%
+xychart-beta
+  title "Our run at 0.7: teal measured, grey could be up to (95%); red = 2% target"
+  x-axis ["DEV 2 of 156: 1.3", "DEV, Wilson: 4.6", "TEST 0 of 78: 0", "TEST, rule of 3: 3.8"]
+  y-axis "% wrong among routed" 0 --> 5
+  bar [0, 4.6, 0, 3.8]
+  bar [1.3, 0, 0, 0]
+  line [2, 2, 2, 2]

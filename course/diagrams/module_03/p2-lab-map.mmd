@@ -1,14 +1,20 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart LR
-  subgraph GIVEN["GIVEN"]
-    L["3 launch teams<br/>45 intents<br/>launch_team_question"]
+flowchart TB
+  subgraph ROW1[" "]
+    direction LR
+    subgraph GIVEN["GIVEN"]
+      L["3 launch teams, 45 intents<br/>launch_team_question"]
+    end
+    subgraph L1["1. LAB 2.1 Guided"]
+      direction LR
+      T["scope_true<br/>scope_false"]
+      N["launch_fits_question"]
+      T --> N
+    end
+    GIVEN --> L1
   end
-  subgraph L1["LAB 2.1 Guided"]
-    T["scope_true"]
-    F2["scope_false"]
-    N["launch_fits_question"]
-  end
-  subgraph L2["LAB 2.2 Core: launch_triage"]
+  subgraph L2["2. LAB 2.2 Core: launch_triage"]
+    direction LR
     J["one call<br/>team + fits"]
     D1{"fits below 0.3"}
     D2{"fits below 0.7"}
@@ -17,24 +23,27 @@ flowchart LR
     REV1["REVIEW"]
     REV2["REVIEW"]
     RT["ROUTE"]
+    J --> D1
+    D1 -- yes --> OUT
+    D1 -- no --> D2
+    D2 -- yes --> REV1
+    D2 -- no --> D3
+    D3 -- yes --> REV2
+    D3 -- no --> RT
   end
-  subgraph L3["LAB 2.3, optional"]
-    X["none_option_check()"]
+  subgraph L3["3. LAB 2.3, optional"]
+    X["none_option_check()<br/>none_of_these vs the Noul"]
   end
-  T --> N
-  F2 --> N
-  L --> J
-  N --> J
-  J --> D1
-  D1 -- yes --> OUT
-  D1 -- no --> D2
-  D2 -- yes --> REV1
-  D2 -- no --> D3
-  D3 -- yes --> REV2
-  D3 -- no --> RT
-  N -.-> X
-  style L3 stroke-dasharray:5 5
+  ROW1 --> L2
+  L2 -.-> L3
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef muted fill:#F3F4F6,stroke:#9CA3AF,stroke-width:2px,color:#6B7280
+  classDef human fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px
+  style ROW1 fill:none,stroke:none
+  class L muted
+  class REV1 human
+  class REV2 human
+  style L3 stroke-dasharray:5 5

@@ -1,6 +1,9 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#9CA3AF, #40B8A6, #1A3D4D"}}, "xyChart": {"width": 1500, "height": 600}}}%%
 xychart-beta
-  title "Said 0.90 to 0.99 (200 DEV): said vs right, %"
-  x-axis ["text: said 94", "text: right 76", "intents: said 95", "intents: right 100"]
+  title "Our run, 200 DEV: grey said, teal right (said 0.90 to 0.99), navy accuracy"
+  x-axis ["text said: 95", "text right: 75", "intents said: 95", "intents right: 100", "text acc.: 81", "intents acc.: 99"]
   y-axis "%" 0 --> 100
-  bar [94, 76, 95, 100]
+  bar [95, 0, 95, 0, 0, 0]
+  bar [0, 75, 0, 100, 0, 0]
+  bar [0, 0, 0, 0, 81, 99]

@@ -1,6 +1,8 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+%%{init: {"themeVariables": {"xyChart": {"plotColorPalette": "#9CA3AF, #1A3D4D"}}, "xyChart": {"width": 1100, "height": 550}}}%%
 xychart-beta
-  title "In-scope DEV messages not routed, of 200"
-  x-axis ["cut: refused 10", "Noul: flagged 15", "Noul: REVIEW 28"]
-  y-axis "in-scope messages, of 200" 0 --> 50
-  bar [10, 15, 28]
+  title "Our run, 200 in-scope DEV: not routed (navy: flagged out of scope)"
+  x-axis ["cut: 10 refused", "Noul: 12 + 30 REVIEW = 42"]
+  y-axis "in-scope messages" 0 --> 50
+  bar [10, 42]
+  bar [0, 12]

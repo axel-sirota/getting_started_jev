@@ -1,0 +1,22 @@
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
+flowchart TB
+  C["CLINC150 test split<br/>4,500 in scope<br/>1,000 out of scope"]
+  subgraph DEVG["DEV, seed 42: LOOK and CHOOSE"]
+    direction TB
+    DEV["200 in scope, 20 per team<br/>+ 100 out of scope"]
+    USE1["plots, sweeps<br/>pick the threshold"]
+    DEV --> USE1
+  end
+  subgraph TESTG["TEST, seed 7: ONE CHECK"]
+    direction TB
+    TEST["100 in scope, 10 per team<br/>+ 50 out of scope<br/>none of them in DEV"]
+    USE2["check DEV's pick once<br/>never choose on it"]
+    TEST --> USE2
+  end
+  C --> DEVG
+  C --> TESTG
+
+  classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
+  classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  class USE1 ok
+  class USE2 changed

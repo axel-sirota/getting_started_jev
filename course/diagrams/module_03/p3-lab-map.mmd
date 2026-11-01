@@ -1,30 +1,42 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart LR
-  subgraph L1["LAB 3.1 Guided"]
-    M1["MAX_ERROR"]
-    M2["MIN_ROUTED"]
+flowchart TB
+  subgraph ROW1[" "]
+    direction LR
+    subgraph GIVEN["GIVEN"]
+      G["dev and test scores<br/>zs_dev, price()"]
+    end
+    subgraph L1["1. LAB 3.1 Guided"]
+      direction TB
+      M1["MAX_ERROR"]
+      M2["MIN_ROUTED"]
+      M1 ~~~ M2
+    end
+    subgraph L2["2. LAB 3.2 Core"]
+      C["choose_threshold()<br/>lowest passing score<br/>else None"]
+    end
+    GIVEN --> L1 --> L2
   end
-  subgraph L2["LAB 3.2 Core"]
-    C["choose_threshold()<br/>lowest passing score<br/>else None"]
+  subgraph ROW2[" "]
+    direction LR
+    subgraph RUN["3. GIVEN CODE: DEV pick, TEST check"]
+      T["table + chart per model<br/>routed, wrong, ms, $"]
+      R["ours, TEST routed of 150<br/>Jev 80, zero-shot 0<br/>TF-IDF 37 if BONUS ran"]
+      T --> R
+    end
+    subgraph L3["4. LAB 3.3, optional"]
+      V["version_check()<br/>jev-1.13.0"]
+    end
+    RUN -.-> L3
   end
-  subgraph GIVEN["GIVEN: DEV pick, TEST check"]
-    J["Jev: route_score"]
-    Z["zero-shot: top p"]
-    TF["TF-IDF: top p<br/>if BONUS ran"]
-    T["one table<br/>routed, wrong, ms, $"]
-  end
-  subgraph L3["LAB 3.3, optional"]
-    V["version_check()<br/>jev-1.13.0"]
-  end
-  M1 --> C
-  M2 --> C
-  C --> J --> T
-  C --> Z --> T
-  C -.-> TF -.-> T
-  T -.-> V
-  style L3 stroke-dasharray:5 5
-  style TF stroke-dasharray:5 5
+  ROW1 --> ROW2
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
+  classDef muted fill:#F3F4F6,stroke:#9CA3AF,stroke-width:2px,color:#6B7280
+  classDef human fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px
+  style ROW1 fill:none,stroke:none
+  style ROW2 fill:none,stroke:none
+  class G muted
+  class C changed
+  style L3 stroke-dasharray:5 5

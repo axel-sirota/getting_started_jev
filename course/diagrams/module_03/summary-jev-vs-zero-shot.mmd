@@ -1,6 +1,32 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-xychart-beta
-  title "Teams right on 200 DEV messages, %"
-  x-axis ["Jev, intent lists: 98", "Jev, few words: 82", "TF-IDF, 15k labels: 94", "zero-shot: 56"]
-  y-axis "% right" 0 --> 100
-  bar [98, 82, 94, 56]
+flowchart LR
+  subgraph JEV["Jev, jev-1.14.0"]
+    direction TB
+    J1["DEV teams right<br/>81% few words<br/>99% intent lists"]
+    J2["TEST at 2% target<br/>80 of 150 routed<br/>0 wrong"]
+    J3["62 ms per message<br/>$0.09 per 1,000"]
+    J1 ~~~ J2 ~~~ J3
+  end
+  subgraph ZS["zero-shot, bart-large-mnli"]
+    direction TB
+    Z1["DEV teams right<br/>56% few words<br/>36% intent names, probe"]
+    Z2["TEST at 2% target<br/>0 routed, 150 to a person<br/>no out-of-scope question"]
+    Z3["121 ms per message, CPU<br/>no API bill"]
+    Z1 ~~~ Z2 ~~~ Z3
+  end
+  subgraph TF["TF-IDF, 15,000 labels: optional"]
+    direction TB
+    T1["DEV teams right<br/>94%"]
+    T2["TEST at 2% target<br/>37 of 150 routed<br/>0 wrong"]
+    T3["under 1 ms per message<br/>no API bill"]
+    T1 ~~~ T2 ~~~ T3
+  end
+  JEV ~~~ ZS ~~~ TF
+
+  classDef jev fill:#D5F2EC,stroke:#1A3D4D,stroke-width:3px
+  classDef base fill:#F3F4F6,stroke:#9CA3AF,stroke-width:2px
+  classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:3px
+  class J1,J2,J3 jev
+  class Z1,Z3,T1,T2,T3 base
+  class Z2 fail
+  style TF stroke-dasharray:5 5

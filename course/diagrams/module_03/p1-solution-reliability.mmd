@@ -1,32 +1,46 @@
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Inter, sans-serif", "primaryColor": "#ECF8F6", "primaryBorderColor": "#40B8A6", "primaryTextColor": "#111827", "lineColor": "#1A3D4D", "secondaryColor": "#F9FAFB", "tertiaryColor": "#FFFFFF", "clusterBkg": "#F9FAFB", "clusterBorder": "#D1D5DB", "actorBkg": "#ECF8F6", "actorBorder": "#40B8A6", "noteBkgColor": "#FFF6DA", "noteBorderColor": "#E0B84C"}}}%%
-flowchart LR
-  subgraph STATE["STATE"]
-    S["usaa fraud message<br/>label: banking<br/>+ 199 labeled"]
+flowchart TB
+  subgraph ROW1[" "]
+    direction LR
+    subgraph STATE["STATE"]
+      S["usaa fraud message<br/>label: banking<br/>+ 199 labeled"]
+    end
+    subgraph QUESTIONS["QUESTIONS, one request"]
+      direction TB
+      Q1["team_question_text<br/>few words per team"]
+      Q2["team_question_data<br/>15 intents per team"]
+      Q1 ~~~ Q2
+    end
+    subgraph ANSWERS["JEV ANSWERS"]
+      direction TB
+      A1["text: credit_cards 0.99"]
+      A2["intents: banking 0.93"]
+      A1 ~~~ A2
+    end
+    STATE --> QUESTIONS --> ANSWERS
   end
-  subgraph QUESTIONS["QUESTIONS, one request"]
-    Q1["team_question_text<br/>few words"]
-    Q2["team_question_data<br/>15 intents per team"]
+  subgraph ROW2[" "]
+    direction LR
+    subgraph CODE["YOUR CODE"]
+      C["reliability()<br/>group by stated p<br/>count right per group"]
+    end
+    subgraph OUTCOME["OUTCOME, said 0.90 to 0.99"]
+      direction TB
+      O1["text: said 0.95<br/>right 0.75<br/>OVERCONFIDENT"]
+      O2["intents: said 0.95<br/>right 1.00<br/>SAFE TO ACT"]
+      O1 ~~~ O2
+    end
+    CODE --> OUTCOME
   end
-  subgraph ANSWERS["JEV ANSWERS"]
-    A1["credit_cards 0.99"]
-    A2["banking 0.93"]
-  end
-  subgraph CODE["YOUR CODE"]
-    C["reliability()<br/>group by stated p<br/>count right per group"]
-  end
-  subgraph OUTCOME["OUTCOME, said 0.90 to 0.99"]
-    O1["text: said 0.94<br/>right 0.76<br/>OVERCONFIDENT"]
-    O2["intents: said 0.95<br/>right 1.00<br/>SAFE TO ACT"]
-  end
-  S --> Q1 --> A1 --> C
-  S --> Q2 --> A2 --> C
-  C --> O1
-  C --> O2
+  ROW1 --> ROW2
 
   classDef fail fill:#FDECEA,stroke:#B42318,stroke-width:4px
   classDef changed fill:#D5F2EC,stroke:#1A3D4D,stroke-width:4px
   classDef ok fill:#ECF8F6,stroke:#1A3D4D,stroke-width:3px
-  class Q2 changed
+  classDef muted fill:#F3F4F6,stroke:#9CA3AF,stroke-width:2px,color:#6B7280
+  classDef human fill:#FFF6DA,stroke:#E0B84C,stroke-width:3px
+  style ROW1 fill:none,stroke:none
+  style ROW2 fill:none,stroke:none
   class C changed
   class O1 fail
   class O2 ok
