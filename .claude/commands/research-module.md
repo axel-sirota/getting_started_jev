@@ -30,8 +30,12 @@ learner sees is in it. Plan the text as carefully as the code.
 | 3 | `### 3. Demo` | `# DEMO:` cells: the problem live, then the solution, measured numbers, Think About It |
 | 4 | `### 4. Lab k: <title>` | three-tier lab: Guided, Core, Challenge (optional) |
 
-Module 1 starts with `## Part 0: What is Jev` (text and diagrams only) before any Part.
-No hook, comparison or benchmark comes before the product is explained.
+Every module starts at `## Part 1`; there is no Part 0 (Axel, 2026-11-01: "you dont present
+the problem in module one you present jev without the 4 beats!"). Never explain the product
+before showing the problem it solves. In Module 1, Jev is introduced inside Part 1's
+`### 2. The solution`, as the answer to the problem just shown (an LLM gives a bare text label
+with no probability); sub-sections of that beat explain what Jev is (System One, state +
+questions -> typed answers, Choice / Score / Noul, score and confidence, LLM vs Jev).
 
 **Web research is MANDATORY, with the built-in WebSearch / WebFetch tools only (never Kryla
 web tools).** Per cycle: hypothesis, evidence, antithesis, refinement. Evidence ranking,
@@ -61,15 +65,17 @@ strongest first:
 - 5 cycles visible in chat, each with hypothesis, logged evidence, antithesis, refinement
 - PRE-WRITE SELF-CHECK printed, all YES
 - Plan written with every section, every cell drafted in full (exercise and solution)
-- Every Part has the 4 beats in order; Module 1 has Part 0 first
-- Every problem and solution beat (and every Part 0 cell) has a `.mmd` drafted in full (brand
+- Every Part has the 4 beats in order, starting at Part 1 (no Part 0); in Module 1, Part 1's
+  solution beat introduces Jev
+- Every problem and solution beat (and every "what Jev is" sub-section in Module 1) has a `.mmd` drafted in full (brand
   line first), rendered to PNG with mmdc and looked at
 - The solution cells were run end to end against the real APIs before approval
 - `learner-engineer-refute` and `deck-diagram-refute` run, BLOCKERs fixed
 
 **COMPLETE FAILURE** = any of: fewer than 5 cycles; a Jev or OpenAI API asserted from memory
 where running it was possible; a number shown not measured; a Part missing a beat or with
-beats out of order; Module 1 without Part 0, or with a comparison before Jev is explained; a
+beats out of order; a Part 0, or the product explained before the problem it solves; in
+Module 1, a Part 1 solution that does not let a learner say what Jev is; a
 lab tier missing or a Level 3 that a later cell depends on; a Level 1 slot that is
 boilerplate; an outline bullet not covered; stub content; a diagram left as a placeholder.
 
@@ -102,8 +108,10 @@ CYCLE TRACKER
 ### Cycle 1 - Outline -> Parts, beats, kill line, Flow
 - Turn the outline's bullets, demo and lab into Parts. Each Part is one concept with one
   problem and one solution. Map every outline bullet and objective to a Part and a cell
-- Module 1: draft Part 0 "What is Jev" first (what a System One model is, state, questions,
-  Choice / Score / Noul, typed answers with probabilities, how it differs from an LLM)
+- Module 1: Part 1's problem is the bare LLM text label with no probability; its solution
+  introduces Jev as the fix, in sub-sections (what a System One model is, state, questions,
+  Choice / Score / Noul, typed answers with probabilities, score and confidence, how it differs
+  from an LLM). No Part 0, nothing about Jev before that problem
 - Write the module's `Kills:` / `Establishes:` line and the problem chain (which solution
   uncovers which next problem, including the one handed to the next module)
 - Draft the `## Flow` table: Part, beat, cells, minutes (module = 1 hour)
@@ -126,10 +134,12 @@ CYCLE TRACKER
   recorded), then the solution working, then `> **Think About It**:`
 - Jev answers feed decisions written in code, never a "should we..." question
 - **Diagrams, drafted in full now**: one for each problem beat, one for each solution beat
-  (shaped so before and after line up), one per Part 0 cell. Write
+  (shaped so before and after line up), one per "what Jev is" sub-section in Module 1. Write
   `course/diagrams/module_NN/<slug>.mmd` (brand line first, labels = code identifiers), render
   `cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -o ../course/diagrams/module_NN/<slug>.png -s 2 -b white -c tools/mermaid-config.json -C tools/inter.css`
-  and Read the PNG. The notebook cell holds the marker and the raw GitHub image link
+  and Read the PNG. The notebook cell holds the marker and an
+  `<img src="<raw GitHub URL>" width="W" alt="...">` tag (W = 600 x png width / png height,
+  kept to 420..750, rounded to 10; 700 for xychart-beta charts), never `![]()` (Colab stretches markdown images to full width)
 - **Refutation**: run `deck-diagram-refute` on the diagrams and fix every BLOCKER
 
 ### Cycle 4 - Lab per Part in three tiers
@@ -144,7 +154,8 @@ CYCLE TRACKER
 
 ### Cycle 5 - Text pass, summary, run solutions end to end
 - Read every markdown cell in order as a learner: does each beat teach on its own, is every
-  term explained before use, is Part 0 enough to say what Jev is?
+  term explained before use, is the problem shown before the product? In Module 1, does
+  Part 1's solution let a learner say what Jev is?
 - Summary (Key Takeaways, Looking Ahead, Homework)
 - Extract the plan's solution cells into a scratch script and run them top to bottom against
   the real APIs. Every cell must run; record the numbers it prints in `## Measured numbers`
@@ -178,7 +189,8 @@ Write the header first, then append in ~50-line chunks with Edit.
 PRE-WRITE SELF-CHECK
 --------------------
 Cycle tracker all 5 [x] with evidence:                   YES / NO
-Module 1 only: Part 0 explains Jev before anything else: YES / NO / N/A
+No Part 0; problem shown before the product:            YES / NO
+Module 1 only: Part 1's solution explains what Jev is:   YES / NO / N/A
 Every Part has the 4 beats in order:                     YES / NO
 Problem and solution beats: text + one diagram, no code: YES / NO
 Every demo shows the problem live before the solution:   YES / NO
@@ -202,7 +214,7 @@ AI-tells scan passed:                                    YES / NO
 ## Approval (STOP here)
 
 Show Axel, in chat:
-1. Part 0 (Module 1) in a few lines, then per Part: the problem, the solution, the demo, the lab
+1. Per Part: the problem, the solution (Module 1: how Part 1's solution introduces Jev), the demo, the lab
 2. The Flow table
 3. Lab tiers per Part with their slots, and the measured numbers
 4. Diagram list (slug, beat)

@@ -1,5 +1,5 @@
 ---
-description: Build a module's notebook diagrams one by one (Part 0, problem and solution figures) as committed PNGs linked by raw GitHub URL
+description: Build a module's notebook diagrams one by one (problem and solution figures, including Module 1's "what Jev is" figures in Part 1's solution) as committed PNGs embedded by raw GitHub URL in an img tag with a fixed width
 ---
 
 Build diagrams: $ARGUMENTS
@@ -67,17 +67,21 @@ cd deck && ./node_modules/.bin/mmdc -i ../course/diagrams/module_NN/<slug>.mmd -
 Read the PNG with the Read tool: legible, labels match the code. If `node_modules` is missing,
 run `cd deck && PUPPETEER_SKIP_DOWNLOAD=1 npm ci` (ask first).
 
-### 3d. Link it in a figure cell (both notebooks)
+### 3d. Embed it in a figure cell (both notebooks)
 
 Colab renders neither ```mermaid blocks nor cell attachments (it strips attachments), so the
-notebook links the committed PNG by raw GitHub URL in its own figure cell:
+notebook embeds the committed PNG by raw GitHub URL in its own figure cell, with an HTML
+`<img>` tag and a fixed width:
 
 ```markdown
 **Figure: <title> - <what to look at, one line>.**
 
 <!-- DIAGRAM: <slug> -->
-![<alt text that states the idea>](https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
+<img src="https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png" width="W" alt="<alt text that states the idea>">
 ```
+
+`W sized from the PNG shape (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts). Never markdown image syntax (`![alt](url)`):
+Colab draws markdown images at full cell width and stretches them.
 
 The prefix is `RAW_BASE` in `validate_notebooks.py`. The PNG shows in Colab only after Axel
 pushes. Follow the Notebook Edit Protocol (targeted edit, read back and assert).

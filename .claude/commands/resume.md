@@ -51,10 +51,11 @@ NEXT ACTION
 
 KEY DECISIONS (active)
   - No slides: the class is the Colab notebook pair (exercises + solutions) per module
-  - Module 1 opens with Part 0 "What is Jev"; every Part: problem, solution, demo, lab
+  - No Part 0: every module starts at Part 1; every Part: problem, solution, demo, lab;
+    Module 1 introduces Jev in Part 1's solution (problem before product)
   - Labs in three tiers (Guided, Core, Challenge optional)
   - Keys via env var or getpass; Jev decides judgments, code decides actions; OpenAI for text
-  - Notebook diagrams: committed PNGs linked by raw GitHub URL
+  - Notebook diagrams: committed PNGs embedded by raw GitHub URL in <img width="W"> (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts)
   - Notebook edits: id map before and after, order asserted
 
 === READY ===

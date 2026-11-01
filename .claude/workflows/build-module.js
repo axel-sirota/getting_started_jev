@@ -3,9 +3,9 @@ export const meta = {
   description: 'Build one module notebook pair from its approved plan: exercises, solutions, diagrams, validate, run in order, review, commit (notebook-only class, 4 beats)',
   whenToUse: 'After /research-module N is approved; triggered by /build-module N',
   phases: [
-    { title: 'Exercises', detail: '/build-notebook N exercises (Part 0 in Module 1, 4 beats per Part, three-tier labs)' },
+    { title: 'Exercises', detail: '/build-notebook N exercises (no Part 0, 4 beats per Part from Part 1, three-tier labs)' },
     { title: 'Solutions', detail: '/build-notebook N solutions' },
-    { title: 'Diagrams', detail: '/build-diagrams N: .mmd -> PNG, raw GitHub links' },
+    { title: 'Diagrams', detail: '/build-diagrams N: .mmd -> PNG, raw GitHub URL in <img width>' },
     { title: 'Validate', detail: 'validate_notebooks.py N --pair --strict' },
     { title: 'Run in order', detail: 'execute both notebooks top to bottom against real Jev and OpenAI' },
     { title: 'Review', detail: 'learner-engineer, diagram reviewer and a beat walk; fix blockers' },
@@ -48,7 +48,8 @@ print the id map BEFORE, write the expected order, print the id map AFTER and as
 
 THE CLASS IS THE NOTEBOOK. There are no slides: every explanation and every diagram lives in
 the notebook's markdown cells. The structure is Axel's 4 beats and nothing reorders it:
-${N === 1 ? '"## Part 0: What is Jev" first (text and diagrams only, explains the product before anything else), then ' : ''}every
+there is NO Part 0: the module starts at "## Part 1", and the product is never explained before
+the problem it solves.${N === 1 ? ' In Module 1, Jev is introduced inside Part 1\'s "### 2. The solution", as the answer to the problem just shown (an LLM gives a bare text label with no probability); that beat\'s sub-sections explain what Jev is (System One, state + questions -> typed answers, Choice / Score / Noul, score and confidence, LLM vs Jev), each with its figure.' : ''} Every
 "## Part k: <concept>" has, in order, "### 1. The problem" (text + one figure, no code),
 "### 2. The solution" (text + one figure, no code), "### 3. Demo" (DEMO cells: the problem
 live, then the solution, then Think About It) and "### 4. Lab k: <title>" (three tiers:
@@ -59,8 +60,10 @@ Learners run the notebooks in Google Colab: first code cell is the pinned %pip i
 never Colab secrets, never printed, never literal), then # CONFIG (client, pinned model ids,
 a probe). Every Jev and OpenAI call is a visible cell. Diagrams: .mmd master in
 course/diagrams/module_${NN}/ (brand line first), its PNG committed next to it, shown in a
-figure cell ("**Figure: ...**", the DIAGRAM marker, the raw GitHub image link; RAW_BASE in
-validate_notebooks.py); never a mermaid block or an attachment in a notebook. No em dashes or
+figure cell ("**Figure: ...**", the DIAGRAM marker, then an HTML tag
+<img src="<raw GitHub URL of the PNG>" width="W" alt="..."> with W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts; xychart-beta
+result charts; RAW_BASE in validate_notebooks.py); never markdown image syntax (Colab draws it at
+full cell width), never a mermaid block or an attachment in a notebook. No em dashes or
 en dashes anywhere you write. Return status "failed" with concrete issues if you cannot
 finish; never pretend.`
 
@@ -104,8 +107,8 @@ notebooks show the same figure cells. Finish with validate_notebooks.py ${N} --p
 .venv/bin/python3 validate_notebooks.py ${N} --pair --strict
 and fix every FAIL in BOTH notebooks (pair rule) with the Notebook Edit Protocol, until it
 PASSES. Then read the cell maps and confirm the order matches the plan: title, Setup, %pip,
-KEYS, CONFIG, DATA, ${N === 1 ? 'Part 0, ' : ''}then per Part: Part heading, 1. The problem (text,
-figure), 2. The solution (text, figure), 3. Demo (DEMO cells, Think About It), 4. Lab k
+KEYS, CONFIG, DATA, then per Part from Part 1 (no Part 0): Part heading, 1. The problem (text,
+figure), 2. The solution (text, figure${N === 1 ? '; in Part 1 also the "what Jev is" sub-sections with their figures' : ''}), 3. Demo (DEMO cells, Think About It), 4. Lab k
 (markdown, LAB k.1, optional FALLBACK in exercises only, LAB k.2, optional CHECK, LAB k.3),
 then Summary. Report any order difference you fixed.`)
 
@@ -131,9 +134,9 @@ re-run validate_notebooks.py ${N} --pair --strict. Never stage a fake result.`)
 and *.png, in ${REPO}. Context: ${PLAN}, plans/TEACHING_STYLE.md, plans/NOTEBOOK_STYLE.md,
 imp_files/outline_getting_started_jev.md`
   const personas = [
-    ['learner-engineer-refute', 'both notebooks as a Python engineer new to Jev works through them in Colab: does each beat teach on its own (problem felt, solution understood before code, demo shows both, lab doable), lab tiers (Level 1 guided, Level 2 core, Level 3 a real optional stretch), slots and markers, FALLBACK cells, helpers used before defined, key handling, outline coverage' + (N === 1 ? ', and above all: after Part 0 can you say what Jev is, what state and questions are, what Choice / Score / Noul return and how it differs from an LLM?' : '')],
+    ['learner-engineer-refute', 'both notebooks as a Python engineer new to Jev works through them in Colab: does each beat teach on its own (problem felt, solution understood before code, demo shows both, lab doable), lab tiers (Level 1 guided, Level 2 core, Level 3 a real optional stretch), slots and markers, FALLBACK cells, helpers used before defined, key handling, outline coverage' + (N === 1 ? ', and above all: after Part 1\'s solution beat can you say what Jev is, what state and questions are, what Choice / Score / Noul return, what score and confidence mean and how it differs from an LLM? BLOCKER: any explanation of the product before the problem it solves (a Part 0 or a Jev intro before Part 1\'s problem)' : ', and BLOCKER: any explanation of a product or tool before the problem it solves')],
     ['deck-diagram-refute', 'every figure in both notebooks (.mmd sources and PNGs) against the beat it sits in and the code it describes'],
-    ['general-purpose', `BEAT WALK. Read ${DIR}/exercises.ipynb top to bottom as a learner who has never heard of Jev, markdown first. For every Part report: is the problem concrete and felt, does the solution follow from it, does the demo show the problem live and then the solution, does the lab exercise exactly what the Part taught, is every term explained before it is used${N === 1 ? ', and does Part 0 explain Jev fully before any comparison' : ''}${N >= 2 ? '. Then a FIGURES-ONLY walk: skip all prose and look only at the figures in order; report every Part you cannot follow that way and which figure is missing (BLOCKER: the learners are visual)' : ''}. Report every beat that is missing, out of order, thin, or that teaches something different from its neighbors. Do not edit files`],
+    ['general-purpose', `BEAT WALK. Read ${DIR}/exercises.ipynb top to bottom as a learner who has never heard of Jev, markdown first. For every Part report: is the problem concrete and felt, does the solution follow from it, does the demo show the problem live and then the solution, does the lab exercise exactly what the Part taught, is every term explained before it is used, is the problem always shown before the product or fix (there is no Part 0)${N === 1 ? ', and does Part 1\'s solution beat explain Jev fully, as the answer to the bare LLM label just shown' : ''}${N >= 2 ? '. Then a FIGURES-ONLY walk: skip all prose and look only at the figures in order; report every Part you cannot follow that way and which figure is missing (BLOCKER: the learners are visual)' : ''}. Report every beat that is missing, out of order, thin, or that teaches something different from its neighbors. Do not edit files`],
   ]
   const reviews = await parallel(personas.map(([type, scope]) => () =>
     agent(`Review Module ${N} as built. Files: ${BUILT}. Focus: ${scope}.${N >= 2 ? ' Apply the VISUAL LEARNING gate from .claude/skills/mermaid-diagrams/SKILL.md ("Visual first"): the learners are visual, so every text-heavy beat, token figure, uncharted demo result, mismatched before/after figure or Part that cannot be followed from its figures alone is a BLOCKER; end with "Visual learning: PASS / FAIL".' : ''} Output your ranked table of findings (BLOCKER, MAJOR, MINOR) with where, what and a one-line fix.`,
@@ -143,7 +146,7 @@ imp_files/outline_getting_started_jev.md`
   results.review = await stage('Review', `Apply the reviewer findings below to everything built for
 module ${N}: ${BUILT}. Fix every BLOCKER and every MAJOR you agree with, in BOTH notebooks when
 the cell exists in both (pair rule); list rejected ones with the reason (approved plan content
-changes only to fix a real defect; reviewers never reorder the 4 beats or move Part 0). Never
+changes only to fix a real defect; reviewers never reorder the 4 beats or add a Part 0). Never
 reverse a decision the plan records (its rejected review findings, Axel's answers, what a lab
 gives versus what the learner chooses, which module teaches what): report such a finding in
 issues for Axel instead of applying it. Re-render

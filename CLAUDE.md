@@ -16,13 +16,18 @@ scope). `plans/` is private and gitignored. Reference notebooks for style:
 
 ## The 4 beats (Axel's structure, never reordered)
 
-Module 1 opens with `## Part 0: What is Jev` (text and diagrams only). Then every
+No Part 0 (Axel, 2026-11-01). Every module starts at `## Part 1`, and every
 `## Part k: <concept>` has, in order:
 
 1. `### 1. The problem`: the failure in plain words + one figure, no code
 2. `### 2. The solution`: the idea + one figure, no code
 3. `### 3. Demo`: DEMO cells, the problem live then the solution, Think About It
 4. `### 4. Lab k: <title>`: `# LAB k.1 (Guided)`, `# LAB k.2 (Core)`, `# LAB k.3 (Challenge, optional)`
+
+Never explain the product before showing the problem it solves. In Module 1, Jev is
+introduced inside Part 1's `### 2. The solution`, as the answer to the problem just shown (an
+LLM gives a bare text label with no probability). Its sub-sections explain what Jev is: System
+One, state + questions -> typed answers, Choice / Score / Noul, score and confidence, LLM vs Jev.
 
 ## Pipeline
 
@@ -39,7 +44,7 @@ Single steps: `/build-notebook`, `/build-diagrams`, `/validate-notebooks`. Sessi
 | Path | What |
 |---|---|
 | `course/module_NN/exercises.ipynb`, `solutions.ipynb` | The class, in Colab |
-| `course/diagrams/module_NN/<slug>.mmd` + `.png` | Diagrams, PNG linked by raw GitHub URL |
+| `course/diagrams/module_NN/<slug>.mmd` + `.png` | Diagrams, PNG embedded by raw GitHub URL in an `<img width="W">` tag |
 | `deck/` | Diagram toolchain only (mermaid-cli + brand config); no decks |
 | `validate_notebooks.py` | Validator; `tests/unit/` tests its rules |
 
@@ -48,8 +53,10 @@ Single steps: `/build-notebook`, `/build-diagrams`, `/validate-notebooks`. Sessi
 - Keys: `TYPESAFE_API_KEY`, `OPENAI_API_KEY` from env, else `getpass`. Never Colab secrets,
   never in a cell, never printed, never in chat. Locally they live in the gitignored `.env`
 - Labs in three tiers per Part; nothing later depends on Level 3
-- Diagrams: never a ```mermaid block or attachment in a notebook (Colab renders neither); link
-  the committed PNG via `RAW_BASE` in `validate_notebooks.py`. Push so Colab can load it
+- Diagrams: never a ```mermaid block or attachment in a notebook (Colab renders neither); embed
+  the committed PNG (via `RAW_BASE` in `validate_notebooks.py`) with an HTML tag, never
+  markdown image syntax, so Colab does not stretch it to full cell width:
+  `<img src="https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png" width="W" alt="<alt text>">` (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts), under its `<!-- DIAGRAM: <slug> -->` marker. Push so Colab can load it
 - Jev makes judgments, code makes decisions; OpenAI for every text generation
 - Web research: built-in WebSearch / WebFetch only, never Kryla web tools. Jev facts only from
   docs.typesafe.ai, typesafe.ai, github.com/typesafe-ai

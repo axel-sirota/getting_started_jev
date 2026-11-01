@@ -79,10 +79,12 @@ LOCKED DECISIONS (do not re-litigate without Axel)
   getpass, never Colab secrets. Cell 1 pinned %pip, then KEYS, then CONFIG.
 - Labs in three tiers: LAB n.1 (Guided) slots, LAB n.2 (Core) function body,
   LAB n.3 (Challenge, optional), nothing later depends on Level 3. FALLBACK only where needed.
-- No slides: the class is the Colab notebook. Module 1 opens with Part 0 "What is Jev"; every
-  Part has the 4 beats in order: problem, solution, demo, lab.
-- Notebook diagrams: .mmd master + committed PNG linked by raw GitHub URL (Colab renders
-  neither mermaid nor attachments).
+- No slides: the class is the Colab notebook. No Part 0: every module starts at Part 1 and
+  every Part has the 4 beats in order: problem, solution, demo, lab. Never explain the product
+  before the problem it solves; in Module 1, Jev is introduced in Part 1's solution beat.
+- Notebook diagrams: .mmd master + committed PNG embedded by raw GitHub URL in an
+  <img width="W"> tag (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts), never markdown image syntax (Colab
+  stretches it; Colab renders neither mermaid nor attachments).
 - Jev for every decision, OpenAI for every text generation. Judgments in Jev, decisions in code.
 - Web research with built-in WebSearch/WebFetch only; Jev facts from official TypeSafe sources.
 - Notebook edits: id map BEFORE and AFTER every edit, order asserted.

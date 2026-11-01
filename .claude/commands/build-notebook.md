@@ -19,7 +19,7 @@ ls plans/DECISIONS.md plans/modules/module_0<N>_plan.md 2>/dev/null
 ## Pre-Work: MANDATORY Reading
 
 1. `CLAUDE.md`, `plans/DECISIONS.md`
-2. `plans/NOTEBOOK_STYLE.md` (cell anatomy, Part 0, 4 beats per Part, three-tier labs) and
+2. `plans/NOTEBOOK_STYLE.md` (cell anatomy, 4 beats per Part from Part 1, three-tier labs) and
    `plans/TEACHING_STYLE.md` (voice)
 3. `plans/modules/module_NN_plan.md`: the `# EXERCISES` and `# SOLUTIONS` sections are the
    cell source. Build from them; never re-plan
@@ -62,7 +62,10 @@ Rules:
    `# CONFIG`: client, pinned model ids, a one-call probe
 2. Every code cell (except `%pip` and `%%writefile`) starts with the 77-char banner, kind and
    delivery tag (NOTEBOOK_STYLE)
-3. Module 1 only: `## Part 0: What is Jev` markdown cells, each with its diagram, no code
+3. No Part 0: the first Part is `## Part 1`. Never explain the product before the problem it
+   solves. Module 1 only: Jev is introduced inside Part 1's `### 2. The solution`, as the
+   answer to the bare LLM label just shown; its "what Jev is" sub-sections (markdown, each
+   with its diagram, no code) come from the plan
 4. Per Part k, the 4 beats in order, exactly as the plan:
    - `## Part k: <concept>` markdown (one sentence)
    - `### 1. The problem` markdown with its diagram, no code
@@ -78,7 +81,9 @@ Rules:
        uses a name it defines
 5. `# FALLBACK: ...` only where the plan has one. No CHECK cells, no mini exercises
 6. Diagrams: copy each `[DIAGRAM]` cell from the plan verbatim: `<!-- DIAGRAM: <slug> -->` and
-   the raw GitHub image link to `course/diagrams/module_NN/<slug>.png`. Never a ```mermaid
+   `<img src="https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png" width="W" alt="...">`
+   (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts). Never markdown image syntax (Colab draws it at
+   full cell width). Never a ```mermaid
    block or an attachment (Colab renders neither). `/build-diagrams <N>` renders the PNGs
 7. Every Jev and OpenAI call is a visible cell
 

@@ -31,9 +31,12 @@ for what the course promised you.
   its diagram, or with code in it; a demo that does not show the problem live before the
   solution; lab markdown without Your Task, the three Level sections, Expected Output, Hints.
   Any CHECK cell, mini exercise, or reference to slides.
-- **Never told what Jev is.** In Module 1: Part 0 missing, or it does not let you say in your
-  own words what Jev is, what state and questions are, what Choice / Score / Noul return and
-  how that differs from an LLM, before any comparison or benchmark appears.
+- **Never told what Jev is.** In Module 1, Part 1's `### 2. The solution` does not let you say
+  in your own words what Jev is, what state and questions are, what Choice / Score / Noul
+  return, what score and confidence mean, and how that differs from an LLM.
+- **Product before the problem (BLOCKER).** The product is explained before the problem it
+  solves: a Part 0, an intro to Jev before Part 1's problem beat, or any solution beat that
+  arrives before you have felt its problem. Every module starts at `## Part 1`.
 - **Text that does not teach.** The notebook is the whole class: a problem beat that does not
   make you feel the problem, a solution beat that states the fix without the reason, a wall of
   markdown with no diagram, a term used before it is explained.

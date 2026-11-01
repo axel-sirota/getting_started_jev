@@ -1,6 +1,6 @@
 ---
 name: mermaid-diagrams
-description: Design rules, brand palette, render command and placement for every Mermaid diagram in Getting Started with Jev, a notebook-only Colab class (diagrams are committed PNGs linked by raw GitHub URL). Use whenever a diagram is drafted, reviewed, rendered or embedded.
+description: Design rules, brand palette, render command and placement for every Mermaid diagram in Getting Started with Jev, a notebook-only Colab class (diagrams are committed PNGs embedded by raw GitHub URL in an <img width> tag). Use whenever a diagram is drafted, reviewed, rendered or embedded.
 ---
 
 # Mermaid diagrams for Getting Started with Jev
@@ -60,7 +60,7 @@ only looks at the figures can follow the Part.
 
 | Place | Diagram | What it must show |
 |---|---|---|
-| Part 0: What is Jev (Module 1) | one per markdown cell | the product: state + questions -> Jev -> typed answers; LLM text vs Jev answer; Choice / Score / Noul and what each returns |
+| Module 1, Part 1 `### 2. The solution` (no Part 0) | one per "what Jev is" sub-section | the product as the fix for the bare LLM label just shown: state + questions -> Jev -> typed answers; LLM text vs Jev answer; Choice / Score / Noul and what each returns; score and confidence |
 | `### 1. The problem` | at least one (the main figure first) | the failure on a real example end to end, the broken step obvious (a word like FAILS or MISSED on it), measured numbers on it |
 | `### 2. The solution` | at least one | the same picture with the fix, so before and after line up; the changed part highlighted |
 | `### 3. Demo` | expected from Module 2 on | a chart of the measured results, and a map of any multi-step flow the demo runs |
@@ -117,13 +117,17 @@ PNG with the Read tool after every render: legible, labels match the code.
 
 Colab renders neither ```mermaid blocks nor cell attachments (it strips attachments,
 googlecolab/colabtools#3836). The master is `course/diagrams/module_NN/<slug>.mmd`, its render
-`<slug>.png` sits next to it, both are committed and pushed, and the notebook links the PNG by
-raw GitHub URL inside the beat's markdown cell:
+`<slug>.png` sits next to it, both are committed and pushed, and the notebook embeds the PNG
+by raw GitHub URL inside the beat's markdown cell with an HTML `<img>` tag and a fixed width:
 
 ```markdown
 <!-- DIAGRAM: <slug> -->
-![<alt text that states the idea>](https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png)
+<img src="https://raw.githubusercontent.com/axel-sirota/getting_started_jev/main/course/diagrams/module_NN/<slug>.png" width="W" alt="<alt text that states the idea>">
 ```
+
+Use `W sized from the PNG shape (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts). Never markdown image syntax (`![alt](url)`):
+Colab draws markdown images at full cell width, so a small diagram is blown up and its text
+looks huge (Axel, 2026-11-01). The `<!-- DIAGRAM: <slug> -->` marker line stays above the tag.
 
 The URL prefix is `RAW_BASE` in `validate_notebooks.py`; it is the only place that names the
 repo (public). A PNG shows in Colab only after it is pushed. Exercises and solutions hold the

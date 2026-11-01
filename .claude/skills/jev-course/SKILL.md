@@ -24,8 +24,12 @@ in markdown cells. One notebook pair per module (exercises + solutions).
 | 3 | `### 3. Demo` | `# DEMO:` cells: the problem live, then the solution, measured numbers, Think About It |
 | 4 | `### 4. Lab k: <title>` | `# LAB k.1 (Guided)`, `# LAB k.2 (Core)`, `# LAB k.3 (Challenge, optional)` |
 
-Each concept is a `## Part k: <concept>` with those 4 beats. Module 1 opens with
-`## Part 0: What is Jev` (text and diagrams only) before any comparison.
+Each concept is a `## Part k: <concept>` with those 4 beats. Every module starts at
+`## Part 1`; there is no Part 0 (Axel, 2026-11-01). Never explain the product before showing
+the problem it solves: in Module 1, Jev arrives inside Part 1's `### 2. The solution` as the
+answer to the problem just shown (an LLM gives a bare text label with no probability), and
+that solution's sub-sections explain what Jev is (System One, state + questions -> typed
+answers, Choice / Score / Noul, score and confidence, LLM vs Jev).
 
 ## Vocabulary
 
@@ -55,7 +59,7 @@ small samples, measured numbers only.
 
 | # | Parts (each with the 4 beats) | Kills / Establishes |
 |---|---|---|
-| 1 | Part 0 What is Jev; then the triage question as typed answers; then judgments in Jev, decisions in code | Establishes what Jev is; kills "an LLM with a JSON schema gives me the same thing" |
+| 1 | The triage question as typed answers (its solution beat introduces Jev); then judgments in Jev, decisions in code | Establishes what Jev is, as the fix for a bare LLM label; kills "an LLM with a JSON schema gives me the same thing" |
 | 2 | Vague vs literal questions, dates in code; structured state and two stages | Kills "one big question is fine" |
 | 3 | Accuracy and calibration; out-of-scope; confidence-gated routing | Kills "a confident answer is a correct answer" |
 | 4 | Jev as router; Jev as guardrail | Kills "the LLM can police itself" |
@@ -64,5 +68,7 @@ small samples, measured numbers only.
 
 - Keys via getpass (env var first); never Colab secrets, never printed, never literal
 - Every Jev and OpenAI call is a visible cell; pinned model ids in CONFIG
-- Diagrams: `.mmd` master with the brand line, committed PNG linked by raw GitHub URL
+- Diagrams: `.mmd` master with the brand line, committed PNG embedded by raw GitHub URL in an
+  `<img ... width="W">` tag (W = 600 x png width / png height, kept to 420..750, rounded to 10; 700 for xychart-beta charts), never `![]()` (Colab
+  stretches markdown images to full width)
 - No em dashes, en dashes or banned words anywhere learners read
